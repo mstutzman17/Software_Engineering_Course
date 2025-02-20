@@ -1,0 +1,32 @@
+GitHub Desktop Exercise
+
+3.) Initialization
+I created a repo by selecting file>new repository
+It was automatically staged
+I committed the changes by adding a commit message and clicking commit to master
+
+4.) Staging and committing
+I created a file called journey.txt by navigating to my GitHub folder in file explorer and creating a new file within that folder.
+I staged the changes by clicking Fetch origin in GitHub Desktop
+I committed my changes buy adding a commit message and clicking commit to master.
+
+5.) Deletion
+I created a file called temp.txt within my GitHub folder in File Explorer
+I wrote "This file is meant to be deleted" within that file.
+I then deleted the file and followed the stage and commit process within GitHub Desktop
+
+6.) Renaming
+I changed the name of journey.txt to adventure.txt within the File Explorer
+I then updated the content of that file to "My journey evolves into an adventure with Git".
+I then followed the stage and commit process in GitHub Desktop
+
+7.) Ignoring Files
+I don't know how to do this in GitHub Desktop so I will come back to this when I have learned how.
+
+8.) Diving Deeper
+I changed the content of adventure.txt to "Exploring the depths of Git commands and their powers".
+I viewed the changes in GitHub Desktop
+I then followed the stage and commit process in GitHub Desktop
+
+9.) History and Restoration
+I'm not sure how to accomplish this process in GitHub Desktop. I will update this exercise when i have learned how.

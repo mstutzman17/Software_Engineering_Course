@@ -1,0 +1,4 @@
+01/20/2025 Questions
+
+1.) How do I create an ignore rule in GitHub Desktop?
+

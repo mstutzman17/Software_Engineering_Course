@@ -1,0 +1,61 @@
+h1 {
+    background-color: lightcoral;
+    width: 50%;
+    height: 1000px;
+    margin: 2em;
+    display: inline;
+} 
+
+/* a {
+    background-color: lightseagreen;
+    width: 300px;
+    height: 300px;
+    margin: 2em;
+    display: block;
+} */
+
+#container {
+    border: 3px solid purple;
+    width: 50%;
+    margin: 0 auto;
+}
+
+#container section {
+    box-sizing: border-box;
+    width: 50%;
+    border: 3px solid red;
+    display: inline-block;
+    height: 50%;
+    text-align: center;
+    /* display: none; */
+}
+
+/* DISPLAY PROPERTY OF FLEX
+ENABLES FLEXBOX
+ALLOWS YOU TO MOVE ITEMS INSIDE A BOX
+*/
+
+body {
+    margin: 0;
+}
+
+nav {
+    background-color: #eee;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 80px;
+    align-items: center;
+
+}
+
+nav a {
+    font-size: 1em;
+    margin: 0 1em;
+}
+
+/* POSITION
+DEFAULT VALUE=STATIC
+POSITION PROPERTIES ARE RELATIVE, ABSOLUTE, AND FIXED
+*/
+

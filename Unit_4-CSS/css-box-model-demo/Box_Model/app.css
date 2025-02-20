@@ -1,0 +1,132 @@
+/* BOX MODELS: WIDTH AND HEIGHT */
+
+/* body {
+	margin: 0;
+} */
+
+h1 {
+	background-color: Lavender;
+	width: 40%;
+	/* height: 100px; */
+	font-size: 4rem;
+	margin: 0 auto;
+	/* CENTERED TEXT ALIGN */
+	/* text-align: center; */
+}
+
+h2 {
+	background-color: lightpink;
+	width: 50%;
+	margin: 0;
+}
+
+/* BORDER */
+
+img {
+	/* width:300px;
+	height:300px; */
+	width: 40%;
+	max-width:400px;
+	/* order of styles goes clockwise: top right bottom left */
+	/* border-color: purple teal;
+	border-width: 1em; */
+	/* order of styles goes clockwise: top right bottom left */
+	/* border-style: dashed solid dotted none; */
+	border: 10px solid pink;
+	/* BORDER SHORTHAND */
+	border-left-width: 5px;
+	/* COLLAPSING MARGINS */
+	margin: 0 50px;
+}
+
+p {
+	width: 50%;
+	min-width: 500px;
+}
+
+a {
+	width: 400px;
+	background-color: teal;
+}
+
+#box {
+	width: 200px;
+	height: 200px;
+	background-color: magenta;
+	border-radius: 50%;
+	border: 6px solid cyan;
+	/* outline: 10px groove yellow; */
+}
+
+/* PADDING */
+
+section {
+	width: 200px;
+	border: 1px solid black;
+	/* padding: 2em; */
+	/* CLOCKWISE ORDER: TOP RIGHT LEFT BOTTOM */
+	padding: 10PX;
+}
+
+button {
+	background-color: blue;
+	font-size: 2rem;
+	color: white;
+	border-radius: 10px;
+	padding: 0.2 0.7em;
+	outline: none;
+	/* INPUTS AND BUTTONS HAVE DEFAULT OUTLINE */
+}
+
+/* MARGIN */
+
+#container {
+	border: 1px solid black;
+	width: 500px;
+	/* CENTERED MARGIN AUTO */
+	margin: 0 auto;
+}
+
+/* BOX SIZING */
+
+#container .item:hover {
+	border: 10px solid olive;
+	/* OULTINE */
+	outline: 10px dotted purple;
+}
+
+#container .item {
+	height: 100px;
+	border: 1px solid orangered;
+	/* margin: 1em 2em 3em 4em; */
+	/* COLLAPSING MARGIN */
+	margin: 50px;
+	box-sizing: border-box;
+}
+
+#container .item:nth-of-type(2) {
+	margin-left: 2em;
+	margin-bottom: 100px;
+}
+
+p a {
+	color: olive;
+	font-size: 1.5em;
+	margin: 2em;
+}
+
+/* OUTLINE 
+outside of borders, but don't take up space
+(wouldn't be included in box-content sizing)
+*/
+
+/* BACKGROUND (SIZE, POSITION, COLOR)  */
+
+p {
+	font-size: 2em;
+	background-image: url("https://plus.unsplash.com/premium_photo-1725457541255-ae65f742675a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDI3fHx8ZW58MHx8fHx8");
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-color: purple;
+}

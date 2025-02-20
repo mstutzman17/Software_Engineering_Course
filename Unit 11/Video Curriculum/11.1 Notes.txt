@@ -1,0 +1,221 @@
+Unit 11.1 Notes
+
+		11.1.1
+		Common Errors
+		https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64455
+
+Errors and Debugging: 3 Most common built in erros
+Chrome Dev Tools
+JavaScript syntax (try/catch/finally) blocks
+Throw errors with specific messages
+Basic Errors: 1.) Syntax Error: unexpected end of input; invalid or unexpected token; 
+2.) Reference Error: <something> is not defined;
+3.) Type error: 5() would be Type Error: 5 is not a function or "hello".splice() would be Type Error: "hello".splice() is not a function.
+Type errors will occur when you try to call a method on and undefined object.
+	
+		11.1.2
+		Anatomy of an Error Message
+		https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64455
+
+Errors always tell you in what file and line number the error occurs.
+Never use the file and line number references when searching for a solution to an error.
+		
+	11.1.3
+	Console.log Debugging
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64455
+2 Kinds of Bugs: 1.) an error is thrown (this is easier to fix) 2.) you didn't get what you wanted or result you didn't expect (much harder to fix)
+Process of debugging: 1.) Make an assumption 2.) Test assumption 3.) Prove assumptions 4.) Repeat until issue is identified
+Assumption testing tools: 
+1.) Console.log 
+	Example: 
+function hasEnoughFundsToBuy(price, qty, balance) {
+    const subtotal = Math.round (price * qty * 100) / 100; 
+    if (subtotal <= balance) {
+        return "YOU HAVE ENOUGH MONEY!"
+    }
+    return "SORRY, YOU NEED MORE MONEY TO BUY THAT"
+    }
+
+// NOT ENOUGH MONEY 
+hasEnoughFundsToBuy (50.5, 10, 300)
+hasEnoughFundsToBuy (200.3, 5, 600.9)
+
+// ENOUGH MONEY
+hasEnoughFundsToBuy (10, 6, 60)
+hasEnoughFundsToBuy (30, 3, 100)
+hasEnoughFundsToBuy (200.3, 3, 600.9) //This shows "SORRY, YOU NEED MORE MONEY TO BUY THAT" and it should say "YOU HAVE ENOUGH MONEY!"
+
+Adding  console.log ("subtotal:", subtotal)
+        console.log ("balance:", balance)
+after const subtotal = price * qty would give insight to why we are getting an unexpected result
+
+Example: 
+let grades = [99, 98, 76, 54, 66, 90, 81];
+let sum = 0;
+for (let i=0; i <= grades.length; i++) [
+sum += grades [i];
+  console.log ("i", i);
+console.log ("grade", grades [i])
+console.log ("sum", sum)
+}	// let grades: number[]
+let avg = sum / grades.length;
+
+Adding console.log to the above logic helps identify what is going on through each iteration of the loop.
+The problem is in the loop logic i <= grades.length. To fix it change it to i < grades.length
+
+		11.1.4
+		Chrome Debugging
+		https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64455/64458
+Chrome has built-in JS Debugger
+Advantages: 1.) Watch execution of code and examine at any point 2.) Can debug in-browser code or Node
+How to trigger/start debugger: 1.) Go to sources Tab in console 2.) Find file 3.) Click line that you want to pause execution of code 4.) Refresh page 5.) Use step to execute the next step of the code
+
+Example: 
+let grades = [99, 98, 76, 54, 66, 90, 81];
+let sum = 0;
+for (let i=0; i <= grades.length; i++) [
+sum += grades [i];
+}	// let grades: number[]
+let avg = sum / grades.length;
+
+Another way to add a break point is inside the code
+
+Example: 
+Function myFunction() {
+let x =1;
+
+debugger; //code will always stop here
+
+//rest of code follows (see line 25 of Notes 11.1.txt)
+
+Buttons in DevTools:
+Step: steps through code from break point
+Step over: runs current line but won't debug into other function calls
+Step into: run current line stepping into any function calls
+Step out: Return from this function to caller. Go back to calling function you were in before
+Call stack: JS internal to-do list. Keeps track of which function call are started but not finished or which need to be finished before doing what it was doing.
+Scope: shows variables that exist in global scope and local scope
+
+		11.1.5
+		Avoiding Bugs
+		https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64455/64458
+
+Basic Tips to Help Avoid Bugs: 1.) Plan first: know how you want code to work before writing code. 2.) Keep it Simple: how will you debug code that you don't understand. 3.) Bugs are an opportunity to improve debugging skills and to learn something.
+Common Bugs: 1.) == is very loose about comparisons (=== is not. Use ===) 2.) Objects and arrays are not equal to similar objects and arrays. Arrays that look the same will have a different "barcode". 3.) Calling function with missing arguments mmakes those arguments undefined. 4.) Calling function with extra arguments is ignored. (Extra arguments will be ignored) 5.) Getting a missing property from object/index from array is undefined.
+
+		11.1.6
+		Error Handling: Try/Catch
+		https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64455/64460
+
+Sometimes errors can't be avoided. Especially happens when working with libraries, external APIs/other people's data.
+Keywords: "Try" and "Catch"
+Catch doesn't run if there is no error inside of try
+
+Example:
+functionThatDoesNotExist();
+console.log("Did we make it?");
+
+Instead:
+try {
+	// place the code you would like to try to run
+} catch (err) {
+	// if an error occurs, run whatever code we place in here!
+}
+	// keep going
+
+Example:
+try {
+    functionThatDoesNotExist()
+} catch {
+console.log("OH NO ERROR!!!");
+}
+console.log("Did we make it?");
+
+Example: 
+try {
+    3+3;
+} catch {
+console.log("OH NO ERROR!!!");
+}
+console.log("Did we make it?");
+
+Try and Catch create block scope, so if you define a variable inside using let or const it will only exist in that block.
+
+Example:
+try {
+    undefined.pop();
+    let msg = "Hello!" 
+} catch (e) {
+    console.log("OH NO ERROR!!!");
+    console.log(e);
+    let msg = "Goodbye!";
+}
+console.log("Did we make it?");
+
+Parameter to catch is optional, but highly recommended so you can see what the error is and any information about it.
+
+Example of a different time to use try/catch: (see line 49 to 53 in Unit 11 app.js)
+function displayInitials(user) {
+let firstNameLetter = user.firstName[0]
+.toUpperCase();
+return `Hello ${firstNameLetter}.$
+{lastNameLetter}`
+
+		11.1.7
+		Finally
+		https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64455/64460
+		https://www.youtube.com/watch?v=cFTFtuEQ-10 (try/catch/finally/throw
+
+Finally is used alongside try/catch
+Finally runs whether try has an error or not.
+Catch is not required in try/catch/finally.
+***`try` runs until there is an error, `catch` runs when there is an error, and `finally` runs always after both `try` and `catch` finished.***
+
+Example: (app.js in Video Curriculum line 66 to 76)
+try {
+    console.log ("Inside Try")
+    undefined.pop();
+} catch (e) {
+    console.log("OH NO ERROR!!!");
+    console.log(e);
+}
+finally {
+console.log ("Inside Finally")
+}
+console.log("Did we make it?");
+
+		11.1.8
+		Throwing Errors (Making our own errors)
+		https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64455/64460
+		https://www.youtube.com/watch?v=cFTFtuEQ-10 (try/catch/finally/throw)
+
+Use keyword "throw" to CAUSE an error.
+
+Example (Line 78 to 80)
+Example of trying to catch a thrown error (line 82 to 91)
+
+Why would you want a custom error? 
+1.) when you want to hide errors from a user
+2.) When you want to produce custom errors for your users' benefit
+3.) works as a nice fallback in areas of code that could fail under unusual circumstances that were not foreseen during development
+4.) hide overly-technical error messages from users who wouldn't understand them
+5.)use it for portions of your code where you suspect errors will occur that are beyond your control
+
+Simple Example (line 93 to 107)
+	
+
+		Try/Catch/Finally in my own words:
+	This concept is a way to manage and handle errors while still maintaining the original code and it's functions. I like the example of opening a jar.  If I TRY to open a jar and CATCH that I can't open it, I try something else. (Like running the lid under hot water.) FINALLY--whether I open the lid or not--I will put the lid back on the jar.
+
+		Throwing Errors in my own words:
+	This method is used alongside try/catch, but does not have to be. As opposed to try/catch, when you throw errors it stops the progression of code so that the error can be seen/handled or debugged. 
+
+
+
+
+
+
+
+
+
+

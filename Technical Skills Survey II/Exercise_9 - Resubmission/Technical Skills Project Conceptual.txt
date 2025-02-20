@@ -1,0 +1,14 @@
+Technical Skills Project Conceptualization
+
+1.) So for the first step I need to write a function that will turn a plaintext message into an encrypted message. I need to be able to do this with any given shift value. On top of that I need a function that will add a random letter after every second letter of the message and I need non-alphabetical characters to be left in the encrypted message unchanged.
+
+2.) For the second step I need to reverse everything I just did with the encryption function. So I need a function that will change the message back into plain text with non-alphabetical characters left unchanged. Further, I need to remove all of the random letters that were inserted during the encryption process.
+
+3.) My encryption and decryption functions need to be able to account for large shift values. So I need code to account for that in both the encryption and decryption processes. 
+
+The logic is quite simple. Implement an encryption function that a.) changes a plaintext message into an encrypted one b.) adds a random letter after every two letters c.) accounts for large shift values.
+
+For the decryption process I need to a.) change an encrypted message into the  original plaintext b.) remove all the random letters c.) accounts for large shift values.
+
+
+After having written the code, I keep running into the same problem and that has to do with the decryption process. I can encrypt while adding random letters and accounting for large shift values just fine. But when I decrypt the message that was encrypted, I don't get the original message. The problems I've run into specifically are that the decryption will remove the wrong letters. So instead of the "This is a test!" I'll get something like "Thmlsxios t yesit!".

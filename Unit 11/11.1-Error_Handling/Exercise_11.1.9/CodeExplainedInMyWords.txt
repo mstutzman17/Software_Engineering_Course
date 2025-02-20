@@ -1,0 +1,9 @@
+I didn't understand what to do with the information given so I looked at the solution and let ChatGPT explain it to me. I believe I now have a better understanding about the function and the try/catch/finally.
+
+The function is simply choosing a random number between 0 and 1. If the number is less than 0.5 "The operation was completed successfully" is logged to the console. If it's 0.5 or greater an error is thrown: "The operation was completed unsuccesssfully".
+
+After that, there are constants that needed to be defined in order to setup the try/catch/finally.
+
+The try/catch/finally is first trying the function mysteryOperation. If the fucntion is successful it adds 13 days to daysEarned and does not run the catch. If the function is unsucessful, it runs the catch block and adds 1 day to daysEarned. The finally runs whether the try is met with an error or not.
+
+Then the total number of days earned is printed to the console with console.log(daysEarned);

@@ -1,0 +1,6 @@
+Mentor Questions 01/06/25
+
+1.) How do I revert a file to it's original state?
+When I try to restore using the method on the answer sheet, I get "bash:commit_1e4f96f: No such file or directory".
+
+2.) 

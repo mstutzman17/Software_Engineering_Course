@@ -1,0 +1,164 @@
+GitHub Exercise
+
+	1.) Create a local repository and add and commit some files
+
+mstut@Technician MINGW64 ~/GitHub-Exercise (main)
+$ git init
+Reinitialized existing Git repository in C:/Users/mstut/GitHub-Exercise/.git/
+
+mstut@Technician MINGW64 ~/GitHub-Exercise (main)
+$ touch fiel1 secondFile file3 testFile.txt
+
+mstut@Technician MINGW64 ~/GitHub-Exercise (main)
+$ git add .
+
+mstut@Technician MINGW64 ~/GitHub-Exercise (main)
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        renamed:    firstFile -> fiel1
+        renamed:    testFile2.txt -> file3
+
+mstut@Technician MINGW64 ~/GitHub-Exercise (main)
+$ git commit -m "renamed firstFile to file1 and renamed testFile2.txt to file3"
+[main 71960ca] renamed firstFile to file1 and renamed testFile2.txt to file3
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename firstFile => fiel1 (100%)
+ rename testFile2.txt => file3 (100%)
+
+	2.) Create a remote repo and push your code from the local repo to the remote repo
+First I created a repo in GitHub called "Remote-Repository.
+
+mstut@Technician MINGW64 ~/GitHub-Exercise (main)
+$ ls
+README.md  Remote-Repository/  fiel1  file3  secondFile  testFile.txt
+
+mstut@Technician MINGW64 ~/GitHub-Exercise (main)
+$ cd Remote-Repository
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ ls
+file1  file2  file3  file4  testfile
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ touch file7 testFile1 testFile2.txt
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ git add .
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ git status
+On branch DifferentNewFile
+Your branch is up to date with 'origin/DifferentNewFile'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   file7
+        new file:   testFile1
+        new file:   testFile2.txt
+
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ git commit -m "Created 3 new files: file7 testFile1 and testFile2.txt"
+[DifferentNewFile 131a167] Created 3 new files: file7 testFile1 and testFile2.txt
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 file7
+ create mode 100644 testFile1
+ create mode 100644 testFile2.txt
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ git push -u origin DifferentNewFile
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 281 bytes | 281.00 KiB/s, done.
+Total 2 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/mstutzman17/Remote-Repository.git
+   43bea26..131a167  DifferentNewFile -> DifferentNewFile
+branch 'DifferentNewFile' set up to track 'origin/DifferentNewFile'.
+
+3.) Create a local branch and add and commit some files
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ git branch feature
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ git switch feature
+Switched to branch 'feature'
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ touch file2 file17 differentName
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ ls
+differentName  file1  file17  file2  file3  file4  file7  testFile1  testFile2.txt  testfile
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ git add .
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ git commit -m "Added file2 file17 and differentName to feature branch"
+[feature f035e8e] Added file2 file17 and differentName to feature branch
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 differentName
+ create mode 100644 file17
+
+4.) Push that local branch to GitHub to create a remote branch
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ git branch feature
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (DifferentNewFile)
+$ git switch feature
+Switched to branch 'feature'
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ touch file2 file17 differentName
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ ls
+differentName  file1  file17  file2  file3  file4  file7  testFile1  testFile2.txt  testfile
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ git add .
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ git commit -m "Added file2 file17 and differentName to feature branch"
+[feature f035e8e] Added file2 file17 and differentName to feature branch
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 differentName
+ create mode 100644 file17
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ ls
+differentName  file1  file17  file2  file3  file4  file7  testFile1  testFile2.txt  testfile
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ git push feature
+fatal: 'feature' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+mstut@Technician MINGW64 ~/GitHub-Exercise/Remote-Repository (feature)
+$ git push -u origin feature
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 290 bytes | 290.00 KiB/s, done.
+Total 2 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote:
+remote: Create a pull request for 'feature' on GitHub by visiting:
+remote:      https://github.com/mstutzman17/Remote-Repository/pull/new/feature
+remote:
+To https://github.com/mstutzman17/Remote-Repository.git
+ * [new branch]      feature -> feature
+branch 'feature' set up to track 'origin/feature'.

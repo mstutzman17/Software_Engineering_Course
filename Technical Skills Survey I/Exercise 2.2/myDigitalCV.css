@@ -1,0 +1,152 @@
+body {
+    background-color: rgba(129, 20, 173, 0.8);
+    background: linear-gradient(135deg, #9c09eb, #100714, #f69d3c);
+    border-top: 5px outset rgb(106, 249, 11);
+    border-right: 5px outset rgb(106, 249, 11);
+    border-bottom: 5px outset rgb(106, 249, 11);
+    padding: 2px 2px 2px 2px;
+    margin: 2px 2px 2px 2px;
+}
+h1 {
+    color: rgb(237, 149, 8);
+    font-size: 4rem;
+    font-family: Antonio, Anton SC, Anton, Bebas Neue;
+    margin: 0 20px 0 20px;
+    padding: 2px 2px 2px 2px;
+}
+
+#contact-head {
+    color: rgb(237, 149, 8);
+    font-size: 30px;
+    font-family: Allan, Antonio, Goudy Old Style;
+    margin: 10px 20px 0 20px;
+    padding: 2px 2px 2px 2px;
+}
+
+h2 {
+    color: rgb(237, 149, 8);
+    font-size: 3rem;
+    font-family: Antonio, Anton SC, Anton, Bebas Neue;
+    margin: 0 20px 0 20px;
+    padding: 2px 2px 2px 2px;
+}
+
+p {
+    color: rgb(106, 249, 11);
+    font-size: 30px;
+    font-family: Allan, Antonio, Goudy Old Style;
+}
+table {
+    color: rgb(106, 249, 11);
+    font-size: 25px;
+    font-family: Allan, Antonio, Goudy Old Style;
+    margin-bottom: 20px;
+}
+
+ul {
+    color: rgb(106, 249, 11);
+    font-size: 25px;
+    font-family: Allan, Antonio, Goudy Old Style;
+}
+
+h3 {
+    color: rgb(237, 6, 237);
+    font-size: 2rem;
+    font-family: Antonio, Anton SC, Anton, Bebas Neue;
+    margin: 20px 0 20px 0;
+    padding: 2px 2px 2px 2px;
+}
+
+a {
+    text-decoration: none;
+    color: rgba(106, 249, 11, 0.6);
+    font-size: 25px;
+    font-family: Allan, Antonio, Goudy Old Style;
+}
+
+footer {
+    text-decoration: underline;
+    text-decoration-color: rgb(237, 149, 8);
+    color: rgb(106, 249, 11);
+    font-size: 25px;
+    font-family: Allan, Antonio, Goudy Old Style;
+}
+
+a:hover {
+    color: rgb(237, 149, 8);
+    border: 5px groove rgba(129, 20, 173, 0.8);
+}
+
+img {
+    height: 15%;
+    width: 15%;
+    border: 7px solid black;
+    border-radius: 10px;
+    margin: 0 20px 0 20px;
+}
+
+/* #name {
+    border-bottom: 3px solid rgb(106, 249, 11);
+} */
+
+.divide-line {
+    border-bottom: 3px solid rgb(106, 249, 11);
+    margin: 0 200px 0 0;
+    /* played with margin on this for a while. wanted it to make my name stand out but not go all the way across the page */
+
+}
+
+#contact-head {
+
+}
+
+.divide-line:last-of-type {
+    margin: 90px 200px 0 0;
+}
+
+/* credit to Net Ninja on YouTube. His "Styling HTML 5 Forms videos helped me style the following parts of My Digital CV. */
+
+input[type="text"] {
+    background-color:rgb(106, 249, 11);
+    border: 2px solid white;
+    border-radius: 5px;
+    outline: none;
+    margin: 20px 0 20px 0;
+}
+
+input[type="email"] {
+    background-color:rgb(106, 249, 11);
+    border: 2px solid white;
+    border-radius: 5px;
+    outline: none;
+    margin: 20px 0 20px 0;
+}
+
+button {
+    background-color:rgb(237, 149, 8);
+    border: 2px solid black;
+    border-radius: 5px;
+    outline: none;
+    margin: 20px 0 20px 0;
+}
+
+select {
+    background-color:rgb(106, 249, 11);
+    border: 2px solid white;
+    border-radius: 5px;
+    outline: none;
+    margin: 20px 0 20px 0;
+}
+
+textarea {
+    background-color:rgb(106, 249, 11);
+    border: 2px solid white;
+    border-radius: 5px;
+    outline: none;
+    margin: 20px 0 20px 0;
+}
+
+/* placeholder {
+    font-family: Allan, Antonio, Goudy Old Style;
+} */
+ /* I want to come back to the above styling for placeholder because I'd like to change the font, but I'm not sure how to. */

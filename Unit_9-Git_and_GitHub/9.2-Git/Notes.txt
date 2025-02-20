@@ -1,0 +1,65 @@
+Notes
+
+	9.2.1 
+	Git Overview 
+	https://www.youtube.com/embed/5qstavY9Ebw?autoplay=1&controls=1	&showinfo=0&rel=0
+Old days files are shared via email or USB. (Not sustainable and hard to track changes.)
+Repository: essentially a main folder with code or other files.
+Git allows use of commands to go to different stages of projects.
+
+	9.2.2
+	Git Installation (Windows)
+	https://www.youtube.com/embed/5nDdcB
+git --version to see what version of git you currently have installed
+
+	9.2.3
+	Git Using VS Code
+	https://www.youtube.com/embed/Vx3rWTcfhA8?autoplay=1&controls=1	&showinfo=0&rel=0
+Opening the Git Bash Terminal VS Code is the easiest way to use Git inside of VS Code.
+
+	9.2.4
+	Git Extensions
+	https://www.youtube.com/embed/v9ozaPQzsO4?autoplay=1&controls=1	&showinfo=0&rel=0
+The following website is GUI that allows you to visualize how https://gitextensions.github.io/
+
+	9.2.5
+	How Git Works
+	https://www.youtube.com/embed/e9lnsKot_SQ?autoplay=1&controls=1	&showinfo=0&rel=0
+Where is code stored in git? Four main locations
+1.) Working Directory: actively add files locally
+2.) Staging area: temp holding spot for changes before committing
+3.) Local Repo: Stores committed changes locally
+4.) Remote Repo: server to share and backup code
+Where code travels throughout journey:
+1.) Git clone existing repo
+2.) Working directory is when you start working on code/file
+3.) Git add when you're ready to commit changes
+4.) Git commit takes snapshot of staging area and stores in local repo
+5.) Git push to send commits to remote repo
+6.) Git pull fetches changes from remote repo and merges into local repo (git fetch which grabs latest updates and git merge which integrates updates)
+7.) Git checkout or switch allows you to switch between branches to work on specific features.
+8.) Git branching allows you to develop new features without changing the main code.
+	Git branch creates new branch
+	Git merge resolves merge conflicts and allows you to merge branches
+
+	EXTRA NOTES
+	Git Merge
+	https://www.youtube.com/watch?v=XX-Kct0PfFc
+	https://www.youtube.com/watch?v=W5ek8Y3UUs4
+Use git merge <branch-name> to merge branches
+Fast-forward: merge type that occurs when branch being merged hasn't diverged from the current branch.
+Recursive strategy: default merge strategy. Uses 3 way merge to handle changes between the branches and their shared ancestor, recursively resolving complex situations like multiple merge bases.	
+Merge conflict: happens when the same line of code is edited in 2 different branches. Git cannot automatically resolve the conflict.
+
+
+
+
+
+
+
+
+
+
+
+
+

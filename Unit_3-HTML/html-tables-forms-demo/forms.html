@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms Demo</title>
+</head>
+
+<body>
+    <h1>Forms Demo!</h1>
+    <form>
+        <input name="City " type="text" placeholder="Enter a City" minlength="2" maxlength="10">
+        <button> Our <b>First</b> Button</button>
+    </form>
+
+    <h2>Register</h2>
+    <form>
+        <button type="button">Click Me</button>
+        <!-- <input type="email" placeholder="Email Address"> -->
+        <input type="password" name="new-password" placeholder="Password">
+        <input type="checkbox" name="terms of service agreement"> I agree to terms of service
+        <!-- <input type="submit" value="go"> -->
+        <p>Select Shirt Size</p>
+        <input type="radio" name="shirt-size" value="xs"> XS <br>
+        <input type="radio" name="shirt-size" value="xs"> S <br>
+        <input type="radio" name="shirt-size" value="xs"> M <br>
+        <input type="radio" name="shirt-size" value="xs"> L <br>
+        <button type="submit">Submit Form</button>
+    </form>
+<h2>Other Input Types</h2>
+<form>
+Pick a Color: <input type="color" name="Color">
+Enter your Birthday: <input type="date" name="birthday"> Birthday
+How Happy Are You <input type="range" name="happiness" min="1" max="10" step="2">
+<button type="submit"> Submit Form
+</button>
+</form>
+<br>
+Select a State
+<select>
+    <br>
+    Please Draft an Exquisite Essay
+    <textarea name="essay" cols="30" rows=10 minlength="5" maxlength="200"></textarea>
+    <option value=""></option>
+<option value="Alabama">Alabama</option>
+<option value="Alaska">Alaska</option>
+<option value="Arizona">Arizona</option>
+<option value="Arkansas">Arkansas</option>
+</select>
+
+<form action="https://www.reddit.com/search">
+<input type="text" name="q">
+<button type="submit">search
+</button>
+<select name="sort">
+    <option value="Top">Top</option>
+    <option value="New">New</option>
+    <option value="Comments">Comments</option>
+</select>
+</form>
+</body>
+
+</html>

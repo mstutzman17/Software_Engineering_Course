@@ -1,0 +1,19 @@
+Unit 9.5 Notes
+
+	9.5.1
+	What is GitHub Desktop
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64448
+Helps simplify workflow and focus on work instead of Git commands
+GitHub desktop is open source
+	
+	9.5.2
+	Getting Started with GitHub Desktop
+	https://docs.github.com/en/desktop/overview/getting-started-with-github-desktop
+Open source app that helps work with code hosted on GitHub or other Git hosting services
+GitHub Desktop is a GUI which allows you to perform commits and pushes
+
+	9.5.3
+	GitHub Desktop
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64448
+This video was all a tutorial on GitHub Desktop.
+1.) How to add repos 2.) How to clone repos 3.) How to commit changes. 4.) Where the repos you create in GitHub Desktop are stored.

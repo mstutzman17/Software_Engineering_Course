@@ -1,0 +1,8 @@
+location; //String
+shiftValue; //Number
+encryptedInvite; //String
+decryptedInvite; //String
+isPartySafe; //Boolean
+inviteResponse; //String
+dressCode; //String
+maxCapacity; //Number

@@ -1,0 +1,307 @@
+Git Basics
+
+3.) Initialization
+
+mstut@Technician MINGW64 ~
+$ mkdir GitAdventure
+
+mstut@Technician MINGW64 ~
+$ ls
+ AppData/
+ Apple/
+'Application Data'@
+ Contacts/
+ Cookies@
+ Documents/
+ Downloads/
+ Favorites/
+ GitAdventure/
+ GitHub-Exercise/
+ Links/
+'Local Settings'@
+ Music/
+'My Documents'@
+ NTUSER.DAT
+ NTUSER.DAT{12d262b4-b791-11ef-b8f4-00155d6d8d8a}.TM.blf
+ NTUSER.DAT{12d262b4-b791-11ef-b8f4-00155d6d8d8a}.TMContainer00000000000000000001.regtrans-ms
+ NTUSER.DAT{12d262b4-b791-11ef-b8f4-00155d6d8d8a}.TMContainer00000000000000000002.regtrans-ms
+ NetHood@
+ OneDrive/
+ PrintHood@
+ Recent@
+'Saved Games'/
+ Searches/
+ SendTo@
+'Start Menu'@
+ Templates@
+ Tutorial/
+ Videos/
+ ntuser.dat.LOG1
+ ntuser.dat.LOG2
+ ntuser.ini
+
+mstut@Technician MINGW64 ~/GitAdventure
+$ git init
+Initialized empty Git repository in C:/Users/mstut/GitAdventure/.git/
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls -a
+./  ../  .git/
+
+4.) Staging and Committing
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git add .
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   journey.txt
+
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git commit -m "Committing my first file to my local repo"
+[master (root-commit) 1e4f96f] Committing my first file to my local repo
+ 1 file changed, 1 insertion(+)
+ create mode 100644 journey.txt
+
+5.) Deletion
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ touch temp.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+journey.txt  temp.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ echo "This file is meant to be deleted" > temp.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+journey.txt  temp.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ cd temp.txt
+bash: cd: temp.txt: Not a directory
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git add
+Nothing specified, nothing added.
+hint: Maybe you wanted to say 'git add .'?
+hint: Disable this message with "git config advice.addEmptyPathspec false"
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git add temp.txt
+warning: in the working copy of 'temp.txt', LF will be replaced by CRLF the next time Git touches it
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+journey.txt  temp.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   temp.txt
+
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git commit -m "I'm going to delete this file after I commit it."
+[master 301a9bb] I'm going to delete this file after I commit it.
+ 1 file changed, 1 insertion(+)
+ create mode 100644 temp.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+journey.txt  temp.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ rm -rf temp.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+journey.txt
+
+6.) Renaming
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git mv journey.txt adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ nano adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ nano adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ nano adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git add adventure.txt
+warning: in the working copy of 'adventure.txt', LF will be replaced by CRLF the next time Git touches it
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git commit -m "Changed journey.txt to adventure.txt and upadated the content within the file"
+[master 14d4db2] Changed journey.txt to adventure.txt and upadated the content within the file
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ create mode 100644 adventure.txt
+ delete mode 100644 journey.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    temp.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+adventure.txt
+
+7.) Ignoring Files
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ nano .gitignore
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls\
+> ls
+bash: lsls: command not found
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls -a
+./  ../  .git/  .gitignore  adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ cd .gitignore
+bash: cd: .gitignore: Not a directory
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git add .gitignore
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   .gitignore
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    temp.txt
+
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git commit -m "Made file with a rule to ignore all files ending with .log"
+[master 6a7eb5e] Made file with a rule to ignore all files ending with .log
+ 1 file changed, 1 insertion(+)
+ create mode 100644 .gitignore
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    temp.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+8.) Diving Deeper
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ ls
+adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ touch dummy.log
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    temp.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ nano adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ nano advneture.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ nano adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   adventure.txt
+        deleted:    temp.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git add adventure.txt
+warning: in the working copy of 'adventure.txt', LF will be replaced by CRLF the next time Git touches it
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git commit -m "Added content to adventure.txt"
+[master d8302df] Added content to adventure.txt
+ 1 file changed, 1 insertion(+)
+
+9.) History and Restoration
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git log --oneline --reverse
+1e4f96f Committing my first file to my local repo
+301a9bb I'm going to delete this file after I commit it.
+14d4db2 Changed journey.txt to adventure.txt and upadated the content within the file
+6a7eb5e Made file with a rule to ignore all files ending with .log
+d8302df (HEAD -> master) Added content to adventure.txt
+
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git restore --source=14d4db2 adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git add adventure.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git commit -m "Reverted adventure.txt to it's orignal state"
+[master c048d09] Reverted adventure.txt to it's orignal state
+ 1 file changed, 1 deletion(-)

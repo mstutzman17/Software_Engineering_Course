@@ -1,0 +1,41 @@
+9.4 Notes
+
+	9.4.1
+	Git vs GitHub
+	https://www.geeksforgeeks.org/difference-between-git-and-github/
+Git is distributed VCS for tracking changes in source code during software development.
+1.) Is a software 2.) Command-line tool 3.) Installed locally on system 4.) Maintained by Linux 5.) focused on VC and code sharing
+6.) VCS to manage source code history 7.) first released in 2005 8.) no user management feature 9.) open-source licensed
+10.) has minimal external tool configuration 11.) provides Desktop interface name Git Gui 12.) competes with CVS, Subversion, Mercurial, etc.
+GitHub is a web-based Git repository hosting service that offers all of the distributed revision control and source code management (SCM) functionality of Git as well as adding its own features.
+1.) is a service, not software. 2.) is a GUI 3.) Hosted on web, not local machine. 4.) maintained by Microsoft, not Linux. 
+5.) focused on central source code hosting 6.) hosting service for Git repositories 7.) launched in 2008 8.) has built-in GUI
+9.) includes free-tier and pay-for-use tier 10.) has active4 marketplace for tool integration 11.) provides desktop interface named GitHub Desktop
+12.) competes with GitLab, Bit Bucket, AWS Code Commit, Azure DevOps Server.
+
+	9.4.2
+	Creating GitHub Account
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64441.
+I've already done this part of Unit 9 and feel I have a good understanding of this concept. I'm rewatching in case there is anything I missed.
+
+	9.4.3
+	Creating Repository in GitHub
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64441
+All of this information is very straightforward.
+1.) Click on profile pick in top right corner. 2.) Click "Your Repositories" 3.) Click the green "New" button on the right. 4.) Name repo and give brief description 5.) Click green "Create repository" button at the bottom right.
+
+	9.4.4
+	Personal Access Token (PAT)
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64441
+Essential for secure authentication when interacting with Git Repos through Git or API requests.
+1.) Select settings from top right profile picture 2.) Click developer settings on the left side at the bottom. 3.) Click personal access tokens and then generate token button 4.) give a brief description of the purpose of the PAT. 5.) Select how long until token expires and applicable options for PAT 
+6.) Click generate token at the bottom left.
+
+	9.4.5
+	Push code changes to GitHub
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64441
+1.) Go to your repos on GitHub and open the desired repo 2.) Click green Code button and copy https 
+3.) in GitBash use git clone <Https> to create a local copy of the repo 4.) use vi <name of file> to initiate repository
+4.) add and commit changes 5.) use git push -u origin <Branch-name> to push changes to GitHub
+
+

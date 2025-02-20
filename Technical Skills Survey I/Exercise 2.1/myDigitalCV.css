@@ -1,0 +1,59 @@
+body {
+    background-color: rgba(129, 20, 173, 0.8);
+    background: linear-gradient(135deg, #9c09eb, #100714, #f69d3c);
+}
+h1 {
+    color: rgb(237, 149, 8);
+    font-size: 4rem;
+    font-family: Antonio, Anton SC, Anton, Bebas Neue;
+}
+
+h2 {
+    color: rgb(237, 149, 8);
+    font-size: 3rem;
+    font-family: Antonio, Anton SC, Anton, Bebas Neue
+}
+
+p {
+    color: rgb(106, 249, 11);
+    font-size: 30px;
+    font-family: Allan, Antonio, Goudy Old Style;
+
+}
+table {
+    color: rgb(106, 249, 11);
+    font-size: 25px;
+    font-family: Allan, Antonio, Goudy Old Style;
+}
+
+ul {
+    color: rgb(106, 249, 11);
+    font-size: 25px;
+    font-family: Allan, Antonio, Goudy Old Style;
+}
+
+h3 {
+    color: rgba(237, 149, 8, 0.7);
+    font-size: 2rem;
+    font-family: Antonio, Anton SC, Anton, Bebas Neue
+}
+
+a {
+    text-decoration: none;
+    color: rgba(106, 249, 11, 0.6);
+    font-size: 25px;
+    font-family: Allan, Antonio, Goudy Old Style;
+}
+
+footer {
+    text-decoration: underline;
+    text-decoration-color: rgb(237, 149, 8);
+    color: rgb(106, 249, 11);
+    font-size: 25px;
+    font-family: Allan, Antonio, Goudy Old Style;
+}
+
+a:hover {
+    color: rgb(237, 149, 8);
+    background: rgba(129, 20, 173, 0.8)
+}

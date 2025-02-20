@@ -1,0 +1,164 @@
+/* * {
+	text-decoration: underline magenta wavy;
+	border: 2px solid cyan;
+} */
+
+img {
+	width: 500px;
+}
+
+h1, a {
+	color: olive;
+}
+
+h1 {
+	font-size: 50px;
+}
+h2 {
+	color: teal;
+}
+
+#logo {
+	width:75px;
+}
+/* example of an ID attribute; must be linked in HTML */
+
+/* section {
+	width: 500px;
+} */
+
+.poem p{
+	width: 500px;
+	font-style: italic;
+	color: gray;
+	/* font-style in this case would italize the titles and headers for this section */
+}
+
+/* .navlink {
+	text-decoration: none;
+}  */
+
+nav a {
+	font-size: 1.5em;
+	text-decoration: none steelblue;
+}
+
+/* h3 {
+	color: orangered;
+} */
+
+h2 + h3 {
+	color: orangered;
+}
+
+body {
+	background-color: lightpink;
+}
+
+.poem + img {
+	width: 600px;
+}
+/* examples of a direct descendant selector */
+/* #works > li {
+	font-size: 30px;
+} */
+
+#works li{
+	font-size: 15px;
+}
+
+/* examples of a direct descendant selector */
+.poem > p {
+	color: black;
+	font-style: normal;
+}
+
+nav a:hover {
+	color: orangered;
+	text-decoration: underline;
+}
+
+input:focus {
+	background-color: pink;
+}
+
+.poem section p:first-of-type {
+	color: magenta;
+}
+
+/* li:first-of-type {
+	color:cyan;
+} */
+
+nav li:nth-of-type(2n + 1) {
+	background-color: lavender;
+}
+
+nav li:nth-of-type(2n) {
+	background-color: red;
+}
+
+.poem section P:first-of-type::first-letter {
+	font-size: 2em;
+}
+
+/* PSUEDO-ELEMENTS */
+p::first-line{
+	color: yellowgreen;
+}
+
+input:focus::placeholder {
+	color: gray;
+
+}
+
+/* ATTRIBUTE SELECTORS */
+
+input[type=text] {
+	background-color: lightskyblue
+}
+
+img[src*="unsplash"] {
+	width=500px;
+}
+
+/* SPECIFICTY: how browser decides which properties to
+apply to each element
+Most specific thing wins and then:
+1. elements
+2. class
+3. ID 
+4. Inline styles
+5. !important*/
+
+h3 {
+	color:cyan;
+}
+
+h2 + h3 {
+	color: orangered;
+}
+
+.poem h3 {
+	color: magenta;
+}
+
+.poem #author {
+	color: yellow;
+}
+
+#author {
+	color: purple;
+}
+
+h3{
+	color: blueviolet !important;
+}
+
+a li {
+	color: lightsalmon;
+}
+
+ul a {
+	color: red;
+}

@@ -1,0 +1,57 @@
+Terminal Exercise One
+
+Part 1
+
+1.) mstutzman17@Technician:~$ mkdir first
+mstutzman17@Technician:~$ ls
+Animals  first  first-folder
+mstutzman17@Technician:~$ ls
+Animals  first
+
+2.) mstutzman17@Technician:~$ mv first first-folder
+mstutzman17@Technician:~$ ls
+Animals  first-folder
+mstutzman17@Technician:~$ cd first-folder/
+mstutzman17@Technician:~/first-folder$ ls
+3.) mstutzman17@Technician:~/first-folder$ touch person.txt
+mstutzman17@Technician:~/first-folder$ ls
+person.txt
+4.) mstutzman17@Technician:~/first-folder$ mv person.txt another.txt
+mstutzman17@Technician:~/first-folder$ ls
+another.txt
+
+5.) mstutzman17@Technician:~/first-folder$ cp another.txt
+ copy.txt
+mstutzman17@Technician:~/first-folder$ ls
+another.txt  copy.txt
+
+6.) mstutzman17@Technician:~/first-folder$ rm copy.txt
+mstutzman17@Technician:~/first-folder$ ls
+another.txt
+mstutzman17@Technician:~/first-folder$ cd ..
+7.) mstutzman17@Technician:~$ cp -r first-folder second
+mstutzman17@Technician:~$ ls
+Animals  first-folder  second
+mstutzman17@Technician:~$ ls first-folder/
+another.txt
+mstutzman17@Technician:~$ ls second/
+another.txt
+
+8.) mstutzman17@Technician:~$ rm -rf second
+mstutzman17@Technician:~$ ls second/
+ls: cannot access 'second/': No such file or directory
+mstutzman17@Technician:~$ ls
+
+Part 2
+
+1.) The man command shows you a manual of a specific command. The manual gives you a definition of the command and the flags that can be used with it. The man rm command would take you to the manual for the rm file command. You can scroll by using the up and down arrow keys. Or, in my case, using my laptop track pad.
+2.) The -l flag uses a long listing format. The -a flag shows hidden files within a directory.
+3.) By using Ctrl + Left/Right Arrow.
+4.) By pressing Ctrl + E.
+5.) By pressing Ctrl + A.
+6.) By pressing Ctrl + Delete (delete the word after the cursor) or Ctrl + Backspace (delete the word before the cursor).
+7.) A terminal allows to interact with your computer system by displaying text and accepting input. A shell interprets and executes the commands you type into the terminal.
+8.) An absolute path is path that takes you to a directory starting from the root directory.
+9.) A relative path is the location of a file relative to the directory you are currently in.
+10.) A flag is a way to enhance or modify the behavior of a command. Three examples of flags are -a -l and -f.
+11.) The -f flag used with the rm command removes a file without asking for confirmation. The -r flag removes a directory and it's contents.

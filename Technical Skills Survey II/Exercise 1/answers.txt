@@ -1,0 +1,10 @@
+Potential Variables
+
+location
+shiftValue
+encryptedInvite
+decryptedInvite
+isPartySafe
+inviteResponse
+dressCode
+maxCapacity

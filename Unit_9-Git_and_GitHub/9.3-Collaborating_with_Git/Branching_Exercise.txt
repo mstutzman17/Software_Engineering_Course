@@ -1,0 +1,121 @@
+Branching Exercise
+
+Part I
+
+1.) What git command creates a branch?
+The command git branch <branch-name> creates a branch.
+
+2.) What's the difference between a fast forward and a recursive merge?
+The difference is the relationship between branches and changes being merged. A fast-forward merge you're merging into a branch that has NOT diverged so Git can "move" the target branch forward. In contrast, a recursive merge is when the source and target branches HAVE diverged so Git creates a new merge commit that combines changes from both branches.
+
+3.) What git command changes to another branch?
+The command git checkout <branch-name> changes to another branch.
+
+4.) What git command deletes a branch?
+The command depends on whether the local or remote.
+For a local branch: git branch -d <branch-name>. 
+For a remote branch: git push <remote-name> --delete <branch-name>
+
+5.) How do merge conflicts happen?
+These happen if two branches have changes to the same lines of a file or overlapping edits that Git cannot automatically reconcile. Usuall during a merge operation like git merge or git rebase.
+
+Part II
+
+1.) Practicing a fast-forward merge
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git init
+Reinitialized existing Git repository in C:/Users/mstut/GitAdventure/.git/
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ echo "Hello World" > file.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git add file.txt
+warning: in the working copy of 'file.txt', LF will be replaced by CRLF the next time Git touches it
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git commit -m "Initial commit: Add file.txt"
+[master d293cd1] Initial commit: Add file.txt
+ 3 files changed, 1 insertion(+)
+ create mode 100644 file.txt
+ create mode 100644 file1
+ create mode 100644 file2
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git branch Example
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git checkout Example
+Switched to branch 'Example'
+
+mstut@Technician MINGW64 ~/GitAdventure (Example)
+$ echo "Example branch edit" >> file.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (Example)
+$ git add file.txt
+warning: in the working copy of 'file.txt', LF will be replaced by CRLF the next time Git touches it
+
+mstut@Technician MINGW64 ~/GitAdventure (Example)
+$ git commit -m "Update file.txt in Example branch."
+[Example e108c46] Update file.txt in Example branch.
+ 1 file changed, 1 insertion(+)
+
+mstut@Technician MINGW64 ~/GitAdventure (Example)
+$ git checkout master
+Switched to branch 'master'
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git merge Example
+Updating d293cd1..e108c46
+Fast-forward
+ file.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+2.) Practicing a recursive merge
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ echo "Main branch edit" >> file.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git add file.txt
+warning: in the working copy of 'file.txt', LF will be replaced by CRLF the next time Git touches it
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git commit -m "Update file.txt in main branch."
+[master a98e5c9] Update file.txt in main branch.
+ 1 file changed, 1 insertion(+)
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git checkout -b conflict-branch
+Switched to a new branch 'conflict-branch'
+
+mstut@Technician MINGW64 ~/GitAdventure (conflict-branch)
+$ echo "Conflicting edit from conflict-branch" > file.txt
+
+mstut@Technician MINGW64 ~/GitAdventure (conflict-branch)
+$ git add file.txt
+warning: in the working copy of 'file.txt', LF will be replaced by CRLF the next time Git touches it
+
+mstut@Technician MINGW64 ~/GitAdventure (conflict-branch)
+$ git commit -m
+error: switch `m' requires a value
+
+mstut@Technician MINGW64 ~/GitAdventure (conflict-branch)
+$ git commit - "Confliciting change in conflich-branch"
+error: pathspec '-' did not match any file(s) known to git
+error: pathspec 'Confliciting change in conflich-branch' did not match any file(s) known to git
+
+mstut@Technician MINGW64 ~/GitAdventure (conflict-branch)
+$ git checkout main
+error: pathspec 'main' did not match any file(s) known to git
+
+mstut@Technician MINGW64 ~/GitAdventure (conflict-branch)
+$ git checkout master
+M       file.txt
+Switched to branch 'master'
+
+mstut@Technician MINGW64 ~/GitAdventure (master)
+$ git merge conflict-branch
+Already up to date.
+

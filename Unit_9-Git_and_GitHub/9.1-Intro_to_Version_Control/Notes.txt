@@ -1,0 +1,125 @@
+Notes
+
+	9.1.1
+
+VCS is useful to:
+enforce discipline: manages process
+archive versions: store versions of source control items.
+maintain historica: info, who is author, what day and time version was stored
+enable collaboration: data, files, documents.
+recover from accidental deletions or edits.
+conserve and save disk space: client and server, one central point, efficient algorithms. 
+
+
+
+
+	9.1.2
+
+VCS Article: https://blog.logrocket.com/product-management/version-control-systems-definition-types/
+
+VCS (versioning or source control): practice of managing changes to source code.
+
+3 key reasons VCS is important to software developers and product/project managers
+1.) Streamlined release: helps to maintain different versions of software releases.
+2.) Conflict prevention: helps avoid conflicts by maintaining separate branches for different releases and minimizes chance of changes overlapping and causing conflicts.
+3.) Tracking change to digital artifacts: helps track changes to other digital artifacts as well as source code.
+
+3 Types of version control
+1.) Local version control: changes are stored locally in the files as a hotfix or patch before being pushed to a single version of code in a database. If local versions or single code versions become corrupted, retrieving changes can be a challenge.
+2.) Central version control: host different versions  of code in a centralized repositor. Users can access versions and push/pull changes prn.
+If central repo becomes corrupted, retrieval can be difficult.
+3.) Distributed version control: each local repository fully mirrors the central repo including history. If code corrupts local servers can send copy of history and repo to other local servers or back to central serve.
+
+Common VCS's and tools:
+SVN(Subversion): central VC tool. Runs risk of corrupt data
+TFS(Team Foundation Server): Microsoft, central VC.  Can be coupled with Azure DevOps which allows for work with GIT to provide a distributed VCS (DVCS)
+Mercurial: open source, DVCS preferred over TFS and SVN, mirrors central repo and history in each local repo to prevent info loss and data corruption
+Git: DVCS similar to mercurial. comes coupled with GitLab (repo manage system) and GitHub (Platform to upload copies of repo)
+
+Best practices for implementing VCS:
+Code submissions to repo (code commits) should be at most granular level of the change and include clear commit messages.
+Code branches should support multiple versions of software releases and patches.
+VCS should be compliant, with considerations for disaster recovery, failover, and access control.
+
+Version management vs. configuration management:
+VC is one aspect of configuration management, tracking changes an allowing visibility into what changes were made, when and by whom.
+VC doesn't provide insight into how changes made impact the project or why changes were made.
+Configuration management allows visibility into the impact of changes on other project aspects. Most needed for large complex projects with many interrelated parts. 
+
+VC is pivotal to software development lifecycle.
+
+
+
+
+	9.1.3 Evolution of VCS: Last 6 decades. https://www.ktpql.com/evolution-of-version-control-systems/
+
+In 50s and 60s: punch cards. No need for source control because no 2 developers were using the same card.
+
+Early 70s: Bulletin board. 
+Computer systems become more complex and number of programmers working on same code has increased. 
+Solution was modularization of code.
+Primitive version of source code control systems
+
+Late 70s: Living Computers.
+with disks and text editors, programmers found need for controlling the revisions of the code.
+Emerge in early 70s and become public in late 70s.
+Source Code Control System (SCCS) needed when programs became txt files and changed from manual to automated.
+SCCS is designed to track changes in code and txt files. Allows user to retrieve any of the previous versions of the original code and changes which are stored.
+SCCS developed at Bell Labs in 1972 by Marc Rochkind 
+First public release was SCCS version 4 from February 18, 1977. (No concept of storing just difference between file versions (delta-storage)) Tech was there they just weren't ready for it.
+SCCS was dominant VCS for Unix until later version control systems like RCS and CVS gained widespread adoption.
+
+The 80s: Revision Control System (RCS)
+Innovation was adoption of reverse deltas which allowed a set of edit instructions to go back to an earlier version of the file instead of storing every revision in a file as SCCS does.
+RCS released in 1982 by Walter F. Tichy.
+Tichy says use of reverse deltas is faster for most cases because the recent revisions are used more often.
+delta-storage became mainstream in 80s with RCS but process still used the analogy of file being unit of work, as if it were a technical drawing.
+Idea of being able to deal with lots of files at once took time to catch on, as did having more than one person working on file at same time.
+
+The 90s: Concurrent Versions Systems (CVS)
+RCS developed by Dick Grune in July 1986.
+Operates as front end RCS (earlier system that operates in single files.
+Expands on RCS by adding support for repository-level change tacking, and client-server model.
+
+The 2000s: Subversion
+CVS was first to break free from idea of locking out file to work on it, but was unreliable until intro of Subversion.
+Even no it's easy for VCS to fail to sort out merging of two simultaneous alterations of a version file. Merge failure still happens.
+By 2006 or so, Subversion was considered most popular and widely in use VC tool from this generation and filled important weaknesses of CVS
+
+Late 2000s: before code was maintained in single central master repository. Code was checked out from that master repo and commits were made back into that master repo.
+Every commit, revision and merge required network connectivity to the master.
+As Internet improved and geo distributed software development became more common, tools emerged that didn't rely on a shared central project repo.
+
+GIT (programmed by Linus Torvalds): keeps history of source code on your local machine. Does everything subversion does without needing to be connected to central server. 
+Git is a peer-to-peer VCS.
+
+Categorization of Version Control Systems:
+1.) First Generation
+track changes for one file at a time and could only be updated locally and by one user at a time.
+SCCS and RCS
+2.) Second Generation
+Introduced networking leading to central repos.
+CVS, SVN, Perforce Helix Core
+3.) Third Generation
+This gen is made up of DISTRIBUTED VCS. All copies of repo are made equal. No central copy of repo. Also opens door local changes without network access.
+Git, Mercurial, BitKeeper, Darcs, Monotone Bazaar, Fossil, Pijul.
+
+
+
+
+	9.1.4 Git Alternatives (https://www.infoworld.com/article/2338598/3-great-git-alternatives-fossil-mercurial-and-subversion.html)
+
+1.) Fossil: VCS created to aid an embeddable open source database system called SQLite.
+Biggest advantage over GIT is that Fossil is an all-in-one product.
+
+2.) Mercurial: conceptually works the same as GIT, but Mercurial's cor command set for common use cases is smaller and easier to master (6 or 7 in Mercurial compared to a dozen plus in GIT).
+One key difference in Git is how branches work in a source tree.
+Different strategies for branching in Mercurial.
+Mercurial's functionality can be expanded by integration of 3rd party code.
+
+3.) Subversion: chief differnce from GIT is that it's centralized, meaning repo is is stored in one, fixed spot.
+
+
+
+
+

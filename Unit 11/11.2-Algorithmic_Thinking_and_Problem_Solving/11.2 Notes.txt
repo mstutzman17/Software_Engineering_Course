@@ -1,0 +1,632 @@
+11.2 Developing Algorithmic Thinking Notes
+
+			11.2.1
+			Intro to Algorithms
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466
+
+Algorithm: A set of instructions a computer program follows to accomplish a task. (Think following the recipe to bake a cake. You follow each step to get a final result and it matters what order you follow those steps in)
+	Example: Algorithms to get to work-
+	Algorithm 1: Walking (Cost: Free) (Speed: Slow)
+	1.) Walk out front door and lock it.
+	2.) Walk 3 miles.
+	3.) Enter the office building
+	
+	Algorithm 2: Bicycle (Cost: Cheap) (Speed: Medium)
+	1.) Walk out front door and lock it.
+	2.) Unlock bicycle, put on helmet.
+	3.) Ride bike 3 miles.
+	4.) Lopck up bicycle, take off helmet.
+	5.) Enter office building.
+
+	Algorithm 3: Riding the Bus (Cost: Cheap) (Speed: Medium)
+	1.) Walk out front door and lock it.
+	2.) Walk half a mile to the bus stop.
+	3.) Ride the bus.
+	4.) Walk to the office.
+	5.) Enter office building.
+
+	Algorithm 4: Call a Taxi (Cost: Expensive) (Speed: Fast)
+	1.) Call taxi company
+	2.) Walk out front door and lock it.
+	3.) Ride the taxi for 3 miles.
+	4.) Enter office building.
+
+The same concept applies to computer programs. (Like picking item from list. Different algorithms will be have different pros and cons).
+
+			11.2.2
+			What is an Algorithm?
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466
+
+**Algorithm: A set of instructions to solve a problem step by step. (Counting people in a room)
+**Pseudocode: A simplified programming language used in program design. This is how we build algorithms.
+
+	Example: Counting people in a room
+	1.) N = 0
+	2.) for each person in the room (for loop)
+	3.) set N = N + 1
+	
+	Example: Counting people in a room 
+	1.) N = 0
+	2.) for each PAIR of people in the room
+	3.) set N = N + 2
+	!!(If there are an odd number of people, this pseudocode will not work)!!
+
+	Example: Counting people in a room
+	1.) N = 0
+	2.) for each pair of people in the room
+	3.) set N = N + 2
+	4.) if 1 person remains then
+	5.) set N = N + 1
+	(This algorithm will work with ANY odd number of people, since there will either be a pair of people or one person leftover)
+
+**Any problem can be thought of in these terms.
+
+			11.2.3
+			Computational Complexity
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466
+
+**O (Big O) is used to refer to worst-case scenario in the complexity of an algorithm
+**Big Omega (Omega symbol) is used to refer to the best-case scenario in the complexity of an algorithm
+**Data Set: Whatever makes the most sense in context.
+	Examples:
+	1.) Strings: Size of String 
+	2.) Files: How many kilobytes
+	3.) Arrays: Number of elements in an array
+
+**f(n) is used to measure an algorithm based on how it handles inputs
+	(n) is number of elements in data set
+	f is how many units of resources
+	Examples:
+	1.) How much time it takes code to run.
+	2.) How much space something uses (KB or RAM)
+
+**Classes of Computational Complexity (Generally Fastest at top and Generally slowest at bottom)
+	1.) Constant Time: O(1) constant number of resources
+	2.) Logarithmic Time: O(log n) Cut problem in half. As n gets larger is one more step
+	3.) Linear Time: O(n) Double n takes double number of steps (One step per unit)
+	4.) Linearithmic Time: O(n log n)
+	5.) Quadratic Time: O(n^2)
+	6.) Polynomial Time: O(n^c)
+	7.) Exponential Time: O(c^n) If data set is 1000 it would take c^1000 amount of time
+	8.) Factorial Time: O(n!)
+	9.) Infinite Time: O(Infinity Symbol)
+
+**Examples of constant time class algorithms:
+	**O(1) Always takes one operation in the worst case.
+	1.) int fourForYou(int array [1000])
+	    {
+		return 4;
+	    }
+
+	2.) int addTwoNums(int a, int b)
+	    {
+		return a + b;
+	    }
+
+**Linear Time class algorithm:
+	**O(n) always takes n operations in the worst case.
+	Example:
+	1.) Looking for number 5 in array: [1, 2, 3, 4, 5]
+		**Takes 5 steps to find 5
+	2.) Looking for number 5 in array: [3, 1, 6, 7, 4, 2, 5] 
+		**Takes 7 steps to find 5
+	**Every additional object in array adds 1 step to the process, making it a linear time algorithm
+**QUIZ**
+	1.) What's the worst case runtime?
+		for (int j = 0; j < m; j++)
+		{
+		    //loop body that runs in 0(1)
+		}
+	**My Answer: Infinite
+	**Right answer: O(m) or worst-case scenario of m
+	
+	2.) What's the worst-case runtime?
+		for (int j = 0; j < p; j++)
+		{
+		    for (int k = 0; k < p; k++)
+		    {
+			// loop body that runs in O(1)
+		    }
+		}
+	**My Answer: O(p + p)
+	**Right Answer: O(p^2)
+
+			11.2.4
+			Essential Computer Science: Intro to Big O
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466
+**We are learning methods that will help in interviews, now, and help us on the job later.
+	**Goals:
+		1.) Develop a conceptual understanding of Big-O notation
+		2.) Explain need for notation
+		3.) Analyze time complexity
+		4.) Compare different time complexities
+**What's the idea?
+	--Imagine we have multiple implementations of the same function
+	--How can we determine which one is the "best"?
+**Consider a function that accepts a string and returns reversed copy.
+	--Many structural approaches can be taken to solve.
+	--How do we decide with precision which is:
+	    1.) Good
+	    2.) Bad
+	    3.) Meh
+
+	Example:
+
+function backward(str){
+    let result = ""
+    for (let i = str.length - 1; i >= 0; i--){
+        result+=str[i]
+    }
+    return result;
+}
+
+function backward2(str){
+    return str.split("").reverse().join("")
+
+	How do we decide which example from above is better?
+	1.) Is one faster?
+	2.) Does one take up less space?
+	3.) Is one easier to read?
+**Who cares?
+	--Long term importance:
+	1.) It's important to understand code and talk about performance with precise vocab
+	2.) Useful for discussing trade-offs between different approaches
+	3.) Having this understanding can help improve code (Big-O helps)
+	--Short-term Importance:
+	1.) Less important: it comes up in interviews.
+
+			11.2.5
+			Problems with Timers
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466/64471
+
+**Example Question:
+--Calculate sum of numbers from 1 up to (and including) some number (n)
+--Two different solutions (which is better?)
+
+function addUpToFirst(n) {
+    let total = 0;
+
+    for (let i = 1; i <= n; i++){
+        total += i;
+    }
+
+    return total;
+}
+
+function addUpToSecond(n) {
+    return n * (n + 1) / 2;
+}
+
+**What does better mean?
+	1.) Is one faster?
+	2.) Is one more readable?
+	3.) Is one less memory-intensive?
+	--Let's focus on speed which is what we will care about most of the time.
+	--In this case, we can time our functions!
+
+**The problem with timers
+	1.) Different machines can record different times
+	2.) The same machine can record different times
+	3.) For fast algorithms, speed measurements may not be precise enough
+	--Instead, we can count the number of simple operations the computer has to perform!
+**Still to come, we shall discuss counting operations!
+
+			11.2.6
+			Counting Operations
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466/64471
+
+**If we don't use time to check performance? What do we use?
+	--Counting Operations
+
+**Example of counting operations:
+
+function addUpToSecond(n) {
+    return n * (n + 1) / 2;
+}
+**In the above example, there are only EVER 3 operations being performed.
+	--The operations are multiplication(*), addition(+), and division(/).
+	--It doesn't matter how big or small (n) is, those are the only THREE operations that will ever be performed in that function.
+**What about the following example:
+
+function addUpToFirst(n) {
+    let total = 0;
+
+    for (let i = 1; i <= n; i++){
+        total += i;
+    }
+**Unlike the previous example, whatever (n) is has a direct effect on the number of operations being performed.
+	--i++ is one simple operation
+	--total += i is another.
+	--The point is that the number of simple operations being performed is directly effected by the value of (n)
+
+**The point is not to find an exact number when counting operations
+	--We're trying to get a ballpark when counting the operations of compared functions
+**This idea can be used to measure speed allocation of algorithms.
+
+			11.2.7
+			General Trends
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466/64472
+
+**Timing is not ideal to calculate performance of a function or set of operations
+**Counting is also not ideal because it can become very tedious.
+**WHAT'S THE SOLUTION THEN??
+
+**BIG O NOTATION
+	--formalizes fuzzy counting practice.
+	--used to talk about how runtime of algorithm grows as inputs grow
+	--not concerned about details, only general trends.
+
+**https://rithmschool.github.io/function-timer-demo/
+	--using the previous performance tracker helps to visualize some things:
+	1.) When we plot both functions with multiple values of (n), we start to see a trend.
+	2.) In terms of timing, the addUpToFirst function is slower than the addUpToSecond function.
+
+**Again, Big O notation is concerned with GENERAL TRENDS, not specific details.
+
+			11.2.8
+			Big O For Real
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466/64472
+
+**Big O Definition: An algorithm is O(f(n)) if number of simple operations is eventually less than a constant times f(n)
+	--UHHHHH... WHAT?
+	--f(n) would be replaced by an equation like n squared (n^2) or n to the c power (n^c).
+	--These equations will help us determine the performance of a data set or set of operations (The general trend)
+
+**https://rithmschool.github.io/function-timer-demo/
+	--consider the following example from the previous website.
+
+function printAllPairs(n) {
+    for (var i = 0; i < n; i++) {
+        for (var j = 0; j < n; j++) {
+            console.log (i, j);
+        }
+    }
+}
+
+**plot 10, 20, 50, 70, 80, 90, 100, 150
+	--from 150 double n to 300
+	--notice the amount of time it takes to plot
+	--also, the amount of time the operation itself takes is quadrupled 
+**Compare these results to the addUpToFirst function.
+
+**Big O notation is about assigning a function a mathematical equation.
+	--as (n) grows what does the plot line look like.
+
+*Important Big O functions
+	1.) Linear: (f(n) = n)
+	2.) Quadratic: (f(n) = n^2)
+	3.) Constant (f(n) = 1)
+*All the previous functions describe a line.
+**The following link and notes are illustrative 
+
+!!**https://www.desmos.com/calculator**!!
+	--the previous link is an online graphing calculator demo
+	--plug (n) into some function
+	--Examples: f(n) = n^2 or f(n) = n or f(n) = 1
+
+**Example:
+function addUpToSecond(n) {
+    return n * (n + 1) / 2;
+}
+
+1.) Always 3 operations
+2.) Equation would be O(3)
+3.) Simplified equation would be O(1)
+4.) This is considered "Constant Time"
+
+**Comparative Example:
+function addUpToFirst(n) {
+    let total = 0;
+
+    for (let i = 1; i <= n; i++){
+        total += i;
+    }
+1.) Number of operations is bounded by a multiple of n (like, 10n)
+2.) The algorithm "runs in" O(n)
+3.) This is considered "Linear Time"
+	**In both examples from above we are charting them by worst-case scenario.
+
+**Comparative Example:
+function printAllPairs(n) {
+    for (var i = 0; i < n; i++) {
+        for (var j = 0; j < n; j++) {
+            console.log (i, j);
+        }
+    }
+}
+
+1.) O(n) operation inside of an O(n) operation
+2.) This algorithm "runs in" O(n^2)
+3.) This is "Quadratic Time"
+
+
+**Big O Simplified Definition: describes the relationship between input size and time something takes to finish based on input size.
+	--Imagine growing that relationship to infinity
+	--Always ask: What is the general trend?
+
+			11.2.9
+			Worst Case
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466/64474
+
+**Overtime we can recognize/identify Big O Notation based on some clues and hints.
+	--Always remember big picture trend
+	--We don't need to crunch numbers
+
+**Example:
+function allEven(nums) {
+    for (var i = 0; i < nums.length; i++) {
+        if (nums[i] % 2 !== 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+	--Insert allEven([2, 4, 6, 8, 10, 12])
+	--Imagine if array was 100 times that size
+	--Insert allEven([2, 4, 6, 8, 10, 12,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,])
+	--Even bigger than the previous example!
+	--What's the worst case for how much time this function will take?
+
+**Example:
+function allEven(nums) {
+    let loopCount = 0;
+    for (var i = 0; i < nums.length; i++) {
+        loopCount++;
+        if (nums[i] % 2 !== 0) {
+            console.log ("LOOP COUNT:", loopCount)
+            return false;
+        }
+    }
+    console.log ("LOOP COUNT:", loopCount)
+    return true;
+}
+	--not worried about "what ifs", only looking for worst-case
+	--worst case in previous function is that "every number would be even"
+	--so if 100 even numbers are passed in, there are 100 loops.
+	--if 1,000,000 even numbers are passed in, there are 1,000,000 loops
+	**My thought: this is linear time O(n)
+	--Actual answer: linear time O(n)
+
+			11.2.10
+			Simplifying Big O
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466/64474
+
+**Always concerned with WORST-CASE
+
+**Rules of Big O notation
+	1.) Constants do not matter
+	--remember addUpToSecond function (always 3 operations)
+	--as long as it always the same amount of operations it's O(1)
+	--even if there are 40 operations
+	--as long as there is a constant number of operations every time that function is called, it is considered constant time O(1)
+	--so O(57) could be simplified to O(1). So could O(12920)
+	2.) Smaller terms do not matter
+	--Example: if there is O(n^2 + n) you get rid of + n
+	--Use graphing calculator
+	--Try f(n) = n^2 + n
+	--Then f(n) = n
+	--Then f(n^2)
+	--Can you see the difference if you're zoomed way out, looking at the bigger picture?
+	--Answer is no
+	--Comparatively linear is always better than quadratic
+
+**Helpful Hints for Calculating Big O:
+	1.) Arithmetic operations are constant
+	--according to JS 3 * 3 is the same as 300000000 * 300000000
+	--multiplication operation is constant
+	**Example:
+	funciton doMath(x) {
+    	return x * 23132354 * 21354 + 2
+	}
+	--above function is still constant time
+	--it doesn't matter the size of the numbers in operation, just the NUMBER OF OPERATIONS
+	--in the above example, there are always THREE
+	--specific would be saying there are 3 operations
+	--simplified is saying O(1)
+
+	2.) Variable assignment is constant
+	--Example:
+	function makeVars(n){
+    	const n1 = n
+    	const n2 = n
+    	const n3 = n
+	}
+	--the above example is still considered constant time or O(1)
+
+	3.) Accessing elements in array (by index) or (object (by key)) is constant
+	--not everything in an array is constant
+	--Example:
+
+	function getThirdElement(arr){
+    	return arr[3]
+	}
+	--size of array doesn't matter, it's always constant because arrays can be accessed by index, instantly
+
+	4.) Loops: length of the loop times complexity of whatever happens in loop
+	--loops are not constant time
+	**Example 1:
+
+	function squareAll(arr){
+    	for (let i =0; i < arr.length; i++){
+        return arr[i] * arr[i]
+    	}
+	}
+
+	--think of number of operations
+	--as array grows, how many operations
+	--look at loop
+	--loop n times * 1
+	--simplified to O(n)
+
+	**Example 2:	
+
+	function squareAll(arr){
+    	for (let i =0; i < arr.length; i++){
+        return arr[i] * arr[i] * 3 * 9 * arr.length
+    	}
+	}	
+	
+	--Now what's the Big O of this function?
+	--loop n times * 4
+	--simplified is O(n * 4)
+	--most simple is O(n)
+	--it's still the same run time
+
+	**Example 3:
+
+	function printAllPairs(n) {
+    	for (var i = 0; i < n; i++) {
+        for (var j = 0; j < n; j++) {
+            console.log (i, j);
+        }
+    	}
+	}
+	
+	--prints every pair of numbers starting from 0 to n not including n
+	--we have loop (if n = 3m, loop runs 3 times)
+	--we have a second loop with the same concept (if n = 3, loop runs 3 times)
+	--above is example of quadratic time or O(n^2) or O(n squared)
+	--quadratic time should be avoided when possible
+
+			11.2.11
+			Comparing Big O and logs
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466/64474
+
+**Common Runtimes:
+	1.) O(n!) = HORRIBLE 2.) O(2^n) = HORRIBLE 3.) O(n^2) = HORRIBLE 4.) O(n log n) = BAD 5.) O(n) = FAIR 6.) O(log n), O(1) = GOOD TO EXCELLENT
+	--the above list is organized form HORRIBLE to EXCELLENT
+
+**What are logs?
+	--log is short for logarithms
+	--logs are supposed to have a base
+	--in Big O, the log base doesn't matter
+	--imagine we're in base 2 (think about 0s and 1s)
+	--log(base 2)(8) = 3 (2 to the power of what gives me 8?)
+	--log of a number roughly measures the number of times you can divide that number by 2 before you get a value that's less than or equal to one
+
+	What's the Difference?
+
+			For n = 100
+
+	Type		Function	Result
+	
+	Constant	1		1
+	Logarithmic	log n		about 7
+	Linear		n		100
+	Logarithmic 	n log n		about 664
+	Quadratic	n^2		10,000
+	Exponential	2^n		1,267,650,600,228,229,401,496,703,205,376
+	Factorial	n!		about 9.332622 x 10^157
+
+	** Factorial or O(n!) should be avoided at all costs
+
+**Must Knows:
+	--A loop does not mean it's O(n) !!
+	--Nested loops do not mean it's O(n^2) !!
+	--Best runtime for sorting is O(n  x log base 2 of (n)) = also referred to as n log base 2(n)
+
+			11.2.12
+			Space Compelxity
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466/64477
+
+**So far we've talked about time complexity which is how long something takes as n grows
+**We can also use Big O notation to analyze Space Complexity
+
+**Space Compelxity: how will memory usage scale as size of inputs increase?
+	--less common than time complexity
+	--this is a measure of a different relationship
+
+**Rule of Thumb in JS:
+	1.) Most primitives (booleans, numbers, undefined, null) occupy constant space
+		--they're all allocated same amount of space
+	2.) Strings: O(n) space (where n is string length
+		--as the size of a string grows, so will n and so will the amount of space it occupies
+	3.) Reference Types: generally O(n) where n is the length of array (or keys in object)
+		--consider array of 1 vs array of 1000: array of 1000 will occupy roughly 1000 times more space than array of 1
+
+	**Example:
+
+	function sum(nums) {
+    let total = 0;
+    for (let i = 0; i < nums.length; i++) {
+        total += nums[i];
+    }
+    return total;
+}
+	--the previous function is O(1) space complexity
+	--O(1) is an example of constant space
+	--no matter how big the number being passed through the function gets, the same amount of space will be allocated.
+
+	**Comparitive Example:
+
+	function double(nums) {
+    let doubledNums = [];
+    for (let i =0; i<nums.length; i++) {
+        doubledNums.push (2 * nums[i]);
+    }
+    return doubledNums;
+}
+	--previous example is O(n) Space Complexity
+	--the amount of space that is occupied grows as the array grows
+	--O(n) is an example of Linear Space
+
+**Recap:
+	1.) To analyze performance of algorithm, us Big O Notation
+	--Can give high level understanding of time or space complexity
+	--Doesn't care about precision, only general trends
+	--Depends only on algorithm, not hardware used to run code (unlike timing a dataset)
+	2.) Big O Notation is everywhere, so get lots of practice!
+	--They are everywhere whether we like it or not
+
+			11.2.13
+			Big O Review on a Whiteboard
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64466/64479
+
+**Important Topic for Interviewing
+	--There is a root concept when calculating time complexity
+	**Question: How does algorithm speed scale when input scales becoming very large?
+	--When comparing linear and quadratic time, they scale different the larger they get
+	--This is another way of saying they have a different general trend.
+
+**Big O gives us a tight Upper Bound to function behavior
+**Big Mistakes:
+	--not defining n. what is n? 
+	--string length?
+	--total treed nodes?
+	--array size?
+
+**Reference Website: bigocheatsheet.com
+
+**What does the following mean?
+	**O(n * log(n))
+	--Fast Sorting: Merge Sort, Quick Sort
+
+	**Example of Merge Sort
+
+	log(8)=2^3=3
+	n 8 elements
+		[1,4,3,6,2,8,-1,7]
+	[1,4,3,6]		[2,8,-1,7]
+   [1,4]	[3,6]	    [2,8]	[-1,7]
+[1] [4]		[3] [6]	   [2] [8]	[-1] [7]
+	--In this example there are 3 levels of work.
+	--log(n)
+	--There is linear work being done in each level.
+
+**Do not try to memorize code shape
+	--2 for loops IS NOT automatically O(n^2)
+	--one for loop IS NOT automatically O(n)
+	
+**You want to be able to explain exactly what's going on in any give dataset (set of code)
+	--you need to KNOW, not GUESS
+	--learn the complexities
+
+**Example:
+
+	log(n)?		array sorted? 
+	     Binary Search
+	-you are "halving" the work space or cutting it in half
+
+
+	

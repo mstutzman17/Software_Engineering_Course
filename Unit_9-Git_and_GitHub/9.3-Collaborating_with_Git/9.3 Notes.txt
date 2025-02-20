@@ -1,0 +1,51 @@
+9.3 Notes
+
+	9.3.2
+	Staging and Committing
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64432
+In order to stage and commit changes, you have to git init to create a repo.
+
+	9.3.3
+	Status and Checking Changes
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64432
+Use git status to see status of repo
+To make updates to a file use vi <file_name>
+When editing a file use i to insert text. When done inserting text press esc and type :wq to exit file editor.
+Use git status to view changes
+Use git add to add changes to staging area
+Use git commit to commit changes
+
+	9.3.4
+	View Commit History
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64432
+Commit history creates a chronological log of commits including:
+1.) Author 2.) Date/Time 3.) Unique commit hash
+Customizing git log with flags and options
+EXAMPLE: git log --oneline
+
+	9.3.5
+	Git Branch
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64432
+List branches with git branch command 
+Create new branch with git branch <branch-name>
+Switch to new branch with git checkout <branch-name> command
+Switch back to main branch with git branch main
+
+	9.3.6
+	Renaming a git branch
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64432
+Use git checkout to go into the local branch you want to rename
+Use git log --oneline to check the change history within the branch
+Use git branch -m <branch-name> to change the name of the branch
+Use git push -u <Repo-Name> <branch-name> to push a new branch to the remote repo
+Use git push -u <Repo-name> --delete <branch-name>
+
+	9.3.7
+	Git Clone
+	https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64432
+Why Cloning?
+1.) Access Existing Project 2.) Collaborate with Teams 3.) Contribute to Open Source Software
+Use git clone <url> to copy a remote repo to a local machine
+
+
+

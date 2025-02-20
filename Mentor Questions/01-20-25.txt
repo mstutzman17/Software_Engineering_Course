@@ -1,0 +1,7 @@
+Mentor Questions 01/20/2025
+
+1.) I'm don't really understand WHEN to use try/catch/finally. I believe I understand the concept, but I'm having trouble understanding WHEN to implement it.
+
+2.) I'm also having trouble with concept and the implementation of throw errors.
+
+3.) I would like to go over the 11.1.10 Debugging Exercise, please.

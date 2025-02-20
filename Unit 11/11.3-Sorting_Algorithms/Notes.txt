@@ -1,0 +1,271 @@
+11.3 Notes
+
+			11.3.1
+			Sorting Algorithms Handout
+			https://lessons.springboard.com/Sorting-Algorithms-40abfac53c3b4b718bd2b1f46017e62d
+
+**The above link is a handout for all of Unit 11.3.
+	--Within this handout are:
+	1.) Goals
+	2.) Definitions
+	3.) Sorting Demo Code
+	4.) And Much more!
+
+			11.3.2
+			Intro to Sorting
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64482
+
+**Sorting Algorithms Goals
+	1.) Explore basic sorting algorithms
+	2.) Explore more complex sorting algorithms
+	3.) See where to learn more
+
+**What is sorting?
+	--Rearranging items in a collection so that items are in some kind of order.
+		--Sorting numbers from smallest to largest
+		--Sorting names alphabetically
+		--Sorting movies based on release year
+		--Sorting movies based on revenue
+		--Sorting movies based on rating
+	--We need logic to sort how we want to
+**Example:
+	--sorting a desk filled with numbered index cards
+		--you could sort from highest to lowest
+		--you could group the cards by 10s, 20s, and so on
+		--you could sort by color
+		--you could sort the cards by the alphabetical number (one, one-hundred, etc)
+
+**Why should we care about sorting algorithms?
+	1.) long term area of computer science study
+	--some of these are classics
+	2.) Great place to understand runtime
+	3.) Great place to learn algorithm design
+	4.) Sorting is a common topic in interviews
+
+**Why are there different sorting algorithms?
+	1.) Sorts with different runtimes: O(n^2), O(n log n)
+	--special conditions where normally slow algorithms are fast
+	--Some work well when data is reversed
+	2.) Some perform better with different inputs
+	--some can sort almost-sorted much faster
+	3.) Some are easier/harder to write/understand
+
+**Fun website: sorting algorithms animations
+	!!**toptal.com/developers/sorting-algorithms**!!
+	--The website above shows animations of different types of sorting on different types of data
+	--Sorting Types: (Or at least some of them)
+		1.) Insertion 2.) Selection 3.) Bubble 4.) Shell 5.) Merge 6.) Heap 7.) Quick
+	--Types of datasets:
+		1.) Random 2.) Nearly Sorted 3.) Reversed 4.) Few Unique
+	--The demo website illustrates some strengths and weaknesses of different sorting types on different types of data.
+
+			11.3.3
+			Intro to Bubble Sort
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64482
+
+**Bubble sort is easier to implement, but not necessarily more efficient
+
+**BubbleSort: sorting algorithm where the largest or smallest values bubble up to the top
+	--whatever we are looking for (smallest or largest) is what will bubble up to the top
+
+**Website Illustration: visualgo.net/en/sorting
+
+**Example of bubble sorting:
+	[5,3,4,6,3,1]
+	[3,5,4,6,3,1]
+	[3,4,5,6,3,1]
+	[3,4,5,3,6,1]
+	[3,4,3,5,1,6]
+	[3,4,3,1,5,6]
+	--in each line above, the bigger number on the right is swapping places with the smaller one on the left.
+	--every swap equals once through the array
+	--the next line swaps again
+	--this repeats until the numbers are sorted from small to large
+
+**BubbleSort Psuedocode
+	--Loop with i from end of array towards beginning
+		--loop with j from the beginning until i-1
+	--if arr[j] is greater than arr[j+1], swap those two values
+	--return the sorted array
+	--this technique is called BubbleSort
+
+			11.3.4
+			Writing BubbleSort
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64482
+
+**Implementing Bubble Sort
+
+**Example:
+
+	function bubbleSort(arr){
+    	for (let i = 0; i < arr.length; i++){
+        for(let j=0; j<arr.length; j++)
+    	}
+	}
+	--Why are we looping through the array twice?
+		--We have to compare one element to each element of the array
+		--Wherever the previous step ends, is where the next loop through will begin
+		--Looping once will only make a comparison once
+		--In other words it will only get one number all the way to the right.
+	**We can actually start this code another way:
+
+	function bubbleSort(arr){
+    for (let i = 0; i < arr.length; i++){
+         if(arr[i] > arr[i+1]){
+            let temp = arr [i];
+            arr[i] = arr[i+1];
+            arr[i+1] = temp;
+         }
+    }
+}
+	--We are going to take whatever element is at index of i and compare it to index of i plus one
+	--The above function will only sort through the array one time. 
+	--In order to sort all of the numbers we need to add another loop through
+
+**Example:
+	function bubbleSort(arr){
+    let count = 0; 
+    for (let i = 0; i < arr.length; i++){
+        for(let j = 0; j<arr.length; j++){
+            count++
+            console.log(arr);
+         if(arr[j] > arr[j+1]){
+            let temp = arr [j];
+            arr[j  ] = arr[j+1];
+            arr[j+1] = temp;
+            }
+        }
+    }
+    console.log ("TOTAL COUNT:", count)
+    return arr;
+}
+	--both loops over every single element in the array
+	--every time outer loop runs we end with one value in the correct position
+	--we want to be able to sort a smaller piece of the array each time instead of having to fun through each element of the array every time which will 	cause unnecessary iterations.
+	--to prevent unnecessary iterations after the array has already been sorted, we need to update the function
+
+**We can write this function so that it doesn't have all the extra iterations.
+**Example:
+
+function bubbleSort2(arr){
+    let count = 0; 
+    for (let i = 0; i < arr.length; i++){
+        for(let j = 0; j<arr.length-i; j++){
+            count++
+            console.log(arr);
+         if(arr[j] > arr[j+1]){
+            let temp = arr [j];
+            arr[j  ] = arr[j+1];
+            arr[j+1] = temp;
+            }
+        }
+    }
+    console.log ("TOTAL COUNT:", count)
+    return arr;
+}
+
+	--Imagine we had an array with 4 elements
+			[i] (index of i) = 0,1,2,3
+	--because j<arr.length-1 the inner loop would run like the following:
+		0
+		   0,1,2,3
+		1  
+		   0,1,2
+		2
+		   0,1
+		3
+		   0
+	--essentially i is the outer loop counter and j is the inner loop counter
+	--if we modify the function we can count how many iterations each will end up with.
+	-- let count = 0; count++, console.log ("TOTAL COUNT:", count)
+	--bubbleSort2 is an optimization of bubbleSort.
+	--the way we optimized it is by changing j<arr.length to j<arr.length-1
+	--another optimization we could make is to add something like a while loop that end other loops through the array if no swaps are made. 
+	--No swaps means everything is sorted so there is no need to continue the loops
+
+			11.3.5
+			Bubble Sort Optimization
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64485
+
+**How would the swapping optimization look?
+**Example:
+	function bubbleSort3(arr){
+    let count = 0; 
+    for (let i = 0; i < arr.length; i++){
+        let swapped = false;
+        for(let j = 0; j<arr.length-i; j++){
+            count++
+            console.log(arr);
+         if(arr[j] > arr[j+1]){
+            let temp = arr [j];
+            arr[j  ] = arr[j+1];
+            arr[j+1] = temp;
+            swapped = true;
+            }
+        }
+        if (!swapped) break;
+    }
+    console.log ("TOTAL COUNT:", count)
+    return arr;
+}
+
+	--imagine we have an array [7,3,4,5,6]
+	--once the array is sorted [3,4,5,6,7] the loop will stop with this new optimization
+	--if you compare all 3 bubbleSorts, bubbleSort3 is the best optimized.
+	--bubbleSort with 21 elements has total count of 400
+	--bubbleSort2 with 21 elements has total count of 210
+	--bubbleSort3 with 21 elements has total count of 39
+
+			11.3.6
+			Other Quadratic Sorts
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64485
+
+**Runtime or complexity of bubble sort
+**Types of Quadratic Sorts
+	1.)Bubble sort is O(n^2) (quadratic time)
+	--if data is nearly sorted it is O(n) (constant time)
+	--Bubble sort does not perform well in a lot of situations.
+	--works best for nearly sorted data
+	2.) Bubble Sort is simple and fun to tinker with
+	3.) Other common quadratic (O(n^2)) sorts
+		--Selection sort
+		--Insertion sort
+
+**Selection Sort
+	--selects the smallest (or largest, depending on what you want) value in array and swaps it to the left or start of array
+	--this is also a quadratic time type of sorting
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

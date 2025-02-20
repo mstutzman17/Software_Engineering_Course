@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labels Demo</title>
+</head>
+<body>
+  
+  <h1>Labels</h1>
+    <h2>Register</h2>
+    <form>
+      <label>
+        Enter Email Address
+        <input type="email" placeholder="Email Address">
+      </label>
+      <br>
+      <label>
+        Enter Password
+        <input type="password" name="new-password" placeholder="Password">
+      </label>
+      <br>
+      <label>
+        <input type="checkbox" name="terms of service agreement"> I agree to terms of service
+      </label>
+    
+        <!-- <input type="submit" value="go"> -->
+        <p>Select Shirt Size</p>
+        <label>
+          <input type="radio" name="shirt-size" value="xs"> XS <br>
+        </label>
+        <label></label>
+          <input type="radio" name="shirt-size" value="s"> S <br>
+        </label>
+        <label>
+          <input type="radio" name="shirt-size" value="M">M  <br>
+        </label>
+        <label>
+          <input type="radio" name="shirt-size" value="L"> L <br>
+        </label>
+        <button type="submit">Submit Form</button>
+      </form>
+      
+    <form method="post" enctype="multipart/form-data">
+      <label>
+        This won't actually work, but go ahead and pick a file.
+        <input type="file">
+      </label>
+    </form>
+
+    </form>
+
+</body>
+</html>

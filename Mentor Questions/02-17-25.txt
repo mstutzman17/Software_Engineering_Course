@@ -1,0 +1,5 @@
+Mentor Questions
+
+1.) Will my repository automatically update when I update files via Windows Explorer?
+
+2.) 
