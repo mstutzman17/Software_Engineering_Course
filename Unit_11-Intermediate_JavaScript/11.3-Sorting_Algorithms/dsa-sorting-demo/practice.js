@@ -103,7 +103,17 @@ function merge(arr1, arr2) {
     //standard case
   }
 
-  mergeSort([3,2,70,48])
-        mergeSort([3,2])    mergeSort()
-        mergeSort([3])      mergeSort()
-        [3] [2]
+  let instructors = [
+    { name: "Elie",  favLang: "English"},
+    { name: "Joel",  favLang: "Python"},
+    { name: "Alissa",  favLang: "JS"},
+  ]
+//sort the instructors by name alphabetically
+instructors.sort() // not going to help!!
+
+instructors.sort((a,b) => {
+  if (a.name < b.name) return -1;
+  if (a.name > b.name) return 1;
+})
+
+8
