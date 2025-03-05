@@ -141,7 +141,7 @@
 }
 	--both loops over every single element in the array
 	--every time outer loop runs we end with one value in the correct position
-	--we want to be able to sort a smaller piece of the array each time instead of having to fun through each element of the array every time which will 	cause unnecessary iterations.
+	--we want to be able to sort a smaller piece of the array each time instead of having to run through each element of the array every time which will 	cause unnecessary iterations.
 	--to prevent unnecessary iterations after the array has already been sorted, we need to update the function
 
 **We can write this function so that it doesn't have all the extra iterations.
@@ -227,45 +227,299 @@ function bubbleSort2(arr){
 	--Bubble sort does not perform well in a lot of situations.
 	--works best for nearly sorted data
 	2.) Bubble Sort is simple and fun to tinker with
-	3.) Other common quadratic (O(n^2)) sorts
-		--Selection sort
-		--Insertion sort
+
+**Other common quadratic (O(n^2)) sorts
+		1.) Selection sort
+		2.) Insertion sort
 
 **Selection Sort
 	--selects the smallest (or largest, depending on what you want) value in array and swaps it to the left or start of array
 	--this is also a quadratic time type of sorting
- 
 
+**Insertion Sort
+	--this is also a quadratic time type of sorting
+	--find exact spot for one element
+	--for each element it is added into the correct portion of the sorted content
+	--left side isn't necessarily fully sorted
+	--the sorted portion is updated as needed
+	--this takes a value and places according to what has already been sorted
+	--in this method one iteration does not go through the entire data set
+	--insertion sort is faster than bubble sort when the data is nearly sorted
 
+			11.3.7
+			Intro To Merge Sort
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64485
 
+**Intermediate Sorting Algorithms
+	--these sorting algorithms do not scale well AT ALL
+	--try bubble sorting 100000 elements--it will take a LONG TIME
 
+**There are other sorting algorithms that scale better
+	--they use fastest possible runtime of O(n log n)
+	--for "comparative sort" which is what we typically mean
+	--n because you have to touch every item in list once
+	--log n because best possible strategy is divide and conquer method
+		--binary search (how many times can I cut the date set in half)
+	-both merge sort and quick sort use this strategy
+	--all algorithms that we've used so far are "comparative sorts"
+		**There is a mathematical proof that no comparative algorithm can be faster than O(n log n)
 
+**Merge sort
+	--combo of two things: merging and sorting!
+	--exploits fact that arrays of 0 or 1 element are always sorted
+		--if there's nothing it's sorted; if there's one thing it's sorted
+	--strategy:
+		--decomposing array into smaller arrays of 0 or 1 elements
+		--building up a newly sorted array form those
+**EXAMPLE of merging two sorted arrays
+		[1,3,5] [4,6,8]
+		--compares 1 to 4 and places 1 in first position of new array.
+		--compares 3 to 4 and places 3 in second position of new array.
+		--compares 5 to 4 and puts 4 in third position of new array.
+		--compares 5 to 6 and puts 5 in fourth position of new array
+		--first is array is merged so it places the last two elements (which are already sorted) into position five and six of new array
+		[1,3,4,5,6,8]
 
+**With merge sort you take a big array and break it down into smaller and smaller arrays
+	--eventually everything is sorted because it has either nothing or 1 thing which are always sorted
+	--at that point all the arrays are merged back together
 
+!!** visualgo.net/en/sorting **!!
+	--this website provides a visual of merge sort.
 
+			11.3.8
+			Implementing A Merge Function
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64485
 
+**Merging Arrays
+	--to implement merge sort we need a helper function
+	--helper should take in two sorted arrays, and return a new array with all elements in sort order
+	--should run in O(n + m) time/space and be pure
+		--n is first array and m is second array
+		--shouldn't mutate the arrays that are passed in
 
+**Merging Arrays Pseudocode
+	--create empty out array
+		--aka results or output array
+	--Start pointers at beginnings of arrays 'a' and 'b'
+		--if 'a' value <= 'b' value, push "a" value to out and increase a pointer (comparing first two values)
+		--else, push 'b' value to out and increase 'b' pointer 
 
+**Pseudocode Example
+	 i       j	
+	[5,9,20][1,3,6]
+	output array
+	[1]
+	 i         j	
+	[5,9,20][1,3,6]	
+	output array
+	[1,3]
+	 i           j	
+	[5,9,20][1,3,6]
+	output array
+	[1,3,5]
+	   i         j	
+	[5,9,20][1,3,6]
+	output array
+	[1,3,5,6]
+	   i           (end of array)	
+	[5,9,20][1,3,6]
+	output array
+	[1,3,5,6,9,20]
 
+**Function Example
+function merge(arr1, arr2) {
+    const results = [];
+    let i = 0;
+    let j = 0;
+    while (i < arr1.length && j < arr2.length) {
+      if (arr1[i] < arr2[j]) {
+        results.push(arr1[i]);
+        i++;
+      } else {
+        results.push(arr2[j]);
+        j++;
+      }
+    }
+    while (i < arr1.length) {
+      results.push(arr1[i]);
+      i++;
+    }
+    while (j < arr2.length) {
+      results.push(arr2[j]);
+      j++;
+    }
+  
+    return results;
+  }
+	--the above function WILL NOT work if the data within the arrays are not sorted.
+	--this is just the first step in implementing merge sort.
+	--this is constant time operation 
 
+			11.3.9
+			Implementing Merge Sort
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64489
 
+*mergeSort Pseudocode
+	--split array into halves until you have arrays that have length of 0 or 1
+	--merge split arrays and return the merged and sorted array
 
+**Example of mergeSort Function and Explanation
+  
+function mergeSort (arr){
+    //base case
+    if(arr.length <= 1) return arr;
+    const mid = Math.floor(arr.length/2)
+    const left = mergeSort(arr.slice (0,mid));
+    const right = mergeSort(arr.slice(mid));
+    return merge(left, right)
+    //standard case
+  }
 
+	*****Example array: mergeSort([3,2,70,48])*****
+	--the function accepts an array
+	--the first line determines if the array has an index of 0 or 1.
+	--if it doesn't the array is divided in two
+		--[3,2] [70,48]
+	--const mid is responsible for dividing the array in two
+	--const left and const right are responsible for putting the divided array on the left and on the right
+		--mergeSort([3,2])	mergeSort([70,48])
+	--because the code is recursive const left will run before const right is called.
+		--so technically mergeSort([70,48]) hasn't happened yet
+	--so the call stack at this point in the operation of the function has the following
+		--mergeSort([3,2,70,48])
+				mergeSort([3,2])
+	--the array is still not less than or equal to one so const left runs again
+		--what we have then is the following
+			--mergeSort([3,2,70,48])
+					mergeSort([3,2])
+					mergeSort([3])
+	--the array is one element long so now const right is called and we get the following
+			--mergeSort([3,2,70,48])
+					mergeSort([3,2])
+					[3] 	mergeSort([2])
+	--the array is again one element long so we move onto the next line in the function
+		--we are left with the following: [3] [2]
+	--these values are plugged into the final line of the function
+		--this returns the following: [2,3]
+	--now the process repeats for the right side of the array
+	--once that is finished we are left with the following
+		--merge([2,3], [48,70])
+			[2,3,48,70]
+	**visualgo.net/en/sorting can be referenced for a visual example of this**
 
+			11.3.10
+			Choosing A Sort
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64489
 
+**bigocheatsheet.com**
+	**https://www.programiz.com/sites/tutorial2program/files/merge-sort-example_0.png**
+		--the above is an image of mergeSort
 
+**Performance of MergeSort
+	--this sorting method does create a lot of arrays when implemented
+	--for that reason, is not efficient in terms of space
 
+8*Choosing an Algorithm
+	--think of performance you need for your requirements 
+		--for small n (datasets), simple sorts can be faster
+	--consider Runtime
+	--consider the likely structure of you date:
+		--random?
+		--almost reversed?
+		--almost sorted?
+		--likely duplicates?
 
+**Adaptive Sorting Algorithms
+	--adaptive sorts examine input data, and can:
+		--choose underlying sorting algorithm to use
+		--switch between algorithms during same sort
+			**example: beginning sorting with merge sort, switching to insertion sort once subarrays get small (typically faster than merge 			sorting all)
 
+**What Sorting Methods Do Python and JS Use?
+	--JavaScript
+		--Chrome & Node: "Timsort", an adaptive Merge Sort/Insertion Sort
+		--Firefox: Merge Sort
+	--Python
+		--"Timsort"
+	--In all likelihood all languages use some sort of quick or adaptive sort
 
+			11.3.11
+			Other Sorting Topics
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64492
 
+**Comparators
+	--JS built-in sort method accepts optional "comparator function"
+	--can provide this function to decide how two items compare
+	--comparator takes pair of elements (a & b) and returns sort order
+		--returns negative #: a should come before b
+		--returns positive #: a should come after b
+		--returns 0: a and b sort equally
 
+**Numeric Sort
+	let numbers = [100,60,1000,2000]
 
+	numbers.sort() 	// [100,1000,2000,60
+	numbers.sort((a,b) => a-b) 	//[60,100,1000,2000]
 
+**Sort by "Name" property of objects
+	  let instructors = [
+    { name: "Elie",  favLang: "English"},
+    { name: "Joel",  favLang: "Python"},
+    { name: "Alissa",  favLang: "JS"},
+  ]
+//sort the instructors by name alphabetically
+instructors.sort() // not going to help!!
 
+instructors.sort((a,b) => {
+  if (a.name < b.name) return -1;
+  if (a.name > b.name) return 1;
+})
 
+**Stable Sort
+	--sometimes you are sorting items that are different but would sort same:
+	**Example:
+	tasks =   [{priority: 1, "Make Logo"},
+  		  {priority: 2, "Setup server"},
+  		  {priority: 1, "Hire team"},
+  		  {priority: 3, "Launch"}]
+	--"stable sort" guarantess that Make logo worts before Hire team -- even though both have equal priorities, they started in that order
 
+**Collations
+	--How two strings compare in a language is controlled by their "collation":
+		--Capitalizaiton: does "a" sort before or after "Z"
+		--does "e with a hash above it" sort with "e"? After "e" and before "f"? At the end?
+	--some languages/frameworks/databases let you choose a collation for a sort
+	--in other languages you may have to do it manually
 
+**Comparative and Non-Comparative Sorts
+	-Most sorting algorithms are "comparative":
+		--items need to be compared against each other to know how to sort them
+	--Comparative sorting can never be better than 0(n log n)
+	**BUT NOT ALL SORTING REQUIRES COMPARISON**
+	--visualgo.net/en/sorting
+	**Visual example of "Radix Sort"
+		--this sorts numbers by putting them in columns based on a selected number place within the selected number.
 
+**What Do You Need To Know
+	1.) Best possible "comparative" sort is 0(n log n)
+	2.) Sorting in JS
+		--How to use .sort() method
+		--Remember: JS sorting is lexicographic, not numeric, by default!
+		--How to write a comparator function
+	3.) Important concepts: stable sorts, natural sorts
 
+**Useful things to know
+	1.) How to implement merge sort
+	2.) how to implement insertion sort
+	3.) how to implement quicksort
+
+**Resources
+	--Sorting out the basics behind sorting algorithms (base^cs vaidehi Joshi)
+	--Timsort (Wikipedia)
+	--visualizing sorts (visualgo.net/en/sorting) (https://www.toptal.com/developers/sorting-algorithms)
+
+			11.3.13
+			Video on Visualizing Sorting Algorithms
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64481/64494
 

@@ -1,0 +1,712 @@
+11.4 Notes
+
+			11.4.1
+			What is a Data Structure
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496
+
+**What is a data structure and what is an algorithm?
+	--simplified definitions
+	--Say you've been buying books and you have simply organization scheme of stacking books on top of the other.
+	--if you want to find a book unstack until you find the one you want
+		--data structure as stack
+		--algorithm as taking books off stack until we find the one we want
+	--as you obtain more books you organize by authors alphabetically
+		--data structure is book shelf 
+		--algorithm is search process
+	--you obtain more books
+	--organize groups of shelves into fiction and non-fiction
+	--organize each shelf into specific genre (fantasy, thriller, biographical, historical)
+		--data structure is hierarchical organization of books
+		--algorithm is process by which you identify genre and find book
+
+**Let's simplify the definitions of data structure and algorithm
+	--Data Structure: is a way to organize information
+	--Algorithm: a way to process information to reach an end goal
+
+**Motivating Questions 
+	--Why use on organization scheme over another?
+	--How do we measure performance of these schemes?
+	--What type of problems do these ideas solve?
+
+			11.4.2
+			10 Key Data Structures Used Everyday
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496
+
+**Data structures are critical concept for software developers**
+
+**10 Types of Data Structures
+	1.) Lists
+		--versatile and essential DS in SD
+		--great for storing and manipulating ordered data
+		--used in task management, shopping list and social media applications
+	2.) Arrays
+		--provide fixed size order collection of elements
+		--well suited for situations where collection size is known and doesn't change frequently
+		--used commonly in mathematical operations
+		--EXAMPLE: weather app array can be used for specific temps in certain region over period of time
+	3.) Stacks
+		--follow last in first out principle
+		--perfect for sorting redo and undo operations
+		--in text editor stack can be used to store each change in a document making it easy to trigger undo operation
+	4.) Queues
+		--operate on first in first out basis
+		--can also manage printer jobs, sending user actions in games, handling messages in chat apps
+		--in chat apps, a que can be used to store incoming messages in order received
+		--ensures messages are displayed to recipient in correct sequence
+	5.) Heaps
+		--used for task scheduling and memory management
+		--helpful in implementing priority queues
+	6.) Trees
+		--organize data hierarchically
+		--useful for representing data with natural hierarchies or relationships
+		--can be used in apps like data base indexing, AI decision making, file systems
+		--AI decision making decision trees are use in machine learning for classification tasks
+		--in data base indexing they help speed up search, insert or delete operations
+		--EXAMPLE: b trees and b+ trees are commonly used in relational data bases to efficiently manage a large amounts of data
+	7.) Hash Tables
+		--allow for efficient data lookup, insertion and deletion
+		--use hash function to map keys to corresponding storage locations
+		--enables constant time access to stored values
+		--used in apps like search engines, caching systems, and programming language interpreters or compilers
+		--in search engines, hash tables can be used to store or retrieve index data based on key words
+		--provides fast and relevant search results
+		--caching systems use hash to store and manage data
+		--allows for rapid access to frequently requested resources
+		--EXAMPLE: Implementation of simples tables in programming language interpreters or compilers
+		--efficiently manage and lookup variables, functions and other symbols defined in source code
+	7.) Suffix Trees
+		--specialized for searching strings in documents
+		--makes them perfect for text editors and search algorithms
+		--in search engine suffix tree used to efficiently locate all occurrences of search term within large amount of text
+	8.) Graph
+		--all about tracking relationships and finding paths
+		--invaluable in social networks, recommendation engines, and pathfinding algorithms
+		--in social network, graph used to represent connections between users
+		--enables features like friend suggestions
+	9.) R-Trees
+		--good at finding nearest neighbors
+		--crucial for mapping apps and geolocation services
+		--in mapping app, used to sort spatial data like points of interest
+		--enables efficient queries to find locations based on current position
+
+**Cache Friendliness
+		--CPU cache is small fast memory between main memory and CPU
+			--stores recently accessed data and instructions so CPU can access them quickly without fetching from slower main memory
+		--different data structures have varying levels of cache friendliness based on how elements are stored in memory
+			--contiguous memory storage (Arrays) allow for better cache locality resulting in improved performance
+			--when array element accessed cache can prefetch and store nearby elements anticipating that they m ight be accessed soonb
+		--data structures with non contiguous memory stories (linked Lists)
+			--can experience more cache misses and reduced performance
+			--elements are store in nodes scattered throughout memory
+			--each node contains pointer to next node
+			--makes it difficult for CPU to predict and lode next node
+		--Trees, hash tables, graphs have varying degrees of cache friendliness based on implementation and use case
+			--disparity in access times can lead to performance issues in modern computing
+			--particularly when cache misses occur frequently 
+			--be mindful when working with performance critical apps
+			--choose appropriate data structure based on specific requirements and constraints of project
+
+			11.4.3
+			Lists ADT
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496
+
+**Arrays and Linked Lists Goals
+	1.) Describe "abstract data type"
+	2.) Compare different types of arrays
+	3.) define singly and doubly linked lists
+	4.) Compare performance characteristics of arrays and lists
+	5.) Implementing linked lists in JavaScript
+
+**Lists are an abstract data type
+	--it describes a set of requirements, not an exact implementation
+	--general requirements
+		--can keep multiple items
+		--can insert or delete items at any position
+		--can contain duplicates
+		--preserves order of items
+	--Arrays are considered lists
+	--Linked lists are another types of list
+		--single link
+		--double link
+	--some lists don't meet EVERY requirements
+
+			11.4.4
+			Array Big O
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496
+
+**How do Arrays actually work?
+	--arrangement of items at equally-spaced addresses in memory
+		[3,7,2,4,1,2]
+		imagine them each being stored in a parking space
+
+**Array Runtimes
+	--retrieving by index
+		--constant time 0(1)
+		--because we have address to find specific element
+	--finding
+		--is ther "2" or "0" in this array
+		--worst case you potentially have to look at every single element in array
+		--0(n)
+	--general insertion or general deletion
+		--0(n)
+		--when you insert or delete you have to shift everything
+		--one operation for every element
+		--depends where you're inserting or deleting
+
+			11.4.5
+			Direct Arrays
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496
+
+**Direct Arrays/Vectors
+	--only work if items are same size
+		--all numbers (8 bit or 64 bit numbers
+		--all same-length strings
+
+**Instructional Website
+	--onlinegdb.com/online_c_compiler
+
+**Example of C compiler and how it stores elements
+int main()
+{
+  int nums [3];
+  nums[0] = 3;
+  nums[1] = 5;
+  nums[2] = 6.875;
+  printf("%d", nums[2]);
+}
+	--this code returns 6 because the int nums [3] allocated a specific size space for each element. 
+	--6.875 is bigger than the allocated space
+	--if we had nums[2] = "hello world!" and did printf("%d", nums[2]), the string turns into a number
+
+**Typed Arrays
+	--JS provided direct array/vector
+	--very uncommon
+	--mdn docs "JavaScript typed arrays"
+	--different kinds of type arrays
+		--Int8Array (-128 to 127)
+		--Uint8Array (0 to 255)
+		--Int16Array (-32768 to 32767)
+	--common theme is typed arrays have restriction of what can be stored
+
+**Int8Array Syntax
+	--new Int8Array(); // new in ES2017
+	--new Int8Array(length)
+	--new Int8Array(object)
+	--new Int8Array(buffer [, byteOffset [, length]])
+
+**Type arrays are very different from normal JS arrays
+	--no .push or .pop method
+		
+**Exmaple of Uint8Array
+	const numbers = new Uint8Array(3)
+	--when you call numbers JS returns Uint8Array(3) [0, 0, 0]
+	--numbers[0] = 67 returns Uint8Array(3) [67, 0, 0]
+	--numbers[1] = 7999 returns Uint8Array(3) [67, 63, 0]
+	--this is because the space allocated in Uint8Array 
+	--type arrays are more efficient than regular JS arrays (indirect arrays)
+	
+**Indirect Arrays (typical JS array)
+	--array doesn't directly hold the value
+		--it holds the memory address of the real value
+	--let's an array store different types of data or different length data
+
+**Example of standard JS array (Indirect Array)
+					(myIndirectArray)
+	actual memory 	   ----->	[1] 	[2] 	[3] 
+reference to placehold    ----->	[ant]	[bee]	[caterpillar]
+	--elements are not stored in actual memory, but referenced from a placeholder
+
+**Motivation of typed arrays is they are faster and more powerful but far more rigid
+
+**What does JS use?
+	--indirect arrays -- since you can store different length things in them
+	--it's complicated, though: some implementations have specialized (smarter) or adaptive structures to handle edge cases like sparse arrays
+	--point is there are different ways to store data
+
+			11.4.6
+			Linked Lists Intro
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496
+
+**Arrays are just one example of abstract data type lists
+**Linked Lists are another type
+	--in linked lists items aren't stored in contiguous memory
+	--instead, each item references the next item in the sequence
+	**Example
+	-- head[22]--->[2]--->[77]--->]--->[6]--->[43]--->[76]--->[89]tail
+
+**Within an array
+	--elements are stored next to each other physically in memory
+	--can't arrange without having to move other items in memory
+	**Example: [3,7,2,4,1,2]
+		--to remove 7 form the above area, JS has to move every element over to fill the space that 7 occupied
+		--if the array had 1 million elements and you wanted to remove or add an element from the beginning, it would take 1 million operations to 		  so.
+		--It's very expensive if you have a long array
+
+**With linked lists
+	--we can remove, add, or move something at constant time
+	--this is a lot faster than having to move everything around in a big list
+	--can rearrange without having to move other items in memory
+	**Downside
+		--we don't have access to each individual element
+		--can't point to an index of the list
+		--all data structures have trade offs
+		--linked lists have to be implemented in JavaScript
+		--they are not a part of JS like arrays or objects
+
+**How can we insert something into a linked list?
+	--visualgo.net/en/list
+	--if you want to add something to the beginning of a linked list you have to change the head to whatever you want it to be
+
+			11.4.7
+			Linked Lists -- Computerphile
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496
+
+**Example
+	-- [1][.]--->[2][.]--->[3][.]
+	--if you want to add 0 to that list you can add it anywhere because it will automatically point to the next node.
+	-- head--->[0][.]--->[1][.]--->[2][.]--->[3][.]<---tail
+	--think of a treasure trail. you find one thing and it points you to the next
+	--if you want to find a specific item in a linked list, you have to go through the entire list.
+	--items are stored arbitrarily in memory
+**adding an item between elements
+	-- head--->[0][.]--->[1][.]--->[2][.]--->[3][.]<---tail
+	--if you wanted to add 26 to the list above you would have to first cancel the link between 1 and 2
+	--then you would have to add two pointers
+	--first from 1 to 26 and then from 26 to 1
+	--insertion into a linked list is constant time O(1)
+	--searching a linked list is liner time O(n) which means the longer the list, the more time it will potentially take to search if a specific item 	exists within the list
+
+**Dual linked lists
+	--dual linked lists point both ways from each node
+	**Example:
+	--         [.][0][.]--->[.][1][.]--->[.][2][.]--->[.][3][.]
+	--         [.][0][.]<---[.][1][.]<---[.][2][.]<---[.][3][.]	
+	**Real World Example of Dual Linked List
+		--Imagine you're using a web browser.
+		--You open a website and click on a link
+		--From that link you click on another link
+		--And then another and another and another
+		--This is a dual linked list because you can then use the back and forward arrows move backward in the list or forward in the list.
+	**Example:
+		-- [.][Main Page][.]--->[.][NASA][.]--->[.][Neil Armstrong][.]--->[.][Apollo 11][.]
+		-- [.][Main Page][.]<---[.][NASA][.]<---[.][Neil Armstrong][.]<---[.][Apollo 11][.]
+		-- from Apollo 11 you go back to the NASA page.
+		--at this point you can still go forward to Neil Armstrong and Apollo 11
+		--however, if you click an ISS link on the NASA page, the forward history link changes
+		--you can no longer go forward to Neil Armstrong or Apollo 11 because the chain has been broken and the link moved to ISS
+
+			11.4.8
+			Linked Lists Continued
+
+**Singly-Linked Lists
+	--So far we've only had one kind of data structure for representing collections of like values
+		--structs, recall give us "containers" for holding variables of different data types, typically
+	--arrays are great for element lookup, but unless we want to insert at the very end of the array, inserting elements is quite costly -- remember 	insertion sort?
+		--a lot of expense involved to pick something up and put in the middle
+	--Arrays also suffer from a great inflexibility -- what happens if we need a larger array than we thought?
+	--Through clever use of pointers, dynamic memory allocation, and structs, we can put the pieces together to develop a new kind of data structure 	that gives us the ability to grow and shrink a collection of like values to fit our needs.
+	--combination of elements, when used in this way is a linked list
+	--a linked list node is a special kind of struct with two members:
+		--data of some data type (int, char, float...)
+		--a pointer to another node of the same type
+	--in this way, a set of nodes together can be thought of as forming a chain of elements that we can follow from beginning to end.
+
+**How does this look in JS?
+	-- typedef struct sllist {
+    VALUE (any data type (int, float)) val;
+    struct sllist* next;
+} 
+sllnode; 
+	--sllnode is the ultimate name we want for this data type
+	--sllnode is not defined until we are outside of the typedef.
+	--temporary name is struct sllist
+	--sllnode is permanent name and sllist is temporary name
+
+**Singly-Linked Lists
+	--in order to work with linked lists effectively, there are a number of operations that we need to understand:
+1.) Create a linked list when it doesn't already exist.
+2.) Search through a linked list to find an element.
+3.) Insert a new node into the linked list. 
+4.) Delete single element from a linked list
+5.) Delete an entire linked list.
+
+**Pseudo code for visualizing a linked list
+	--create a linked list
+		--sllnode* create (VALUE val);
+**Steps involved
+	a.) Dynamically allocate space for a new sllnode
+	b.) Check to make sure we didn't run out of memory
+	c.) Initialize the node's val field
+	d.) Initialize the node's next field
+	e.) return a pointer to the newly created sllnode
+**What might this look like visually?
+	--sllnode * new = create (6)
+	a.) Dynamically allocate space for a new sllnode
+	b.) Check to make sure we didn't run out of memory 	[][]
+	c.) Initialize the node's val field 	[6][]
+	d.) Initialize the node's next field 	[6][null]
+	e.) return a pointer to the newly created sllnode 	new--->[6][null]
+**How to search through a linked list to find an element
+	-- bool find (sllnode* head, VALUE val);
+	--the first parameter inside the parenthesizes is to keep track of the first element in the list
+		--this is important because if you know the first element, the rest are linked to it
+	--the second parameter inside the parenthesizes is the value type (int, string, float, ect.)
+**Steps involved
+	a.) Create a traversal pointer pointing to the list's head.
+		--Why not just move the pointer we already have?
+		--it's better to create a duplicate that moves away from the first element
+	b.) If the current node's val field is what we're looking for, report success.
+	c.) If not, set the traversal pointer to the next pointer in the list and go back to step b
+	d.) If you've reached the end of the list, report failure
+**Example of singly-linked list
+	--function call: bool exists = find (list, 6)
+	-- list--->[2][.]<---trav
+	-- list--->[2][.]--->[3][.]--->[5][.]--->[6][.]--->[8][.]<---tail
+	-- trav--->[3][.]--->[5][.]--->[6][.]--->[8][.]<---tail
+	-- trav --->[5][.]--->[6][.]--->[8][.]<---tail
+	-- trav --->[6][.]--->[8][.]<---tail
+	--if the number we're looking for is not in the linked list, what happens?
+	--once we get to the end of the list we try to go the next pointer
+	--this will not work, so we return false
+**Inserting a new node into the linked list
+	-- sllnode* insert(sllnode* head, VALUE val);
+**Steps involved:
+	a.) Dynamically allocate space for a new sllnode
+	b.) Check to make sure we didn't run out of memoruy
+	c.) populate and insert the node AT THE BEGINNING OF THE LINKED LIST
+		--reason being because inserting at end of list would be O(n) time complexity
+		--it's easier to add to the beginning because that's where we're already at
+	d.) return a pointer to the new head of the linked list
+**Visualization
+	--list = insert (list, 12);
+	-- list--->[15][.]--->[9][.]--->[13][.]--->[10][.]<---tail
+	-- new--->[][]
+	-- new--->[12][.]
+**What should we do after we've inserted 12?
+	--Which point should we move first? Should the "12" node be the new head of the list, since it now exists, or should we connect it to the list 	first?
+	--This is one of the trickiest things with linked lists. Order matters!
+	--if you move things out of order you orphan the rest of the list
+	**Example: moving 12 to the new head of the list would look like this
+	-- list--->[12][?]<---new [15][.]--->[9][.]--->[13][.]--->[10][.]<---tail
+	--there is no pointer from 12 to the rest of the list
+	--the computer doesn't know because we have not told it
+	--what we need to do instead is connect the pointer to the old head of the list first
+	-- [12][.]<---new--->list--->[15][.]--->[9][.]--->[13][.]--->[10][.]<---tail
+	--then we can move the list over
+	-- list--->[12][.]<---new--->[15][.]--->[9][.]--->[13][.]--->[10][.]<---tail
+	--correct order is connecting new element into list and then changing the head of the list
+	--trying to do this in the opposite order will result in a loss of the list
+**Delete an entire linked list
+	-- void destroy(sllnode* head);
+**Steps involved
+	a.) If you've reached a null pointer, stop.
+	b.) Delete the rest of the list
+		--what does this step sound like?
+		--that's recursion
+	c.) Free the current node
+**Visual Example
+	-- list--->[12][.]--->[15][.]--->[9][.]--->[13][.]--->[10][.]<---tail 	[destroy()]
+	-- list--->[15][.]--->[9][.]--->[13][.]--->[10][.]<---tail		[destroy()]
+	-- list--->[9][.]--->[13][.]--->[10][.]<---tail				[destroy()]
+	-- list--->[13][.]--->[10][.]<---tail					[destroy()]
+	-- list--->[10][.]<---tail						[destroy()]
+	-- list--->[.]<---tail							[destroy()]
+**What would happen if we didn't do this correctly?
+	--we would have had a memory leak
+
+			11.4.9
+			Node Class Implementation
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496/64504
+
+**Linked list is a collection of nodes
+	--each node is a value and a pointer
+**A basic Node has two attributes:
+	--val
+		--the info of the node contains (could be string, people, url, number, boolean, browser history, int, instance, ect)
+	--next
+		--reference to next node (for last item, this is null)
+	**Example:
+		-- [ant][.]--->[bee][.]--->[caterpillar][.]--->null
+		-- antNode; 
+		   {val: "ant, next: beeNode]
+		-- beeNode;
+		   [val: "bee, next: caterpillarNode}
+		-- caterpillarNode;
+		   {val: "caterpillar", next: null}
+**We can implement our own node class
+	 class Node {
+    constructor(val){
+        this.val = val;
+        this.next = null;
+    }
+}
+
+const firstPage = new Node ('google.com')
+const secondPage = new Node ('reddit.com')
+const thirdPage = new Node ('amazon.com')
+
+firstPage.next = secondPage;
+secondPage.next = thirdPage
+
+google => reddit => amazon => null
+
+	--what is going on up there?
+	--the first part of the syntax defines the Node class
+	--each node will look like this: Node {val: 'google.com', next: Node}
+	--when we get to the end of the list: Node {val: 'amazon.com', next: null]
+
+**You can also make a Node class that accepts optional next argument
+	**Example:
+		class Node {
+    constructor(val, next=null){
+        this.val = val;
+        this.next = next;
+    }
+}
+	--this would allow us to add a chain of nodes like the following
+
+let antNode = new Node ("ant",
+                new Node ("bee",
+                    new Node ("caterpillar")));
+	--ends up exactly the same but can be hard to read at first
+**Example
+
+	class Node {
+    constructor(val, next = null){
+        this.val = val;
+        this.next = next;
+    }
+}
+
+const firstPage = 
+    new Node('google.com', 
+        new Node ('reddit.com', 
+            new Node ('amazon.com')))
+	--you can add an entry to the list
+	**Example:
+		-- firstPage.next.next.next new Node ('twitter.com')
+	--firstPage.next gets us to reddit
+	--firstPage.next.next gets us to amazon
+	--firstPage.next.next.next gets us to null where we can add another Node
+
+			11.4.10
+			List Class
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496/64504
+
+**How to add parent class to manage our list and give us methods to use
+	**Something like this
+	const history = new LinkedList();
+	history.push('google');
+	history.push(amazon')
+	history.remove
+
+**All a linked list needs is a reference to the very first node
+	--that's all we need to get to every other value
+	--beginning is called head
+	--end is called tail
+**How does it look and work?
+	**Example:
+		--the original code is this:
+			
+			class Node {
+    constructor(val, next = null){
+        this.val = val;
+        this.next = next;
+    }
+}
+
+const firstPage = 
+    new Node('google.com', 
+        new Node ('reddit.com', 
+            new Node ('amazon.com')))
+
+		--The improved code adds the following:
+
+		class LinkedList {
+    constructor(){
+        this.head = null; //head is how we manage new linked list
+    }
+}
+
+const history = new LinkedList()
+history.head = firstPage; 
+	
+	--all the previous code is doing is adding a pointer to the head of the list
+
+**Visualization
+	--empty linked list
+		-- [LList][head]=>null
+	--linked list with nodes in it:
+		-- [LList][head]=>[ant][next]=>[bee][next]=>[caterpillar][next]=>null
+**Things we may want to do with a linked list
+	1.) Print each node
+	2.) Find a node by its data
+	3.) Append to end
+	4.) Insert at specific position
+	5.) Remove node
+
+			11.4.11
+			Traversing Lists
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496/64507
+
+**Methods for Traversing a List
+	--Linked list a reference or pointer to the head of the list
+	--to traverse we need to start with the head and print out each element
+	--then ask for .next
+	--print value
+	-- .next
+	--etcetera, etcetera
+	--keep going until we hit the end and there is no next
+
+**Example of Traverse
+
+	class Node {
+    constructor(val, next = null){
+        this.val = val;
+        this.next = next;
+    }
+}
+
+class LinkedList {
+    constructor(){
+        this.head = null;
+    }
+    traverse(){
+       console.log(this.head.val);
+	console.log(this.head.next.val)
+	console.log(this.head.next.next.val)
+        }
+    }
+}
+
+const firstPage = 
+    new Node('google.com', 
+        new Node ('reddit.com', 
+            new Node ('amazon.com',
+                new Node ('youtube.com')
+            )))
+
+const history = new LinkedList()
+history.head = firstPage;
+	--this function is hard coded which can pose a problem if the list is thousands or even hundreds of elements long
+	--the reason is because you would have .next through every element of the list
+	--instead we can use a loop
+
+**Using a loop to traverse a linked list
+	
+	class LinkedList {
+    constructor(){
+        this.head = null;
+    }
+    traverse(){
+       let currentNode = this.head;
+        while(currentNode){
+            console.log(currentNode.val);
+            currentNode = currentNode.next;
+        }
+    }
+}
+	--first we set currentNode to be equal to this.head (the start of the list)
+	--then use a while loop so that while the there is a currentNode we console.log the value of the current node (console.log(currentNode.val))
+	--then we set currentNode equal to currentNode.next to cycle through the list
+	--when the list ends there will not be a .next so the while loop will end
+
+**How to search for something in a linked list
+	--searching is like printing but we stop searching once we find what we're looking for
+	--we want to know if some number is in the list
+	**Example: is 77 in the list?
+		--the list is searched until the number is found
+		--if number is not in the list it still searches every element
+
+**Example
+	--we will traverse the list
+
+  find(val) {
+        let currentNode = this.head;
+        while(currentNode){
+            if(currentNode.val === val) return true;
+            currentNode = currentNode.next;
+        }
+	return false;
+}
+}
+	--we start the same as we would with the traverse loop
+	--the loop will run while there is a currentNode
+	-- if the currentNode.val equals the value we are searching for it will return true
+	--if it's not the number we are searching for it will move to the next element in the list
+	--if we go through the whole list and the number we're looking for is not in it, the code will return false
+	--in the example above if we searched for 'NYTimes.com' we would get false because it's not on the list
+	--if we searched for 'amazon.com' we would get true because it is on the list
+
+			11.4.12
+			Appending Nodes
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496/64507
+**Appending a Node
+	--how do we append a node to the end of a linked list?
+
+	[LLIST][head] => [ant][next] =>[bee][next] =>[caterpillar][next] => null
+	--cannot find the end unless we traverse last node and then set it's .next
+	**Example:
+
+	append(val){
+    let currentNode = this.head;
+    while (currentNode.next){
+        currentNode = currentNode.next
+    }
+    console.log("at the last node", currentNode.val)
+}
+	--use while(currentNode.next) to help us stop before we get to null as current node
+	--we want to get to the last node where null is .next
+	--this code will not append anything, but it will get us to the last node
+	**Example of appending the list:
+
+	append(val){
+    let currentNode = this.head;
+    while (currentNode.next){
+        currentNode = currentNode.next
+    }
+    currentNode.next = new Node(val)
+}
+	--currentNode.next = new Node(val) will add the new value to the end of the list
+	--if we run history.append('twitter.com') twitter.com will be added to the end of the list
+	--with this method we have to walk through every element of the list and then add a new Node
+	--there is a better way
+
+**Better way to append a list
+	--it would be faster if we could know the end at all times
+	--with a simple change we can keep track of the end
+	--new linked list class will keep track of the head AND the tail
+	--to append something we just need to make a new Node
+	**Example
+		
+		append(val){
+        const newNode = new Node (val) 	//we start by making the new node (const newNode = new Node (val))
+        this.tail.next=newNode 		//then we take this.tail.next and point it at the newNode
+        this.tail = newNode; 		//then we declare this.tail as the newNode
+    }
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
