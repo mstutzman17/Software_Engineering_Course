@@ -34,7 +34,10 @@ class Node {
 class LinkedList {
     constructor(){
         this.head = null;
+        this.tail = null;
     }
+
+
     traverse(){
        let currentNode = this.head;
         while(currentNode){
@@ -50,23 +53,39 @@ class LinkedList {
         }
         return false;
 }
-}
-    append(val);
-        let currentNode = this.head;
-        while (currentNode.next){
-        currentNode = currentNode.next
+append(val){
+    const newNode = new Node (val)
+    if(!this.head){
+        this.head = newNode;
+        this.tail = newNode;
     }
-    currentNode.next = new Node(val)
+    this.tail.next=newNode 
+    this.tail = newNode;
+}
+}
+    
 
+// const firstPage = 
+//     new Node('google.com', 
+//         new Node ('reddit.com', 
+//             new Node ('amazon.com',
+//                 new Node ('youtube.com'))))
 
+// const history = new LinkedList()
+// history.head = firstPage;
 
-const firstPage = 
-    new Node('google.com', 
-        new Node ('reddit.com', 
-            new Node ('amazon.com',
-                new Node ('youtube.com'))))
+const train = new LinkedList();
+train.append ('Engine')
+train.append('Freight Car 1')
+train.append('Freight Car 2')
 
-const history = new LinkedList()
-history.head = firstPage;
+struct item{
+    int p;
+    int q;
+    // char foreName[64];
+    // char surName[64];
+    struct item *next;
+};
+
 
 

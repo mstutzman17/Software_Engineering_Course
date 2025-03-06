@@ -680,19 +680,303 @@ history.head = firstPage;
 	**Example
 		
 		append(val){
-        const newNode = new Node (val) 	//we start by making the new node (const newNode = new Node (val))
+        const newNode = new Node (val) 	//we start by making the new node
         this.tail.next=newNode 		//then we take this.tail.next and point it at the newNode
         this.tail = newNode; 		//then we declare this.tail as the newNode
     }
+	--the problem with the current setup is that the tail will always be pointing at null
+	--there's another way to set it up
+	**Example:
 	
+	append(val){
+        const newNode = new Node (val)
+        this.tail.next=newNode 		
+        this.tail = newNode;
+
+	const train = new LinkedList();
+	train.append ('Engine')
+		--with this list, there are no nodes so the head and the tail are pointing to "Engine"
+		--in order to fix this, we can update the append function
+	
+	   append(val){
+        const newNode = new Node (val)
+        if(!this.head){
+            this.head = newNode;
+            this.tail = newNode;
+        }
+        this.tail.next=newNode 
+        this.tail = newNode;
+    }
+
+	const train = new LinkedList();
+train.append ('Engine')
+train.append('Freight Car 1')
+train.append('Freight Car 2')
+	--now if the list is empty the first node will be the head and the tail until more nodes are added
+
+	--Now we can perform some methods on this code
+	--train.traverse() will print the list in order from head to tail.
+	--train.append('') will add whatever you want to the end of the list
+	**Example: train.append('Caboose') would add Caboose after Freight Car 2.
+	--when we append a node, it doesn't matter how long the list is it's always constant time because we have the tail reference built in
+
+**We may also want to Remove a Node (by value)
+	--What would need to be changed to remove?
+	--ant --bee --caterpillar	
+**This code is kind of complex since we need to handle things like:
+	1.) removing only item in linked list
+		--update head and tail to null
+	2.) removing first item
+		--update the head
+	3.) removing last item
+		--update the tail
+**A rundown of how removing from a linked list works
+	1.) find the element before what we want to remove
+	2.) then remove it by finding the element after it
+	3.) then connecting the element from before to the element after
+	**Visual Example:
+	head => [66][.] => [28][.] => [76][.] => [20][.] => [4][.] => [38][.] <= tail
+		--let's say we want to remove 20	
+		--we need go to 76 (the element before 20)
+		--then go to 4 (the element after 20)
+		--then connect 76 to 4 (connecting the element before 20 to the element after 20)
+		--this will severe the connection to 20 and remove it from the list
+
+			11.4.13
+			Linked List Big O
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496/64508
+
+**Runtime of Linked Lists
+	1.) going to "next" item
+		--O(1) Constant Time
+	2.) Going to item by arbitrary index (give me 7th or 100th item in the list)
+		--O(n) Linear Time
+	3.) Searching for value
+		--O(n) Linear Time
+	4.) General insertion or deletion (at 25th position or somewhere in the middle of the list)
+		--O(n) Linear Time
+	5.) Adding to the start
+		--O(1) Constant Time
+	6.) Appending to end
+		--O(1) Constant Time if we know the tail
+		--O(n) Linear Time if we don't know the tail
+	7.) Deleting at start
+		--O(1) Constant Time
+	8.) Removing from end
+		--O(n) Linear time
+		--this is because the code has no way of knowing where the end is unless it traverses the entire list
+**How do these compare to an array?
+	1.) Going to item by arbitrary index (give me 7th or 100th item in the list)
+		--Constant Time
+	2.) Searching for value
+		--Linear Time
+		--because you have to look at every value
+	3.) General insertion or deletion (at 25th position or somewhere in the middle of the list)
+		--Linear Time
+		--because all values have to be shifted
+	4.) Adding to the start
+		--Linear Time
+		--because all values have to be shifted
+	5.) Appending to end
+		--Constant Time
+	6.) Deleting at start
+		--Linear Time
+		--because all values have to be shifted
+	7.) Removing from end
+		--Constant Time
+
+			11.4.14
+			Doubly-Linked Lists
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496/64508
+			
+**Doubly-Linked Lists
+	--Singly-linked lists really extend our ability to collect and organize data, but they suffer from a crucial limitation
+		--we can only ever move in on e direction through the list
+	--Consider the implication that would have for trying to delete a node
+	--A doubly-linked list allows us to move forward and backward through the list, all by simply adding on extra pointer to our STRUCT (Node) 	definition
+		--doubly-linked lists take up more bytes of memory
+
+**Doubly-Linked Lists Example Code:
+	typedef struct dllist{
+	VALUE val;
+	struct dllist* prev;
+	struct dllist* next;
+	}
+	dllnode;
+
+**Review of operations you can do with singly-linked lists from 11.4.8
+	1.) Create a linked list when it doesn't already exist.
+	2.) Search through a linked list to find an element.
+	3.) Insert a new node into the linked list.
+		--different in doubly-linked list 
+	4.) Delete single element from a linked list
+		--different in doubly-linked list
+	5.) Delete an entire linked list.
+
+**Inserting a new node into D-L List
+	-- dllnode* insert(dllnode* head, VALUE val);
+**Steps involved:
+	1.) Dynamically allocate space for a new dllnode
+	2.) Check to make sure we didn't run out of memory
+	3.) Populate and insert the node at the beginning of the linked list.
+	4.) Fix the PREV pointer of the old head of the linked list.
+		--extra thing to do compared to Singly-Linked List
+	5.) return a pointer to the new head of the linked list.
+	**Visual Example:
+		-- list = insert(list, 12); //insert 12 into the list
+		[NULL[15][.] <-> [NULL][9][.] <-> [NULL][13][.] <-> [.][10][NULL]
+		-- [] //create empty node
+		-- new -> [12] //put 12 inside the empty node
+			--remember, we can never break the chain when rearranging the pointers
+			--even if we need to have redundant pointers temporarily, that's okay
+		-- new -> [NULL][12][.] -> [NULL][15][.] //add null and point null 12 to null 15 
+		-- new -> [NULL][12][.] <-> [NULL][15][.] //point 15 back to 12
+		-- new -> head -> [NULL][12][.] <-> [NULL][15][.] <-> [NULL][9][.] <-> [NULL][13][.] <-> [.][10][NULL //move the head from 15 to 12
+			 
+**Deleting a node from a linked list
+	-- void delete(dllnode* target);
+**Steps involved
+	1.) Fix the pointers of the surrounding nodes to "skip over" target
+	2.) Free target
+	**Visual Example:
+	-- delete(x); (general case when deleting any node from middle of list (with legit prev and next pointers.)
+		head -> [NULL][12][.] <-> [NULL][15][.] <-> [NULL][9][.] <-> x -> [NULL][13][.] <-> [.][10][NULL] //x is being pointed at only 
+		[NULL][13][.]
+	--next we change next pointer of 9 to point to 10
+	--then we change prev pointer of 10 to point to 9
+		head -> [NULL][12][.] <-> [NULL][15][.] <-> [NULL][9][.] <-> [.][10][NULL] //this is the result
+	--we kept integrity of the list by moving the next pointer of 9 and the previous pointer of 10 by making them pointer at each other
+**Doubly-Linked Lists
+	--Both singly and doubly linked lists support extremely efficient insertion and deletion of elements
+		--these operations can be done in constant time
+		--it always takes 3 operations to delete a node in doubly linked lists
+		--3 or 4 operations to insert (at the beginning of the list)
+	--What's the downside?
+		--Remember how we had to find an element? 
+		--We've lost the ability to randomly-access list elements
+		--Accessing a desired element may now take linear time
+
+			11.4.15
+			Doubly Linked Lists Continued
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496/64508
+
+**Singly-Linked Lists
+	--every node has a pointer to the next node
+**Double-Linked Lists
+	--each node has 2 pointers.
+		--1 from previous pointer and 1 to next pointer
+	--allows us to traverse backwards
+	--makes insertion easier
+	--makes deletion from end of list easier
+	--downside is it's a little trickier 
+		--you have to remember to update prev as well as next
+		--also takes up more memory
+
+			11.4.16
+			Arrays Vs Linked Lists
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64496/64508
+
+**Which is faster? Linked List or Array
+**What's the difference between the two?
+	--array storing several values in memory
+		0[12][23]
+		1[41][23]
+		2[78][85]
+		3[55][95]
+		4[254][126]
+	--linked lists work different
+	--start at beginning which points to nothing
+	--as we add things we allocate memory for it
+		head -> [1][.] -> [2][.] -> [3][.] <- tail
+	--we can change, add and remove things from linked lists pretty easily
+**Have structure with 2 things (integer p and integer q)
+	--consider operation where we go through all of the elements and sum them up in an array
+	--consider operation where we go through all of the elements and sum them up in a linked list
+		--in both arrays and linked lists you have to visit every element
+
+**Visual Example in C (computer language):
+Ex.1 (Linked List)	struct item{
+    		int p;
+    		int q;
+    		// char foreName[64];
+   		// char surName[64];
+    		struct item *next;
+		};
+
+Ex.2 (Array)	struct arrayItem{
+    	int p;
+    	int q;
+    	// char foreName[64];
+    	// char surName[64];
+	};
+	--the only difference between these two examples is linked list has one extra item (next pointer to next thing)
+	--everything else is identical
+
+**We can run each function 100 times (the function adds all the numbers in the data structure) and see which is faster
+**Example in language of C for array:
+
+	int sumArray(struct arrayItem p[], int num){
+    int sum = 0, i; //set variable to 0 which is our sum
+    for(i = 0; i <num; i++){ //variable i is index through the array
+        sume = sum + p[i].p; //sum is equal sum + value of ith element in the array stored in the p postion
+    }
+    return sum;
+}
+
+**Example in language of C for linked list:
+
+	int sumList(struct item *p){
+    int sum = 0
+    while (p != NULL){	//while we haven't reached the end of the list // p is first thing in the linked list
+        sume = sum + p->p; //
+        p = p->next; 	//set p to point to the next thing (follow link to next element in linked list)
+    }
+    return sum
+}
+
+**So how long does each iteration take on an Atari?
+	--Linked List with 125,000 elements
+		--average clock ticks: 166
+	--Array with 125,000 elements (smallest index to largest index)
+		--average clock ticks: 178.5
+	--Array with 125,000 elements (largest to smallest index)
+		--Average Clock Ticks: 114
+**How long does it take on an iMac
+	--Linked List with 125,000 elements
+		--average clock ticks: 209.54
+	--Array with 125,000 elements (forward)
+		--Average clock ticks: 44
+	--Array with 125,000 elements (backward)
+		--Average Clock Ticks: 47
+**How long on raspberry pi?
+	----Linked List with 125,000 elements
+		--average clock ticks: 1859
+	--Array with 125,000 elements (forward)
+		--Average clock ticks: 966
+	--Array with 125,000 elements (backward)
+		--Average Clock Ticks: 1020
+**Conclusions
+	--Array is technically slower than a linked list on Atari
+	--about 10% slower than a linked list
+	--an array backwards is faster
+	--an array is faster than a linked list on iMac
+	--about 400% faster
+
+**Conclusions -- going deeper: why is an array faster when you run through it from largest index to smallest index?
+	--We wrote the programs in a high level language (C)
+	--they got compiled down to instructions that Atari can execute
+	--these instructions favor going from largest to smallest index
+**What about going backwards on the iMac?
+	--it's about the same as going forward
+
+**Visual Conclusion
+		array		linked list		reverse array
+Atari		179		166			115
+iMac		43		209			47
+pi		966		1859			1020
 
 
-
-
-
-
-
-
+	
 
 
 
