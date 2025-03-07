@@ -25,10 +25,13 @@ This log will attempt to answer the following questions:
 	--Total time worked today = 2hrs 16mins
 
 03/05/25
-	--Worked from 1:20pm to 1:55
+	--Worked from 1:20pm to 1:55 (35mins)
 		--Started at 11.4.12 time 5:49 and ended at 11.4.14
-	--Worked from 2:15pm to 3:15
+	--Worked from 2:15pm to 3:15 (1 hour)
 		--Started at 11.4.14 and ended at 11.4.16 time 11:23
+	--Worked from 10:25 to 11:35 (1hr 10mins)
+		--started at 11.4.16 time 11:23 and ended at 11.5.1
+	--Total time for the day: 2hrs 45mins
 	
-
+03/06/25
 	

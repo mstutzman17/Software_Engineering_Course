@@ -970,10 +970,34 @@ Ex.2 (Array)	struct arrayItem{
 	--it's about the same as going forward
 
 **Visual Conclusion
+	--chart below shows clock ticks on different machines
 		array		linked list		reverse array
 Atari		179		166			115
 iMac		43		209			47
 pi		966		1859			1020
+
+**Let's focus on Atari and pi
+	1.) Atari
+		--cpu has to access memory for everything
+		--everything cpu needs to fetch has to come from memory
+		--takes the same amount of time no matter what you're fetching
+		--memory is faster than CPU
+	2.) pi
+		-- memory -> data cash -> instruction cash -> CPU
+		--CPU is faster than the memory
+		--when CPU asks for something it has to wait or memory to find it
+		--array runs faster on pi because all instructions have "fast lane" from cahce
+		--one curcial difference with linked lists
+			--you have to make 1 memory access for date value and another for address of the next element
+
+**So what's the answer? Are arrays or linked lists faster?
+	--it depends on the CPU of the machine you're using
+	--it depends on how the test is set up
+	--basically you can't know for sure until you run the tests
+
+
+		
+
 
 
 	

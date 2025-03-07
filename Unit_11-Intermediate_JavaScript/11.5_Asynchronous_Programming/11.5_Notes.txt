@@ -1,0 +1,76 @@
+11.5 Notes
+
+			11.5.1
+			Intro to Promises
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64514/64515
+
+**What are Promises in JS?
+	--used to be part of libraries that could be imported
+	--promises are now native to JS
+**Questions
+	1.) Why care?
+	2.) What is a promise?
+	3.) How can you make use of a promise?
+**When does a callback make sense?
+	--when an event happens (like a mouse click)
+	--if you want to sequence code, callbacks can get cumbersome (creates callback hell)
+**What is a promise?
+	--a promise is an object
+	--imagine loadJSON function that expects url and callback
+		--loadJSON(url,callback)
+	--instead we could do something like below
+		-- let promise = fetch(url)
+	--fetch gives us a promise
+	--promise is object that can be in a certain state
+**States of promises
+	1.) Pending
+		--waiting to get data from API
+	2.) Fulfilled
+		--have results from API
+	3.) Rejected
+		--an error has occurred
+	--promises don't need to be continuously queried
+	--when can use then() and/or catch()
+		--then() is function that receives function to be executed when promise is fulfilled
+		--catch() receives function to be executed if/when the promise is rejected
+	--https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png
+		--above is a diagram of how a promise works
+**There's a difference between writing code that creates promises and use a function that returns a promise
+
+**Fetch()
+	--a function that you give a URL and fetches what's in the URL and gives you a promise
+
+**Example:
+	let promise = fetch(wordnikAPI);
+	console.log(promise);
+		--the point of a promise is to handle asynchronous things
+			--program will keep going, but behind the scenes it's going to be waiting for that data
+		--this is accomplished by a then() function
+**Example:
+
+let promise = fetch(wordnikAPI);
+promise.then(gotData);
+
+function gotData(data){
+    console.log(data);
+}
+
+function gotErr(err){
+    console.log(err);
+}
+	--here's the idea:
+		--you have a promise and you can give it a then() function for success
+		--or you can give a catch() function to handle errors
+**Another way of writing the example from above
+1.) you would not have define a variable called promise. So it would like the following:
+	fetch(wordnikAPI).then(gotData).catch(gtoErr);
+2.) the gotData and gotErr functions would become anonymous (without name). It would like the following:
+	fetch(wordnikAPI).then(function (data){
+    	   console.log(data);
+	   }).catch(function (err){
+    console.log(err);
+});
+
+
+
+	

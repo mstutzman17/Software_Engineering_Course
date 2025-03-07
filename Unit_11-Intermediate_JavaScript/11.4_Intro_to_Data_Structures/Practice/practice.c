@@ -5,3 +5,12 @@ int sumArray(struct arrayItem p[], int num){
     }
     return sum;
 }
+
+int sumList(struct item *p){
+    int sum = 0
+    while (p != NULL){
+        sume = sum + p->p;
+        p = p->next;
+    }
+    return sum
+}

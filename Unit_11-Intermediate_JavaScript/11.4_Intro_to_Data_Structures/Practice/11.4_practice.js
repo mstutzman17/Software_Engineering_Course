@@ -87,5 +87,12 @@ struct item{
     struct item *next;
 };
 
+struct arrayItem{
+    int p;
+    int q;
+    // char foreName[64];
+    // char surName[64];
+};
+
 
 
