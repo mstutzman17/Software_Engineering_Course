@@ -1,76 +1,423 @@
 11.5 Notes
 
-			11.5.1
-			Intro to Promises
-			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64514/64515
+			11.5.1 and 11.5.3
+			Intro to Promises and Async/Await vs Promises
+			JavaScript Promises vs Async Await EXPLAINED
+			https://www.youtube.com/watch?v=li7FzDHYZpc
 
-**What are Promises in JS?
-	--used to be part of libraries that could be imported
-	--promises are now native to JS
-**Questions
-	1.) Why care?
-	2.) What is a promise?
-	3.) How can you make use of a promise?
-**When does a callback make sense?
-	--when an event happens (like a mouse click)
-	--if you want to sequence code, callbacks can get cumbersome (creates callback hell)
-**What is a promise?
-	--a promise is an object
-	--imagine loadJSON function that expects url and callback
-		--loadJSON(url,callback)
-	--instead we could do something like below
-		-- let promise = fetch(url)
-	--fetch gives us a promise
-	--promise is object that can be in a certain state
-**States of promises
-	1.) Pending
-		--waiting to get data from API
-	2.) Fulfilled
-		--have results from API
-	3.) Rejected
-		--an error has occurred
-	--promises don't need to be continuously queried
-	--when can use then() and/or catch()
-		--then() is function that receives function to be executed when promise is fulfilled
-		--catch() receives function to be executed if/when the promise is rejected
-	--https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/promises.png
-		--above is a diagram of how a promise works
-**There's a difference between writing code that creates promises and use a function that returns a promise
+**When using simple data types like strings, variables, numbers, etc. code executes sequentially
+**When writing "real world" code we make calls to databases, open files, and APIs
+	--these calls return a promise
+**What's a promise?
+	--it's the eventual completion (or failure) of an asynchronous operation and its resulting value
+	--imagine a realworld scenario
+		--you're at a restaurant and request a drink from the waiter.
+		--you can't have the drink until the waiter fulfills the promise of it
 
-**Fetch()
-	--a function that you give a URL and fetches what's in the URL and gives you a promise
+**consider returning information from a remote API
+	--you can't use what you've requested until the API returns the requested information
 
-**Example:
-	let promise = fetch(wordnikAPI);
-	console.log(promise);
-		--the point of a promise is to handle asynchronous things
-			--program will keep going, but behind the scenes it's going to be waiting for that data
-		--this is accomplished by a then() function
-**Example:
+**Code/Syntax Example:
+	--building app of things you can do when you are bored by using the Bored API
 
-let promise = fetch(wordnikAPI);
-promise.then(gotData);
+const axiosRequest = require('axios')
 
-function gotData(data){
-    console.log(data);
+let response =axiosRequest.get('https://www.boredapi.com/api/activity') // going to API to get suggested activity 
+console.log(`You could ${response.data.activity}`)	// printing activity to console
+	--.get method returns immediately, but that doesn't mean task has finished processing.
+	--what we have is a promise that the request will be fulfilled in the future
+	--this request will fail because response object is not what we're expecting
+	--dataset and activity properties do not exist
+
+**There is a way to get access to the results of the request and run code when it returns
+**JS gives a couple ways to do so
+	1.) promise.then()(result) =>{})
+		--handles fulfilled (resolved) promises
+	2.) promise.catch((error) => {})
+		--handles failed (rejected promises
+
+**Example of .then and .catch
+	--NOTE: this code will only run when using Node.JS because of the 'require' syntax
+
+const axiosRequest = require('axios')
+
+axiosRequest
+    .get('https://www.boredapi.com/api/activity')
+    .then(response => {
+        console.log (`You could ${response.data.activity}`)
+    })
+    .catch(error => {
+        console.log(`ERROR ${error}`)
+    })
+	--the result of this is that the console.log executes in the right place.
+	--however, if we changed the URL the .catch() method would be run
+
+const axiosRequest = require('axios')
+
+axiosRequest
+    .get('https://httpstat.us/404')
+    .then(response => {
+        console.log (`You could ${response.data.activity}`)
+    })
+    .catch(error => {
+        console.log(`ERROR ${error}`)
+    })
+	--the result is that the error is caught by the .catch() method and printed to the console
+
+**Any code run after the promise chains (like the above examples) will execute immediately
+	--console.log("Why I am I here") would run before the promise chain
+
+**The coded examples of promises above are messy and hard to use when you have a lot info to request
+	--this is where await comes in
+	--the await operator is used to wait for a Promise. It can only be used inside an async function within regular JS code; howver it can be used on 	its own with JS modules
+	--await must be used inside the 'async' keyword
+
+**Example: 
+
+const axiosRequest = require('axios')
+
+async function getActivity() {
+    let response = await axiosRequest.get('https://www.boredapi.com/api/activity')
+    console.log (`You could ${response.data.activity}`)
 }
 
-function gotErr(err){
-    console.log(err);
+getActivity()
+	--the console.log will not run until the promise resolves
+	--we do not have access to .catch() method for possible errors here
+	--this is because await allows us to move async code back into main flow of our app
+
+**What happens if something goes wrong when using await?
+	--our code executes sequentially, so we can wrap it in a try/catch block
+
+**Example:
+
+const axiosRequest = require('axios')
+
+async function getActivity() {
+    try {
+        let response = await axiosRequest.get('https://httpstat.us/500')
+        console.log (`You could ${response.data.activity}`)
+    } catch (error) {
+        console.error(`ERROR ${error}`)
+    }
 }
-	--here's the idea:
-		--you have a promise and you can give it a then() function for success
-		--or you can give a catch() function to handle errors
-**Another way of writing the example from above
-1.) you would not have define a variable called promise. So it would like the following:
-	fetch(wordnikAPI).then(gotData).catch(gtoErr);
-2.) the gotData and gotErr functions would become anonymous (without name). It would like the following:
-	fetch(wordnikAPI).then(function (data){
-    	   console.log(data);
-	   }).catch(function (err){
-    console.log(err);
-});
+
+			11.5.2
+			Further Dive into Promises
+			Building Custom Promises
+			https://www.youtube.com/watch?v=w9plxTCGAVE
+
+**consider the example below
+
+function promiseA (a) {
+    return new Promise((resolve, reject ) => {	// there are 2 callbacks (resolve, reject)
+        setTimeout(() => { 	// the setTimeout is just to mimic real API call delay
+            if (a == 1) {
+                return reject ('a cannot equal 1')
+            }
+
+            resolve (a + a)	//if not equal to 1 it adds itself to itself (a + a)
+        }, 1000)
+    })
+}
+
+promiseA(1)		// has .then() and .catch() method
+    .then (res => console.log(res))	// returns response which resolves in the call
+    .catch (err => console.error (err))	// error should call what is called within rejection
+		// this catch function executes a function itself
+	--this code will either resolve or reject
+	--resolve will give value we are expecting
+	--if there's some kind of error it will reject the promise
+
+**Let's build out a custom promise
+	--let's change return new Promise to return new myPromise
+	--then we will build a class
+	--the class takes in a constructor
+	--first argument returns us a value (val => this.resolve(val),
+	--same with second argument (val => this.reject(val)
+	--then we add in catch statement catch(error) {this.reject(error);
+		--this runs if there is an error
+	--if we build out the catch, resolve takes one as argument value resolve(val) {}
+	--reject takes one value as argument, reject(val){}
+	--to keep track of val
+	--start with this.val = null; inside the constructor to keep track of val
+	--promise can have 3 different states: Pending, Successful, and Failed
+	--this.state = STATE.PENDING to keep track of state of promise
+	--we also need to keep track of callbacks (if we change promises we need to keep track of them)
+	--this.successCallbacks = [] and this.failedCallbacks = [] keeps track of successful and failed promises
+	--we also want to update values
+	--resolve (val) will include the following
+		a.) this.val = val;
+		b.) this.state. STATE.SUCCESS;
+		c.) this.successCallbacks.forEach(cb => cb())
+			--for each success we want to see the callback and execute it
+	--reject(val) will include the following
+		a.) this.val = val;
+		b.) this.state. STATE.REJECTED;
+		c.) this.failedCallbacks.forEach(cb => cb())
+			--for each success we want to see the callback and execute it
+	--now let's define STATE
+		const STATE = {
+		   PENDING: 'PENDING',
+		   SUCCESS: 'SUCCESS'
+		   FAILED: 'FAILED'
+	--now all we need to do is define the .then() and .catch()
+	--catch is simpler
+	--we will return this.then with 2 arguments
+	--first null because we're not resolving anything
+	--second we pass in onReject
+	--for the .then() we need 2 arguments
+	--then(onResolve, onReject)
+	--both are optional aruments so they can be null
+	--so we return new instance of MyPromise
+	--we have to pass executeFunction in which accepts (resolve, reject)
+	--finally we need the callback
+	--first we need a switch statement
+	--we have 3 defined cases and one undefined case (.PENDING:, .SUCCESS, .REJECTED, default)
+	--now we can write what to do in each indivdual state
+	--for .SUCCESS we will call successCaller()
+	--for .REJECTED we will failedCaller()
+	--for .PENDING we say this.successCallbacks.push(successCaller); and this.failedCallbacks.push(failedCaller)
+	--now we need to build successCaller and failedCaller
+	--for successCaller we use arrow function because we're referencing this context for class
+	--if on resolve not defined we return resolve(this.val)
+	--if on resolve is defined we try let val = onResolve(this.val);
+	--then resolve(onResolve)
+	--if error we catch(error) and call {reject(error)}
+	--same code for faileCaller
+	--instead of const successCaller it will be failedCaller
+	--instead of checking for onResolve we check for onReject
+	--if it doesn't exist we return reject(this.val)
+	--try/catch is similar
+	--instead of onResolve it's onReject(this.val)
+	--then resolve(val)
+
+**This is what the code should look like based on the previous steps
+
+function promiseA (a) {
+    return new Promise((resolve, reject ) => {
+        setTimeout(() => {
+            if (a == 1) {
+                return reject ('a cannot equal to 1')
+            }
+
+            resolve (a + a)
+        }, 1000)
+    })
+}
+
+const STATE = {
+    PENDING: 'PENDING',
+    SUCCESS: 'SUCCESS',
+    FAILED: 'FAILED'
+}
+
+class MyPromise{
+    constructor(executeFunction) { 	// when creating custom promise the first thing we do is take in an execution function
+        this.val = null;
+        this.state= STATE.PENDING;
+        this.successfulCallbacks = [];
+        this.failedCallbacks = [];
+        try {
+            executeFunction(
+                value => this.resolve(val),
+                val => this.reject(val)
+            )
+        } catch(error) {
+            this.reject(error)
+        }
+    }
+
+    resolve(val) {
+        this.val = val;
+        this.state= STATE.SUCCESS;
+        this.successfulCallbacks.forEach(cb => cb());
+    }
+
+    reject(val) {
+        this.val = val;
+        this.state= STATE.REJECTED;
+        this.failedCallbacks.forEach(cb => cb());
+
+    }
+
+    then(onResolve, onReject) {
+        return new MyPromise((resolve, reject) => {
+
+            const successCaller = () => {
+                if(!onResolve)return resolve(this.val);
+
+                try {
+                    let val = onResolve(this.val);
+                    resolve(onResolve);
+                } catch(error) {
+                  reject(error);
+                }
+            }
+
+            const failedCaller = () => {
+                if(!onReject) return reject (this.val);
+
+                try {
+                    let val = onReject(this.val);
+                    resolve(val);
+                } catch(error) {
+                  reject(error);
+                }
+            }
+
+            switch(this.state) {
+                case STATE.PENDING:
+                    this.successfulCallbacks.push(successCaller);
+                    this.failedCallbacks.push(failedCaller);
+                    break;
+                case STATE.SUCCESS:
+                    successCaller();
+                    break;
+                case STATE.REJECTED:
+                    faileCaller();
+                    break;
+                default:
+                    throw new Error('State not defined')
+            }
+        })
+    }
+
+    catch(onReject) {
+        return this.then
+    }
+
+}
+
+			
+			11.5.3
+			
+			
+
+			11.5.4
+			Async Await Continued
+			JavaScript ASYNC/AWAIT is easy!
+			https://www.youtube.com/watch?v=9j1dZwFEJ-c
+
+**Async and Await are keywords
+	--they allow you to write asynchronous code in a synchronous manner
+	a.) Async makes a function return a promise
+		--does not have resolve or reject parameters
+	b.) Await makes an async function wait for a promise
+		--everything after await is placed in an event queue
+
+**Things to know about async
+	--functions can be called with async
+	--a function called with async will return a promise, but the promise doesn't resolve or reject (empty promise)
+	--adding async to asynchronous function that needs to resolve or reject DOES NOT benefit us
+	--async works together with await
+	--by using async and await together when calling multiple asynchronous functions, we don't need to method chain then statements
+	--we can write it in a more synchronous manner, but we need to enclose it all in an async function
+
+**Example Promises Used in This Video
+
+function walkDog(){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+
+            const dogWalked = true;
+
+            if(dogWalked){
+                resolve('You walked the dog');
+            }
+            else{
+                reject("You DIDN'T walk the dog");
+            }
+        })
+    })
+}
+
+function cleanKitchen(){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+
+            const kitchenCleaned = true;
+
+            if(kitchenCleaned){
+                resolve('You cleaned the kitchen');
+            }
+            else{
+                reject("You DIDN'T clean the kitchen!");
+            }
+        }, 2500)
+    })
+}
+
+function takeOutTrash(){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+
+            const trashDone = true;
+
+            if(trashDone){
+                resolve('You took out the trash');
+            }
+            else{
+                reject("You DIDN'T take out the trash!");
+            }
+        }, 500)
+    })
+}
+
+
+
+**Example an async function:
+	--NOTE: to make a function asynchronous, we need to use the setTimeout function
+	--doChores() has to be called before anything will print to the console
+	--we need to call the async function somewhere
+	--walkDog function returns a promise
+	--this is where the await keyword comes into play
+		--await makes an async function wait for a promise
+	--create const walkDogResult = await (so we are awaiting the return of the walkDog promise)
+	--then console.log the walkDogResult
+	--next we'll incorporate the cleanKitchen function
+	--we're writing this code in a synchronous manner, line by line
+	--if you try to use await outside of an async function, you will get an uncaught syntax error
+	--await can only be used within async functions
+
+async function doChores(){
+    const walkDogResult = await walkDog();
+    console.log(walkDogResult);
+
+    const cleanKitchenResult = await cleanKitchen()
+    console.log(cleanKitchenResult)
+
+    const takeOutTrashResult = await takeOutTrash()
+    console.log(takeOutTrashResult)
+
+    console.log("You finished all the chores!")
+}
+
+doChores()
+	
+	
+	
+
+	
 
 
 
 	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
