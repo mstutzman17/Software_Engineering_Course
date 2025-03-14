@@ -1,0 +1,3 @@
+for the second part of part 2 of this exercise, I need to I need to do the following:
+    2. Make a request to the deck of cards API to request a single card from a newly shuffled deck. Once you have the card, make a request to the same API to get one more card from the **same** deck.
+        Once you have both cards, ***console.log*** the values and suits of both cards.

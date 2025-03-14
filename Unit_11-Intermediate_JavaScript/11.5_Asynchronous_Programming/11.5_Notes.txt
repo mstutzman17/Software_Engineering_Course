@@ -288,12 +288,7 @@ class MyPromise{
     }
 
 }
-
 			
-			11.5.3
-			
-			
-
 			11.5.4
 			Async Await Continued
 			JavaScript ASYNC/AWAIT is easy!
@@ -394,6 +389,101 @@ async function doChores(){
 }
 
 doChores()
+
+			11.5.5
+			Promises.all() and Other Methods
+			https://www.youtube.com/watch?v=ylLXPWSJcb8
+			https://www.youtube.com/watch?v=0jcEluMNy5A
+
+**Promise.all and when to use it
+	--static method of the promise class
+	--executes multiple async tasks concurrently 
+	--only one task is executed at a time
+	--control can shift between tasks which makes execution seem concurrent
+
+**What is Promise.all?
+	--use when you only want to run your code after ALL your promises are fulfilled
+	--EG: fetching remote data from multiple locations
+
+**Example
+
+let p1 = () => Promise.resolve('Got the list of users')
+
+let p2 = () => Promise.resolve('Got the list of tweets')
+
+let p3 = Promise.resolve('Got the weather')
+
+	--the above code could be fetch calls
+	--we only want these promises to resolve when every list item is complete (users, tweets, weather)
+**Normally we would have something like the example below
+
+p1().then()
+p2().then()
+p3().then()
+	--this calls 3 different functions at 3 different times
+	--you don't know what order they will be fulfilled in
+**Instead we can use Promise.all()
+	--this method expects an array
+	--within the array you put what promises you want to be met
+	--
+
+let p1 = () => Promise.resolve('Got the list of users')
+
+let p2 = () => Promise.resolve('Got the list of tweets')
+
+let p3 = Promise.resolve('Got the weather')
+
+Promise.all([p1(), p2(), p3]).then((resultsArray)=>{	// the value inside the array does not have to be a function
+    console.log(resultsArray[1]);
+    console.log(resultsArray[0]);
+    console.log(resultsArray[2]);
+})	
+	--in order for the promise.all method to work, every promise has to be fulfilled
+	--this means that none of them can be rejected
+	--we can print the results of the promises in any order we want
+	--our results should be tweets, users, weather
+
+			11.5.6
+			Error Handling and Promises
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64514/64519
+
+**Using try/catch with promises
+	--in the video, the instructor uses a for loop to generate gifs based on a word with a given number of letters
+	--in the example the loop runs from indefinitely with anywhere from a 2 letter word to a 10 letter word
+	--when the loop runs indefinitely, the likelihood of receiving an error increases
+**There's another example used
+	--in this example, the instructor is trying to get an image URL with a set of data
+	--this is done inside a try() block
+	--with the try block there needs to be a catch block in case there IS an error
+	--the try block will try to generate an image
+	--if the image does not exist, an error message will print to the console
+**In conclusion
+	--there are many ways to handle promises
+	--you can run them asynchronously with an async function
+	--you can run them concurrently with promise.all
+	--you can use error handling with try/catch so that if you have multiple promises and 1 or 2 are rejected, your code will still work
+
+			11.5.7
+			Promise Review
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64514/64519
+
+**What is a promise?
+	--represents a value that is unknown now, but may become known in the future (aka asynchronous value)
+	--consider a ride share app like Uber
+		--when you request ride, the driver makes a promise to pick you up
+		--while you wait the promise is pending
+		--when the rider picks you up the promise is fulfilled
+		--in some cases the dirver may reject your ride, so you have to catch one elsewhere
+		--either way, the original request has been settled
+	--when creating a function you need an executor (resolve, reject)
+	
+	
+	
+	
+
+			
+	
+	
 	
 	
 	

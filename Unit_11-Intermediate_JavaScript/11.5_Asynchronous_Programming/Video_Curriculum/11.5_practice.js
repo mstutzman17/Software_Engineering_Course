@@ -139,67 +139,98 @@
 //     .catch (err => console.error (err))
 
     
-function walkDog(){
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
+// function walkDog(){
+//     return new Promise((resolve, reject) => {
+//         setTimeout(() => {
 
-            const dogWalked = true;
+//             const dogWalked = true;
 
-            if(dogWalked){
-                resolve('You walked the dog');
-            }
-            else{
-                reject("You DIDN'T walk the dog");
-            }
-        }, 1500)
-    })
-}
+//             if(dogWalked){
+//                 resolve('You walked the dog');
+//             }
+//             else{
+//                 reject("You DIDN'T walk the dog");
+//             }
+//         }, 1500)
+//     })
+// }
 
-function cleanKitchen(){
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
+// function cleanKitchen(){
+//     return new Promise((resolve, reject) => {
+//         setTimeout(() => {
 
-            const kitchenCleaned = true;
+//             const kitchenCleaned = true;
 
-            if(kitchenCleaned){
-                resolve('You cleaned the kitchen');
-            }
-            else{
-                reject("You DIDN'T clean the kitchen!");
-            }
-        }, 2500)
-    })
-}
+//             if(kitchenCleaned){
+//                 resolve('You cleaned the kitchen');
+//             }
+//             else{
+//                 reject("You DIDN'T clean the kitchen!");
+//             }
+//         }, 2500)
+//     })
+// }
 
-function takeOutTrash(){
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
+// function takeOutTrash(){
+//     return new Promise((resolve, reject) => {
+//         setTimeout(() => {
 
-            const trashDone = true;
+//             const trashDone = true;
 
-            if(trashDone){
-                resolve('You took out the trash');
-            }
-            else{
-                reject("You DIDN'T take out the trash!");
-            }
-        }, 500)
-    })
-}
+//             if(trashDone){
+//                 resolve('You took out the trash');
+//             }
+//             else{
+//                 reject("You DIDN'T take out the trash!");
+//             }
+//         }, 500)
+//     })
+// }
 
 
-async function doChores(){
-    const walkDogResult = await walkDog();
-    console.log(walkDogResult);
+// async function doChores(){
+//     const walkDogResult = await walkDog();
+//     console.log(walkDogResult);
 
-    const cleanKitchenResult = await cleanKitchen()
-    console.log(cleanKitchenResult)
+//     const cleanKitchenResult = await cleanKitchen()
+//     console.log(cleanKitchenResult)
 
-    const takeOutTrashResult = await takeOutTrash()
-    console.log(takeOutTrashResult)
+//     const takeOutTrashResult = await takeOutTrash()
+//     console.log(takeOutTrashResult)
 
-    console.log("You finished all the chores!")
-}
+//     console.log("You finished all the chores!")
+// }
 
-doChores()
+// doChores()
 
+// const promise1 = new Promise ((resolve, reject) => {
+//     setTimeout (resolve, 2000, 'promise1');
+// })
+
+// const promise2 = new Promise ((resolve, reject) => {
+//     setTimeout (resolve, 2000, 'promise2');
+// })
+
+// const promise3 = new Promise ((resolve, reject) => {
+//     setTimeout (resolve, 2000, 'promise3');
+// })
+
+// Promise.all ([promise1, promise2, promise3]).then((values) => {
+//     console.log (values);
+// })
+
+// let p1 = () => Promise.resolve('Got the list of users')
+
+// let p2 = () => Promise.resolve('Got the list of tweets')
+
+// let p3 = Promise.resolve('Got the weather')
+
+// Promise.all([p1(), p2(), p3]).then((resultsArray)=>{
+//     console.log(resultsArray[1])
+//     console.log(resultsArray[0])
+//     console.log(resultsArray[2])
+// })
+
+fetch('https://reqres.in/api/users/23')
+    .then(response => response.json())
+    .then(data => console.log(data))
