@@ -1,0 +1,32 @@
+body {
+    background-color: rgb(117, 11, 103);
+}
+
+button {
+    background-color: rgb(253, 105, 7);
+    color: rgb(117, 11, 103);
+    border: 4px outset black;
+    border-radius: 10px;
+    width: 400px;
+    height: 100px;
+    font-size: 57px
+}
+
+
+div.draw-card {
+    display: flex;
+    justify-content: center;
+}
+
+
+#card-image {
+    margin-top: 20px;
+    width: 300px;
+    height: 100;
+    display: none;
+}
+
+div.card-image {
+    display: flex;
+    justify-content: center;
+}
