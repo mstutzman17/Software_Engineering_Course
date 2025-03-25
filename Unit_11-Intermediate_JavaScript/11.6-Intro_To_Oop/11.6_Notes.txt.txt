@@ -1,0 +1,1108 @@
+11.6 Notes
+
+			11.6.1
+			What is OOP
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524
+
+**Questions to answer:
+	1.) What is Object-Oriented Programming (OOP)?
+	2.) How OOP works in general?
+	3.) What are the four pillars of OOP?
+
+**What is OOP?
+	--programming paradigm based on the cocept of objects
+	--in OOP, we represent real-world entities as an object
+	**Example:
+
+	let user  {
+    name: 'John',
+    role: 'admin',
+    access: 'read-write',
+
+    addUser(){
+        // Logic to add user
+    }
+},
+
+removeuser(){
+    // Logic to remove user
+}
+	--above we are representing a real-world user as an object
+	--an object can have data and behavior
+	--above the properties of the object are data (name, role, access)
+	--the methods of an object are behavior (addUser, removeUser)
+	--objects are self-contained and used as building blocks for an application
+
+**How does OOP work in general?
+	**Example: let's say we create 3 objects (like below)
+
+let john = {
+    name: 'John',
+    birthYear: 1990,
+    gender: 'Male',
+
+    calculatedAge () {
+        return 2021 - this.birthYear;
+    }
+}
+
+let merry = {
+    name: 'Merry',
+    birthYear: 1995,
+    gender: 'Female',
+
+    calculatedAge () {
+        return 2021 - this.birthYear;
+    }
+}
+
+let steve = {
+    name: 'Steve',
+    birthYear: 1985,
+    gender: 'Male',
+
+    calculatedAge () {
+        return 2021 - this.birthYear;
+    }
+}
+	--all 3 objects have the same property names and same method
+	--if we use it 100 times we have to update the names, birthYears, genders 100 times
+	--in OOP an important concept is create a blueprint and based on that blueprint we can create objects
+
+**Example:
+
+person
+name
+birthyear
+gender
+calculateAge()
+	--based on the blueprint, we can create different objects
+	--John, Merry, Steve based on 'person' blueprint
+	--We can create this object with single line of code versus object literals that take multiple lines
+
+**What are the pillars of OOP?
+	1.) Inheritance
+	2.) Encapsulation
+	3.) Abstraction
+	4.) Polymorphism
+
+**Inheritance: mechanism that allows us to create new classes based on an existing class
+	Example:
+
+person				Employee
+name				employeeId
+birthyear			salary
+gender				company
+calculateAge()			calculateSalary()
+	--above are 2 objects. The employee also has name, birthyear, gender data and calculateAge() behavior
+	--if the programming language doesn't support inheritance we have to specify the name, birthyear, gender, and calculate age
+	--with inheritance we can make an object inherit properties from another object
+	**New Object will look like example below
+Employee
+employeeId
+salary
+company
+claculateSalary()
+name
+birthYear
+gender
+calculateAge()
+	--with inheritance we can reuse an existing code without repeating the code
+	--this is the first pillar of OOP.
+
+**Encapsulation: process of hiding data from outside world
+	*Example
+
+Employee
+employeeId
+salary
+company
+calculateSalary()
+	--we don't want to expose the salary property from above to the outside world
+	--it should only be accessible from the Employee object
+	--we want to hid the salary from outside world (encapsulation)
+	--private keyword makes a property hidden from the outside world
+
+**Abstraction: a way of hiding the implementation details and showing only the functionality to the user
+	--in other words, it ignores the irrelevant details and shows only the required one
+	**Example: 
+	--on a smartphone, when you use an app you don't care about how the app works, so that data is hidden and only the data you care about is 	shown
+	--so we hide implementation details and only show functionality to the user
+	**Another Example:
+				Employee
+				name
+				salary
+				getSalary()
+	Permanent emoployee			Part-time employee
+	monthlySalary				HourlySalary
+	getSalary() {				getSalary (){
+		return 12 *				return 12 *
+	monthlySalary				HourlySalary
+	}					}
+**when you have an object inheriting from another object you have a parent and child object
+	--the object that inherits is the child
+	--the object giving the inheritance is the parent
+	--so Permanent and Part-time objects employee objects are both children
+	--Employee object is the parent
+	--in parent object we specify common properties like name and salary. These will both be part of the child objects
+	--so permanent and part-time employee objects both common properties of name and salary
+	--the uncommon properties (ones that are not shared) are specified only in the child object
+	--in parent object we declare method called getSalary()
+	--in this case implementation depends on the type of employee
+	--so getSalary() is an example of abstraction because it shows only the functionality and not the implementation
+
+**Polymorphism: means different forms. In OOP we can write mthods with same name but different implementation
+	**Example:
+
+addNumbers(x, y){
+    return x + y;
+}
+
+addNumbers (x, y, z){
+    return x + y + z;
+}
+
+addNumbers (10, 20);    // returns 30
+addNumbers (10, 20, 30);    // returns 60
+	--2 methods with same name
+	--first only takes 2 parameters and returns sum
+	--second takes 3 and also returns sum
+	--so when we call addNumbers() with only 2 numbers like the above example, we get the sum of 2 numbers
+	--when we call it with 3 numbers we get the sum of those 3 numbers.
+	--same name. different implementation
+
+**This has been a basic and high-level overview of OOP
+	--in coming videos we will explore the implementation of OOP
+
+			11.6.2
+			What is the Constructor Function?
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524
+
+**What is a function constructor and what is it's use?
+**When we create an object based on a blueprint, the new object is called an "instance"
+	**Example:
+
+person			john			merry			steve
+name			John			Merry			Steve
+birthyear		1990			1995			1985
+gender			Male			Female			Male
+calculateAge()		calculateAge()		calculateAge()		calculateAge()
+	--john, merry, and steve are instances of the person object
+	--we can define a blueprint/template using function construtors
+
+**Constructor Function (CF): a pattern in JS based on which we can create several objects
+	--in simple terms, a CF is simply a function which acts as a pattern or a template for creating objects
+	--with CF, we can instantiate objects and implement inheritance
+	--to define a constructor funciton, a function is used. 
+		--it can be a normal function of function expression
+
+**So why do we need CFs?
+	--so far we've created objects using object literals like the follwoing:
+
+let merry = {			let john = {			let steve = {
+    name: 'Merry',		name: 'John',			name: 'Steve',
+    birthYear: 1995,		birthYear: 1990			birthYear: 1985
+    gender: 'Female',		gender: 'Male'			gender: 'Male
+
+    calculatedAge () {		calculatedAge() {		calculatedAge() {
+    return 2021 - 		return 2021 -			return 2021 -
+    this.birthYear;		this.birthYear;			this.birthYear;
+    }				}				}
+}			    }				    }
+	
+	--the objects above are object literals
+	--all three objects have the same properties and method
+	--the implementation of the method for all three is the same
+	--if we have to create 100 objects like this, doing them one by one is not effiecient
+	--that's why we define a template
+	--we make this blueprint/template using CF
+
+**Building a CF in JS:
+
+let Person = function(name, gender, birthYear){ 	// first letter of CF name should be capitalized
+	// the values of the properties of the function come as arguments or parameters for the function (name, gender, birthyear)
+    this.name = name;	// specify using the keyword this. (this.name)
+    this.gneder = gender;	// us keyword this.
+    this.birthYear = birthYear;		// use keyword this.
+    this.calcAge = function (){		// assign a function to this method of the blueprint
+        let age = new Date().getFullYear() - this.birthYear;	// we create variable to calculate age
+        console.log(age);
+    }
+}
+	--the lines this.name, this.gender and this.birthYear specify the properties of our object blueprint
+	--we also specify a method for the blueprint with this.calcAge
+	--remember that a function is also an object in JS
+	--that means that the Person property is also an object
+	--based on the Person blueprint
+	--we can use it to instantiate objects
+	**Example of creating an object using the CF we just built:
+
+let john = new Person('John', 'Male', 1990); 	// use keyword new followed by the name of the CF // this creates the new object with all the information for john	// we then pass in the what we want the parameters to be in the new object
+john.calcAge()		// this prints John's age to the console
+console.log(john)	
+
+let now = new Date();	// also a CF, but provided by JS
+let str = new String()	// also a CF, but provided by JS
+	
+**So how does the CF work?
+	--the keyword new Operator does 3 things while creating an object using CF
+	1.) cretes an empty object on CF	Ex: let john = {}
+	2.) makes sure that the 'this' variable in function points to newly created object 	Ex: this = john points this to the john object
+		--this is similar to writing john.name = 'John'
+		--and john.gender = 'Male'
+		--and john.birthYear = 1990
+		--and john.calcAge = f(){}
+	3.) returns the object form the CF
+		--once properties and methods are set on object, it also returns object
+		--it would be like writing return this;
+**Example:
+
+let john = new Person('John', 'Male', 1990);
+john.calcAge()
+let moses = new Person('Moses', 'Male', 1992);
+moses.calcAge()
+let mom = new Person('Lydia', 'Female', 1971);
+mom.calcAge()
+console.log(john)
+console.log(moses)
+console.log(mom)
+	--all three of these objects have name, gender, birthYear properties and clacAge() method
+	--the calcAge() method remains blank within the object
+	--we can change this using inheritance which we will learn in the next video.
+
+			11.6.3
+			Prototype and Inheritance
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524
+
+**What is a prototype in JS and how can we implement it using inheritance?
+	--previously we created the person object blueprint AKA new Person Constructor Function
+	--if we create 1000 objects all of them will have the same properties and method (name, gender, birthYear, calcAge())
+	--we violate the principle not to repeat yourself
+	--we are also wasting memory storage because calcAge() remains blank in all the created objects
+	--solution is to create a single copy of the calcAge() method and to make sure that all the created objects have access to the calcAge() method
+	--we do this using the inheritance property
+
+**Inheritance: when one object is based on another. Ex: when on object gets access to the properties and methods of another
+	--we can implement this in JS using a protype
+**What is a Prototype?
+	--each and every JS object has a prototype property
+		--this makes inheritance possible
+	--Inheritance in JS is achieved using prototype
+		--prototype is method by which objects inherit properties from one another
+	--when we attach a property or a method to the prototype property of that object, those properties and methods can be inherited by the instantiated 	object
+
+**Let's take previous new Person blueprint as an example
+	--when we create the Person CF we define the properties inside it
+	--that's why when we create and object like john, merry, and steve all of those objects have the same properties attached to them
+	--the same is true for the calcAge() method
+	--the created objects should only list the properties and not the method
+	--but we want the created objects to have access to the calcAge() method
+	--this can be done by attaching calcAge() method to the prototype property
+	--so we remove calcAge() from the Person CF
+	--we don't define calcAge() in Person CF, but we attach the method to it
+	--so the created objects have access to the properties and the prototype property calcAge() method
+	--so picture the CF pointing to the created objects that all have 3 properties (name, gender, birthyear)
+	--then picture the created objects pointing back to the calcAge() method
+
+**So how would we write this into our code in JS?
+
+let Person = function(name, gender, birthYear){
+    this.name = name;
+    this.gneder = gender;
+    this.birthYear = birthYear;
+    this.calcAge = function (){
+        let age = new Date().getFullYear() - this.birthYear;
+        console.log(age);
+    }
+}
+	--in the example the calcAge() method is defined inside the Person CF
+	--that's why every object created has that method attached to it
+	--we want the created objects to inherit this method instead of being created with it
+**This is how it would look in JS
+
+let Person = function(name, gender, birthYear){
+    this.name = name;
+    this.gneder = gender;
+    this.birthYear = birthYear;
+}
+
+Person.prototype.calcAge = function (){ 	// attached calcAge method to Person prototype
+    let age = new Date().getFullYear() - this.birthYear;
+    console.log(age);
+}
+	--so we removed the calcAge() function from our Person CF
+	--then we attached it to the Person prototype
+	--now Person CF only defines name, gender, birthYear
+	--now if we create objects with this CF, they will only have the 3 defined properties within the Person CF
+	--however, they also have access to the prototype
+**Example:
+
+let john = new Person('John', 'Male', 1990);
+john.calcAge()
+console.log(john)
+let moses = new Person('Moses', 'Male', 1992);
+moses.calcAge()
+console.log(moses)
+let mom = new Person('Lydia', 'Female', 1971);
+mom.calcAge()
+console.log(mom)
+	--now the age will appear above the object and there will not be a calcAge() method inside the object
+
+**We can also attach a property to the prototype 
+	**Example:
+
+Person.prototype.city = 'London';
+	--now the prototype for each created object will have a city property inside the prototype object
+		--the prototype object is listed after the properties defined in the Person CF
+
+			11.6.4
+			Prototype Chaining
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524
+
+**Some Review and Something New
+Example:
+
+let mark = {
+    name: 'Mark',
+    birthYear: 1992,
+    gender: 'Male'
+}
+	--behind the scenes JS is creating this object constructor like the following
+	let mark = new Object(); empty object
+	mark.name = 'Mark'
+	mark.birthYear = 1992
+	mark.gender = 'Male'
+	--we can conclude that every object we create in JS is directly or indirectly an instance of object constructor
+**Here's the proof:
+	--if we type "mark  instanceof Object" in the console it returns true
+	--that is because mark is an instance of the object we created
+	--for further proof we can type mark in the console
+	--underneath the specified properties, there is a Prototype Object
+	--also if we were to type mark.__proto__ === Object.prototype it would also return true
+**Further illustration
+	--because mark is an instance of the prototype object, mark will have access to the prototype property of object constructor
+		--there are several methods like
+		1.) hasOwnProperty() 2.) isPrototypeOf() 3.) toString()
+		4.) toLocaleString() 5.) valueOf()
+	--you could call any of these properties on the mark object
+**Let's see an example:
+
+console.log(mark.hasOwnProperty('name'));
+	--we need to pass in a value (name is used)
+	--mark has a name property of it's own
+	--this will return true because mark DOES have it's own name property
+	
+**Again, any object created in JS is directly or indirectly an instance of the object constructor
+	--the same would be true with our Person object from early:
+
+let Person = function(name, gender, birthYear){
+    this.name = name;
+    this.gneder = gender;
+    this.birthYear = birthYear;
+}
+
+Person.prototype.calcAge = function (){
+    let age = new Date().getFullYear() - this.birthYear;
+    console.log(age);
+}
+Person.prototype.city = 'London';
+
+let john = new Person('John', 'Male', 1990);
+// john.calcAge()
+console.log(john)
+let moses = new Person('Moses', 'Male', 1992);
+// moses.calcAge()
+console.log(moses)
+let mom = new Person('Lydia', 'Female', 1971);
+// mom.calcAge()
+console.log(mom)
+
+let now = new Date();
+let str = new String()
+	--Person function is also an object
+	--Person is a function but also an object
+	--Person CF is also an instance of the object constructor
+	--to prove it we can type "Person instanceof Object" in the console and it will return true
+	--so the Person object has access to the prototype of object constructor properties
+	--if we look at the john object, we will see the proto Object which contains all the properties and methods we added to it
+	--if we expand that proto Object we see another there will be another list of properties
+	--this is because john is an instance of Person and Person is an instance of the object constructor
+	--we can prove this by typing "john.__proto__.__proto__ === Object.prototype"
+	--when we do this, it returns true
+	--if we console.log(john.hasOwnProperty('name')) true will be returned
+	--if we console.log(john.hasOwnProperty('city')) it would return false
+	--this is because city isn't johns property
+	--john is inheriting this property from the prototype person constructor
+	--this proves we can use the methods we have on proto object on proto of john
+**This again proves that whenever an object is made in JS it is directly and indirectly a proto of the object constructor
+	--CFs are a prototype of object literals
+	--Object constructors are a proto of CFs
+	--all three have access to one another
+
+**Example:
+
+let arr = [10, 20, 30];
+console.log(arr);
+
+arr.push()
+	--on this array we can call many methods (push, pop, shift)
+	--whenever we create an array in JS a new array constructor is made
+	--all of the array methods are attached to the proto of array constructor
+
+			11.6.5
+			Class and Class Constructor
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524/64529
+
+**What is a class?
+	--Classes in JS allow us to create a blueprint and based on that blueprint, we can instantiate objects
+		--basically they allow us to do the same thing as CF and prototypal inheritance
+		--it just uses a nicer and more modern syntax
+	--Classes are different from the traditional classes in other object-oriented languages like Java and C++
+	***Class are syntactic sugar of function constructor and prototypal inheritance. It is not a new concept in itself***
+		--prototypal inheritance is still implemented behind the scenes
+		
+**How can we create and use classes in JS?
+	--there are 2 ways
+	1.) Class Declaration
+		--use 'class' keyword
+		--followed by name for the class
+		--then curly braces
+	**Example:
+class Person {
+
+}
+	2.) Class Expression
+		--first create a variable
+		--then we assign a class to the variable
+	**Example:
+let Person = class {
+
+}	
+
+**Let's create our Person blueprint using the Class Declaration function
+	Example:
+
+class Person { 	
+    constructor(name, gender, birthYear){ 	// when using Class Declaration we need to have a special constructor function (needs to be called 							constructor, nothing else)
+						// inside the constructor we need to pass in the arguments/properties we want in the parentheses
+    this.name = name;		// we set the properties with the 'this.' method
+    this.gneder = gender;
+    this.birthYear = birthYear;
+
+    this.calcAge = funciton(){	// we can also set a method inside the Class Declaration
+        console.log(new Date().getFullYear() - this.birthYear);
+        }
+    }
+}
+	--we've now created a Person class that will act as a blueprint.
+	--we can do this by following the next example
+	**Example: 
+let john = new Person('John', 1990. 'Male')
+console.log(john)
+let merry = new Person('Merry', 1995, 'Female')
+console.log(merry)
+	--john is then an instance of the Person class
+	--behind the scenes the function constructor and prototype is still being used.
+	--that makes both Person and john objects
+	--the calcAge() method within the Person class will remain the same for any newly created object of that Class (calcAge: f ())
+	--so if we create 1000 new objects we would be logging 1000 calcAge: f () which bogs up the memory
+	--we can solve this problem by removing calcAge() from within the Person class function
+	**Example:
+
+class Person{
+    constructor(name, gender, birthYear){
+    this.name = name;
+    this.gneder = gender;
+    this.birthYear = birthYear;
+    }
+    
+calcAge() {
+        console.log(new Date().getFullYear() - this.birthYear);
+        }
+    }
+	--now the calcAge() method is no longer attached to the Persons class
+	--so when we call john or merry, calcAge() is no longer an empty method with the list of properties
+	--instead it is a method within the proto object
+	--we can do an equality check and it will return true
+	**Example:
+john.__proto__ === Person.prototype
+	--this proves that the proto property object of merry and john is a proto of the Person class
+
+**Example:
+
+Person.prototype.greet = function() {
+    console.log('Hello there, ' +this.name)
+}
+
+let john = new Person('John', 1990, 'Male')
+console.log(john);
+john.calcAge();
+john.greet();
+	--if we add another method using a proto, we can attach it to any created object, just like the example above
+	--because the Class function uses a calculator function behind the scenes, it is automatically connected to the proto object of that class
+
+**Important to Know about Classes
+	1.) They cannot be hoisted (used before they are declared)
+		--when we create a function using function declaration, that function can be called before it is declared
+		--this is not true for classes
+		--you can't use a class before it is created
+		**Example:
+let moses = new Person('Moses', 1992, 'Male');
+
+class Person{
+    constructor(name, gender, birthYear){
+    this.name = name;
+    this.gneder = gender;
+    this.birthYear = birthYear;
+    }
+		--if we tried this in JS, an error would be returned in the console saying "Cannot access 'Person' before initialization."
+	2.) Classes are "first class citizens" in JS
+		--we can pass a class to a function as its argument and we can also return that class within a function
+		--classes are functions behind the scenes
+	3.) Classes are executed in strict mode
+		--even if you don't turn on strict mode, classes are executed as such
+
+			11.6.6
+			Getter and Setter
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524/64529
+
+**Getter and Setter is nothing new
+	--in JS there are 2 types of object properties 
+	1.) Data properties
+		--these are the normal data properties like name, gender, birthYear from previous examples
+	2.) Accessor Properties
+		--Getter and Setter are accessor properties
+		--methods that gets or sets the value of an objects property
+		--there are 2 types of Accessor Properties (Getter and Setter)
+		--Getter reads objects property value (use get keyword)
+		--Setter sets an objects property value (use set keyword)
+	**Example:
+let john = {
+    name: 'John',
+    birthYear: 1990,
+    annualSalary: 120000,
+
+    get getName (){	// because get property is a method, we need the open/close parentheses and then curly braces to add logic
+        return this.name;	// this determines how this getName method functions
+    }
+}
+
+console.log(john.getName);	// no need to use () because they are also properties
+
+**We can also add a set property to this object
+	**Example:
+let john = {
+    name: 'John',
+    birthYear: 1990,
+    annualSalary: 120000,
+
+    set setName(val){	// we need to set the name after use 'set' keyword
+			// we need val argument because we are setting a new value to this object
+        this.name = val;
+    }
+}
+
+console.log(john.setName = 'John Smith')
+
+**Getters are used to read the value of an objects property
+**Setters are used to ser the value of the objects property
+
+**Why do we need Getters and Setters if we can always read the values of these properties directly
+	--if we want to read the name we say console.log(john.name)
+	--if we wanted to reset the name we could say john.name = 'New Name'
+	--So why do we need getters and setters?
+**Because of Encapsulation
+	--we usually hide the data of objects from the outside world
+	--with encapsulation we don't expose this data to the outside world
+	--when we hide the data from the outside world, we don't have a way to access the properties within an object
+	--so we need a way to read and change the value of these properties
+	--this is why we need the Getter and Setter accessor properties
+	--another situation is when we want to do calculation before returning a value or setting the value
+	**Example:
+	--in the previous example we set the name with getName property
+	--if we wanted to add something to the name we could something like the following
+let john = {
+    name: 'John',
+    birthYear: 1990,
+    annualSalary: 120000,
+
+    get getName (){
+        return 'Mr. ' + this.name;	// this will add 'Mr. ' to the returned value
+    }
+}
+
+console.log(john.getName)
+	--this also possible for the setter property
+	**Example:
+	--we want to check if the name has at least four characters
+	--if not we want the user to know that the name should have at least four characters
+	--it could look something like the following
+let john = {
+    name: 'John',
+    birthYear: 1990,
+    annualSalary: 120000,
+
+   set setName(val){
+    if(val.length < 4){
+        alert('Name should be at least 4 characters long!')
+    } else {
+        this.name = val;
+        }
+    }
+}
+
+john.setName = 'Jon'
+	--when we try to use setName and the name we want to use is less than 4 letters, a message will pop up on the webpage with the message we wrote
+
+**We can also use the getter and setter properties for a class
+	**Example:
+	--let's imagine the 'john' object has a property of company
+	--the company is going to be the same for every instance of 'john'
+	--so we don't want to change the value and we only want to read it 
+	--this means that it is possible to use just the Getter method
+	--the reverse is true as well
+	--let's say we only want to set the company for 'john' and not read it
+	--then it is possible to use only the Setter method
+
+**It is also possible to have only the Getter or only the Setter property within an object
+	**Example:
+
+let User = class{
+    constructor(name, pswd, role){
+        this.name = name;
+        this.password = pswd;
+        this.role = role;
+    }
+
+    set setPassword(val){
+        if(val.length < 4){
+            console.log('Password should be at least 4 characters long!');
+        } else {
+            this.password = val;
+        }
+    }
+}
+
+let moses = new User('Moses', 'Tim32liv3!', 'CEO')
+console.log(moses)
+
+moses.setPassword = 'oldthings'	// we can change the password with the setter method that we defined
+	--if we then console.log(moses) it will show the updated password
+
+			11.6.7
+			Static Methods
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524/64529
+
+**What is a Static Method and how do we create it for a Class and Function Constructor
+
+**Definition of a static method:
+	--static methods are those methods which are associated with class and not with instances
+	--there can be 2 types of methods (Instance or Static)
+
+**Example:
+
+class Person{
+    constructor(name, gender, birthYear){
+    this.name = name;
+    this.gneder = gender;
+    this.birthYear = birthYear;
+    }
+
+calcAge(){
+    console.log(new Date().getFullYear() - this.birthYear);
+        }
+    }
+	--the calcAge() method is an example of Instance Method
+	--that is because whenever we create an object using the Person class (aka instance), it will have the calcAge() method
+	**Example
+
+let moses = new Person('Moses', 1990, 'Male') 	// This creates a new instance of Person called moses.
+conosle.log(moses);
+	--when we exapand the console.log on dev tools, we have the calcAge() method within the proto.
+	--that makes it an example of an Instance Method
+
+**A Static Mehtod is a method attached to an object Class
+	--let's use the Person class from above as an example
+	--if we call Person.method() we would be calling whatever method we attach to that Class
+	--we are calling the method on the Person class itself
+**How do we create a static method?
+	--we use the keyword static
+	--then we name the method
+	**Example:
+
+static greet(){
+        console.log ('Hey there! How are you?');
+    }
+	--when we save this, the new Person class of moses is still printed to the console.
+	--unlike the calcAge() method, however, the static greet() is not a proto of Moses
+	--so there is no instance of greet
+	--that's because the static method is always attached to a Class
+	--when we use a Static Method we call it on the class
+	** Person.greet();
+	--now the greet method will be printed to the console, along with the moses object
+**SO AGAIN
+	--static methods are attached to the class
+	--instance methods are attached to an instance
+
+**We can also create a static method for Function Constructors (FC or CF (constructor function) as previously stated)
+	**Example
+
+let Person = function(name, gender, birthYear){
+    this.name = name;
+    this.gneder = gender;
+    this.birthYear = birthYear;
+}
+
+Person.prototype.calcAge = function (){
+    let age = new Date().getFullYear() - this.birthYear;
+    console.log(age);
+}
+	--so calcAge() is connected to the Person FC
+	--so calcAge() is an instance method
+	--this method is called with a class or an object
+**So how do we create a static method on the Person FC?
+	**Example:
+Person.greet = function(){
+    console.log('Have a nice day!');
+}
+	--just like a static method on a class, we do not see the greet method within the Person class
+	--instead the method is attached to the FC so it has to be called in order to be seen
+	**Example: Person.greet()
+	--it's important to note that you cannot call the static method on the created object
+	--you can only call it on the FC itself
+	**Example:
+let moses = new Person ('Moses', 'Male', 1992);
+	**CANNOT: moses.greet()
+	**CAN: Person.greet()
+
+**There are several built in Static Method
+	1.) .parseInt() method
+	--this method cannot be called on an instance, only an object or class
+	--that is why it is classified as a Static Method
+	2.) .isNaN()
+	3.) .from
+	--all three examples are static methods and have to be called directly on an Object or Class, not an instance
+
+			11.6.8
+			Object.create()
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524/64529
+
+**FC and Classes provide prototypal inheritance.
+	--There is another way to do this
+	--object.create()
+	--the object.create() method requires an object in order to use
+	**Example:
+
+let person = {
+    calcAge(){
+        return new Date().getFullYear() - this.birthYear;
+    },
+
+    greet(){
+        return 'Have a nice day!';
+    }
+}
+	--the person object will act as a Prototype for other objects
+	--let's say we create an object that inherits calcAge() and greet() from the person object
+	--we can do this using the object.create() method
+	**Example:
+let moses = Object.create(person)
+console.log(moses)
+	--object.create takes a parameter
+	--the parameter will be the object we want to use
+	--in the example it is the person object that we created
+	--object.create will make an empty object
+	--that object will inherit the methods calcAge() and greet()
+	--we can see this when it is logged to the console
+**What would happen if we called console.log (moses.calcAge())
+	--we get NaN
+	--this is because the moses object we created (let moses = Object.create(person)) does not have a birthYear property
+	--we can set properties for the object.create()
+	**Example:
+moses.name= 'Moses'
+moses.birthYear= 1992
+moses.gender= 'Male'
+	--this creates properties for the moses object we created using object.create()
+	--now when we save the changes the console.log (moses.calcAge()) will return a number
+	--that is because the object now has a birthYear property
+	**NOTE: the structure of the object created using object.create() is the same as it would be if we used FC or Class
+**Object.create() can also accept a second parameter
+	--that is an anonymous object with the properties we want for the object
+	**Example:
+
+let mary = Object.create(person, {
+    name: {value: 'Mary'},
+    birthYear: {value: 1997},
+    gender: {value: 'Female'}
+})
+
+console.log(merry)
+	--with object.create() we need to specify the properties using the property: {value: ''} syntax
+	--so along with creating specific properties for the mary object, the new object also inherits the protos of the person object
+**There is one more method we can use to set the properties for the object
+	--this method will act like FC, but it is NOT an FC
+	--the method is init()
+	--we can add this method to the original person object
+	**Example:
+ 
+let person = {
+    calcAge(){
+        return new Date().getFullYear() - this.birthYear;
+    },
+
+    greet(){
+        return 'Have a nice day!';
+    },
+
+    init(name, birthYear, gender){
+        this.name = name;
+        this.bithYear = birthYear;
+        this.gender = gender;
+    }
+}	
+
+let warren = Object.create(person)
+warren.init('Warren, 2015, 'Male')
+	--this will create a new warren object with the properties of name, birthYear, and gender defined as 'Warren', 2015, 'Male'
+
+			11.6.9
+			Inheritance Between Function Constructors
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524/64529
+
+**So far we have created blueprints for objects using FC, Class and Object.create
+	--we have not talked about how one FC can inherit methods from another
+	--or how the same is true for Classes
+	--let's say we have 2 FCs like below
+	
+	person			employee
+	name			employeeId
+	birthYear		salary
+	gender			company
+	calculateAge()		caculateSalary()
+
+	--we want the employee constructor to have access to all the properties of person and the method of person
+	--we can make the employee FC inherit the person FC
+	**Example:
+
+let Person = function(name, gender, birthYear){
+    this.name = name;
+    this.gneder = gender;
+    this.birthYear = birthYear;
+}
+Person.prototype.calcAge = function (){
+    let age = new Date().getFullYear() - this.birthYear;
+    console.log(age);
+}
+	--we remember that any object we create using the Person FC will inherit the properties and methods of that FC
+	--we will see this if create an object and log it to the console
+	--we want to create another FC called employee
+	--there will be 5 properties and the properties come as arguments for the function
+	**Example:
+
+let Employee = function(name, gender, birthYear, empId, salary){
+    this.name = name;
+    this.gender= gender;
+    this.birthYear = birthYear;
+    this.empId = empId;
+    this.salary = salary;
+}
+Employee.prototype.calcSalary = function(){
+    return this.salary * 12;
+}
+Employee.prototype.empDetails = function(){
+    console.log(this.name);
+    console.log(this.empId);
+}
+
+let moses = new Employee('Moses', 'Male', 1992, 117, 4000)
+console.log(moses);	
+	--so now we've created the Employee FC with 5 properties and 2 methods.
+	--then we created an instance of this FC called moses
+	--we also want a calcAge() method for this Employee FC
+	--the employee FC is independent of the person FC
+	--there are 2 problems
+	1.) We're violating the try principle because the person FC and the employee FC have redundant parameters (name, gender, birthYear
+	2.) If we want to add city/country properties to person we would have to add it to both FCs
+		--this makes the maintenance of the code cumbersome
+	--the solution is that we can inherit the person properties in employee FC instead of manually setting them
+**Example: we do this by calling the Person FC inside the Employee FC
+
+let Employee = function(name, gender, birthYear, empId, salary){
+    Person(name, gender, birthYear)
+    this.empId = empId;
+    this.salary = salary;
+}
+Employee.prototype.calcSalary = function(){
+    return this.salary * 12;
+}
+Employee.prototype.empDetails = function(){
+    console.log(this.name);
+    console.log(this.empId);
+}
+
+let moses = new Employee('Moses', 'Male', 1992, 117, 4000)
+console.log(moses);	
+	--if we run this code, we will not get the name, gender, birthYear parameters because the variables inside the Person FC point to Global Window 	Objects
+	--let's prove it
+	--if we type window into the console we find the birthYear, name and gender properties
+	--so because we are pointing to the Person FC in the Employee FC we are pointing to the window objects and not the properties themselves
+	--we want to set the properties on the instance of moses
+	--we have to explicitly set the values in Employee to point to the moses object
+	**Example:
+
+let Employee = function(name, gender, birthYear, empId, salary){
+    Person.call(this, name, gender, birthYear);		// the this parameter allows it to point to the properties of the moses instance
+    this.empId = empId;
+    this.salary = salary;
+}
+Employee.prototype.calcSalary = function(){
+    return this.salary * 12;
+}
+Employee.prototype.empDetails = function(){
+    console.log(this.name);
+    console.log(this.empId);
+}
+
+let moses = new Employee('Moses', 'Male', 1992, 117, 4000)
+console.log(moses);
+	--now we will have the name, gender, birthYear properties if we log this to the console
+	--we still do not have access to the calcAge() method
+	--the Employee FC is now inheriting the properties of the Person FC
+	--Employee is a Child Class of Person
+	--Person is the Parent or Base Class
+	--how do we make Employee inherit the calcAge() method
+	**we just simply add the following:
+	Employee.prototype = Person.prototype
+	--this will be added to the Employee FC
+	--it's important to note we need to specify the proto before we set the other methods
+	--if we set other methods first and then add the proto, we are changing the methods to the proto
+	**it would be like doing the following
+	let x = 10;
+	let y = 20;
+	x = y;
+	--in this case x will equal 20 because we changed the variable after we initially set it to 10
+	--the same is true when setting methods
+	--even though we set the calcSalary and empDetails we are effectively erasing that declaration when we set the proto
+**Now everything will that is in the Person FC is being inherited by the moses instance that was created with the Employee FC
+
+			11.6.10
+			Inheritance Between Classes
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524/64529
+
+**How can we implement inheritance between 2 classes?
+	--We previously learned that JS class is a syntactic sugar of FC and prototypal inheritance
+	--JS class is simp0ly an abstraction layer over function constructors. Classes are simply a modern way of writing FC with simpler syntax
+	--When a class inherit from another class, it uses the same concept of FC inheritance which we learned in last lecture.
+	**Example:
+
+class Person {
+    constructor(name, birthYear, gneder){
+        this.name = name;
+        this.birthYear = birthYear;
+        this.gender = gender;
+    }
+    calcAge(){
+        console.log(new Date().getFullYear() - this.birthYear);
+    }
+}
+	--we want to create another employee class that inherits the name, birthYear, and gender property as well as the calcAge() method
+	**Example of Employee Class
+
+class Employee extends Person{
+    constructor(name, gender, birthYear, empId, salary){
+        super(name, gender, birthYear)
+    }
+}
+	--in order to make the Employee class inherit from Person we use keyword 'extend' and then the class we want to inherit
+	--then we need a constructor function inside the class
+	--we set the properties in the constructor function (so we use all 5 (name, gender, birthYear, empId, salary))
+	--now we want to inherit name, gender, birthYear form person class
+	--we need to use the keyword 'super()' in order to do that
+	--when we say super it will call the constructor of the person class
+	--however, empId and salary are still not defined
+	--we define them by adding the following;
+		this.empId = empId
+		this.salary = salary;
+	--we also want to add the calcSalary() method
+	--for that we add the following:
+		   calcSalary(){
+        return this.salary * 12;
+    }
+    empDetails(){
+        console.log(this.name);
+        console.log(this.empId);
+    }
+}
+	--now the employee class has the empDetails() and calcSalary() methods and a proto for calcAge() method
+	--behind the scenes the inheritance for class and FC is the same
+	--the syntax is just different
+	--when a class inherits from another class the super keyword is REQUIRED
+	--if we try to call super after accessing this.'' we will get an error because we have to call super first
+
+			11.6.11
+			Inheritance Using Object.create()
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64524/64529
+
+**How can we inherit methods using Object.create
+	--we know we need to pass a proto object if we use the Object.create method
+	**Example:
+
+let person = {
+    calcAge(){
+        return new Date().getFullYear() - this.birthYear
+    },
+
+    personInit(name, birhtYear, gender){
+        this.name = name;
+        this.birthYear = birthYear;
+        this.gender = gender;
+    }
+}
+
+let employee = Object.create(person);
+console.log(employee)
+	--now the instance of employee will create an empty object
+	--this object will inherit a proto for calcAge() from person object
+	--it will also inherit a proto for personInit() from that same object
+**Example of making Object.create inherit properties from another Object.create
+
+let person = {
+    calcAge(){
+        return new Date().getFullYear() - this.birthYear
+    },
+
+    personInit(name, birthYear, gender){
+        this.name = name;
+        this.birthYear = birthYear;
+        this.gender = gender;
+    }
+}
+
+let employee = Object.create(person);
+employee.employeeInit = function(name, birthYear, gender, empId, salary){
+    employee.personInit(name, birthYear, gender)
+    this.empId = empId;
+    this.salary = salary;
+}
+
+let moses = Object.create(employee)
+moses.employeeInit('Moses', 1992, 'Male', 117, 17000)
+console.log(moses)
+	--when we log moses, we are only getting 2 properties even though we passed in 5 parameters
+	--this is because within the employee object we point to the person object, not the mark instance
+	--we want the person object to point to moses, not employee
+	--we have to use the call method like below:
+	
+let employee = Object.create(person);
+employee.employeeInit = function(name, birthYear, gender, empId, salary){
+    employee.personInit.call(this, name, birthYear, gender)
+    this.empId = empId;
+    this.salary = salary;
+}
+
+let moses = Object.create(employee)
+moses.employeeInit('Moses', 1992, 'Male', 117, 17000)
+console.log(moses)	
+	--now when we call employeeInit it will point to the person object and the employee object
+	--so if we log it we will see all 5 properties that we passed in as parameters
+

@@ -477,6 +477,27 @@ Promise.all([p1(), p2(), p3]).then((resultsArray)=>{	// the value inside the arr
 		--either way, the original request has been settled
 	--when creating a function you need an executor (resolve, reject)
 	
+
+			EXTRA HELP
+			How to use Fetch API
+			https://www.youtube.com/watch?v=cuEtnrL9-H0
+
+**How to use Fetch API
+	--when you create a fetch API, you first pass in the URL
+	--you can then pass in a second optional property
+	--fetch creates a promise
+	--fetch also gives us a response
+	--after the URL we use .then to return the response from fetch
+	--because we are using JSON data we need to convert the response from fetch to json
+	--response.json will return another promise
+	--we use another .then to handle the data from fetch
+	--if we console.log the data we can see that the request was successful
+	--if we try to fetch a URL that doesn't exist we will have a GET 404 (not found) error
+	--even though there is a get error, fetch will always succeed unless there is a network error
+	--so we want to check that the response is ok
+	
+	
+
 	
 	
 	
