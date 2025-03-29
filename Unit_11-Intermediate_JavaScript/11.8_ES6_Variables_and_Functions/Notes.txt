@@ -1,0 +1,768 @@
+Notes for Unit 11 Subunit 8
+
+			11.8.1
+			let and const Handout
+			https://lessons.springboard.com/let-and-const-c4fa9da706de49da8b3e7808c403d0d0
+
+**This handout contains review information on creating variables.
+**Also contains review info about let and const
+
+			11.8.2
+			var
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64546
+
+**Looking at new features in JS
+	--first few are not new, but have new uses?
+	--let and const
+	--before let and const we only had var to create variables
+**How does var behave and how is it different from let and const
+	--the var keyword is more like let
+	--you can use var to define a variable like the example below
+	**Example:
+
+var musician = "Elton John"
+
+musician = "Alanis Moriset"
+var musician = true
+	--you can also reassign the variable to a new type with the same name
+**How are variables declared with var scoped?
+	**Let's look at an example first
+
+var song = "Goodbye Yellow Brick Road"
+	--this song variable is defined in the global scoope
+	--that means it's added as a property on the window object
+	--(window is a global object in the browser)
+	--this means if I type window into the console it returns an object called window
+	--in the drop down menu of that object there are a huge variety of properties and methods
+	--whenever we create a variable outside a block, it is logged as a property in the window object
+	**This is different from how let and const behave**
+**How does var work inside a function?
+	--When defined in a function, the var keyword scopes a variable to that function
+	--that means the variable will only work within the scope of that specific function
+	--you would get a reference error "" is not defined if you tried calling it outside the function it's in
+	**Example:
+
+function sing() {
+    var song = "Goodbye Yellow Brick Road";
+    console.log(song)
+}
+
+console.log(song)
+	--if you console.log song within the function, the song name is returned
+	--outside the function you get an Uncaught Reference Error: song is not defined
+
+**Review
+	--var is a global object if it's declared outside a function
+	--if declared inside a function, it is only valid inside that function
+**IMPORTANT NOTE**
+	--you can override/remove/element some of the built-in-to-browser methods and objects
+	--we don't have to worry about this with let and const
+
+			11.8.2
+			let
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64546
+
+**var used to be the original and only way to make variables in JS
+**let also makes variables, with the same syntax, but different keyword
+**Why was let creatd and what improvements does it offer?
+	--let's start by talking about browser support
+	--let works in all browsers for the most part
+**like var, let can be reassigned
+	--it CANNOT, however, be redeclared (unlike var)
+	**Example:
+
+let x = 10;
+
+let x= 99;
+	--you can't make a variable with the same name using let if it's within the same scope
+	--you can reassign the value of x though
+	**Example:
+x = 99;
+	--this would work
+	--this is different than var where you can redeclare the same variable
+**let's see how let variables are stored in JS
+	**Example:
+let my chickens = "They are awesome pets, but not really"
+	--if you were to type window.myChickens in the dev tools, you would get undefined 
+	--if you declared the same variable with var it would be added to the global object (window)
+**You can name variables that are already used in the browser
+	--take console.log for example
+	--console is a property of window
+	--if you say let console = 77, you would still have access to console through window.console
+	--but if you just type console it will be pointing to the variable we created and would return 77
+**Here's why this is important
+	--the let keyword creates a block-scoped variable
+		--a variable that only exists inside a code block
+**The most important part about let is block-scoping
+	--a code block is anything inside curly braces except an object literal ({x: 1, y: 2})
+	**Examples of a code block:
+
+1.) if(true){
+
+}
+
+2.) while(){
+    
+}
+	--let and const are scoped to the code block, not just the function like var
+	**Example:
+
+
+if(true){
+    let color = 'teal'
+    console.log(color);
+    if (true){
+        console.log(color);
+    }
+}
+	--this code would work because color is being called within the same code block that it is defined
+
+
+if(true){
+    let color = 'teal'
+}
+
+console.log(color)
+	--this would not work because color is being called outside of the code block it was defined in
+	--if you continue down multiple levels within the above curly braces, you will have access to the variable defined within
+**The same is true within a function
+	**Example
+
+function dance() {
+    let dancetype ="Tango";
+}
+
+console.log(danceType)
+	--the above would not work unless you called danceType within the curly braces it was defined in
+	--it works the same in functions with var
+	--scoping is more strict for let because it's block-scoped not function-scoped
+**Most common area with this comes up is a for loop
+	--in the past:
+for (var i = 0; i <=3; i++){
+    console.log(i)
+}
+	--because the variable is scoped with var, it is not scoped to the block
+	--in the following example: 
+		--if you declare var before the for loop, it confuses things
+		--that's because var was redefined outside the scope of a function
+	**Example:
+
+var i = 'hello'
+for (var i = 0; i <=3; i++){
+    console.log(i)
+}
+console.log(i)
+	--this would increment i by one, instead of return the string hello
+**Let's see what happens if we use let instead
+	**Example
+
+var i = 'hello'
+for (let i = 0; i <=3; i++){
+    console.log(i)
+}
+console.log(i)
+	--all we did was change var i = 0 to let i = 0
+	--this will change the scope
+	--so now 0,1,2,3 is printed to the console as well as the string hello
+	--this because the scope was changed and var defines one variable while let defines another
+
+***QUICK QUIZ***
+
+let mood = 'fantastic';
+function getMood(num) {
+    let mood ='meh';
+    if (num < 3) {
+        let mood = 'bad :(;'
+    }
+}
+	--if we pass a number into this function we will get a mood based on the number
+***QUESTION: If we call getMood() what do we expect to see?
+	**My Answer: 
+	If I called getMood(2) I would expect to see 'bad' returned.
+	**Correct Answer:
+	If you call getMood(2) you would get 'meh'
+	**Reason:
+	Because mood is already defined after the function is called. So because it's in the same scope, the definition of mood 	cannot be changed.
+	**Let's say we add console.log(mood) after defining mood as 'bad :(' and then we call getMood(2)
+	--bad :( would be logged to the console, and "meh" would still be returned for the function call
+	--on top of that, if we just type mood into the console, "fantastic" would be returned because it's in a different scope
+**In short:
+	--we have one mood with a global scope
+	--we have one scope to the function
+	--and finally we have one scope only to the code block.
+
+			11.8.4
+			const
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64546
+
+**Third and final way to declare a variable is const
+	--follows many of the same rules as let
+	--difference is that const cannot be defined
+	**Example:
+
+const cat = "monty"
+cat = "dead monty"
+	--this would not work because cat has already been declared with the keyword const
+	--this would be possible with the keyword let
+	**Example:
+
+let firstCat = "monty"
+firstCat = "dead monty"
+	--this would work because the let keyword doesn't have the same restriction as the const keyword
+**This is not to say that we can never reassign const
+	--we can manipulate the code to do so
+**But how would that work?
+	--for primitive data types, we cannot reassign the value
+	**Example:
+const x = 4;
+x = 7;
+x += 2;
+	--this would not work and we would get an uncaught type error
+
+**It works differently for non-primitive (reference types) like objects or arrays
+	--you can have the same reference and mutate the contents of the object or array
+	**Example:
+
+const myCats = []
+
+myCats.push('monty')
+myCats[1] = 'rocket'	// we are adding an item and calling it rocket
+	--both these methods work because:
+		--we have not changed the reference point of the array only added to the empty array
+		--so we have not changed what const points to, only the contents within the container
+	**Here's an example of something that would not work
+
+myCats = ['bobo']
+	--here we are attempting to reassign the value of my cats
+	--before we were just changing a value in the same array
+**It works the same way with objects
+	**Example:
+
+const person {name: 'todd'}
+person = {}
+	--here we are attempting to redefine the person object to an empty object which we cannot do
+	--WE CAN, however, change he contents of the object like the example below
+	**Example:
+const person = {name: 'todd'}
+person.name = 'jen'
+	--here if we logged person again the contents of the object would be {name: 'jen'} instead of {name: 'todd'}
+	--we have not changed the where person is pointing in the memory, only what is contained inside the container that is being pointed to
+**For clarification
+	--we cannot reassign the value of a const variable
+	--we can mutate the contents of a const container, though, like we witnessed above
+	--let CAN be reassigned
+	--const CANNOT be reassigned
+**Unlike let, const cannot be redeclared either
+	Example:
+const pi = 3.14;
+const pi = 4.56;
+	--you cannot redeclare const as something that it was previously set to
+	--this is because const is also block-scoped
+**You can redeclare const outside of the scope that it was originally declared in
+	**Example:
+
+const PI = 3.14159
+if(true){
+const PI = 4.56212;
+}
+console.log (PI)
+	--so here we are using the same name for 2 different instances of const PI
+	--both values would still print to the console, though, because const is block-scoped
+	--the first iteration of PI is defined outside the scope that the second iteration of PI is defined in
+	--for that reason, both definitions of the variable are true
+	--in other words, the two iterations don't know about each other.
+	--they both think they are the only definition of PI because of block scoping
+**It would be different with var because the scoping for var is different
+	**Example:
+
+var PI = 3.14159
+if(true){
+var PI = 4.56212;
+}
+console.log (PI)
+	--both iterations of PI would be equal to 4.56212 because var doesn't care about the code block in terms of it's scoping rules
+
+**Here's a chart comparing var, let, and const
+
+Keyword		Can Reassign		Can Redeclare		Can Mutate		Scope Rules
+______________________________________________________________________________________________________
+
+var		yes			yes			yes			function scope
+let		yes			no			yes			block scope
+const		no			no			yes			block scope
+_______________________________________________________________________________________________________
+
+**Next we will briefly talk about "hosting"
+
+			11.8.5
+			Variable Hoisting
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64546
+
+**Another difference between var, let and const
+	--hoisting is the difference
+
+**let's consider the following example:
+
+var chickens = ['butters', 'nancy', 'junior', 'tilda', 'stevie chicks']
+console.log(chickens)
+	--it's pretty straightforward
+	--we declare an variable array called chickens with the keyword var
+	--then we log chickens to the console
+	--an array with 5 items is printed to the console with the given chicken names
+**What if we console.log(chickens) before creating the chickens array using var?
+	--the result would be undefined
+	--but if we comment out the code after the first chickens log, we get an Uncaught Reference Error
+	--WHY THE DIFFERNECE??
+	--the answer is variable hoisting
+**Variable Hoisting
+	--when code is compiled, the variable declarations with var as keyword the variable is run before the initialization
+	--when we use var, the declarations are run first
+**let and const behave differently
+	**Example:
+
+console.log(chickens)
+let chickens = ['butters', 'nancy', 'junior', 'tilda', 'stevie chicks']
+console.log(chickens)
+	--this would print an error: Uncaught ReferenceError: Cannot access 'chickens' before initialization
+	--so it works differently than the keyword var
+	--this is way is more intuitive
+	--you don't want access to variables before you run your code or it could get confusing
+	**it's the same for const
+**We could declare a variable name but not define it using let
+	**Example:
+
+let bird;
+bird = 'Eagle'
+
+**The same is NOT true for const
+	**Example:
+const fish;
+	--this would cause an Uncaught SyntaxError: Missing initializer in const declaration
+**To wrap up/review
+	--var will hoist variables meaning
+
+			11.8.6
+			Which One Should I Use?
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64546
+
+**We have 3 options for creating variables. So which should we use?
+**Here are Colt's recommendations.
+	1.) Never use var
+	2.) Always START with const
+		--if you realize it won't work for what you need, use let
+		**Example:
+		const count = 0
+		count += 1	// we can't redeclare const so it will not work as a variable for a counter
+		--in this case we should use let
+		--if we create a function, an array, an object we should use const because it's likely the names for those will not change
+
+			11.8.7
+			Arrow Function handout
+			https://lessons.springboard.com/Arrow-Functions-c7ad9f9f1d2f41e5ac41b0aa56127c1d
+
+**This handout is text document that explains what will be taught in the upcoming video curriculum
+	--It's all about arrow functions and a good resource to refer to if needed in the future
+
+			11.8.8
+			Intro to Arrow Functions
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64546
+
+**Arrow functions:
+	--drastically decrease the amount of code needed to accomplish things
+	--great replacement for callback functions
+	--shorthand for function expressions and only work as such
+	**Example:
+
+Array.map (function(x){
+    return x * 2
+})
+	--this is a lot of code for what we are trying to accomplish
+	--we can avoid all of it, even the return statement
+**More about arrow functions:
+	--they cannot be named and they only work as function expressions
+	--they are ideal for shortening callbacks
+**Before we look at syntax
+	--mozilladeveloper.com
+	--there is not Internet Explorer support for arrow functions
+**What is a function expression vs a function declaration
+	**Example of function declaration
+
+function greet(){
+
+}
+	--this is not saved as a variable
+	**Example of function expression:
+
+const add = function(x,y) {
+    return x + y;
+};
+	--we save the expression into a variable
+	--we can call it the same as any other function
+	**Another Example of Function Expression:
+
+Array.map (function(x){
+    return x * 2
+})
+	--this is an example of function expression that is not saved as a variable
+	--arrow functions replace the previous two ways of writing a function (function expressions)
+	--arrow functions DO NOT replace the greet function (function declaration)
+
+**Now the Syntax
+	**Example:
+
+() 	// this is where we write the parameter list
+const add = ()	// we can still save it in a variable
+=> {	// this is the syntax for the arrow function
+
+}	
+	**So all together:
+
+const add = (x,y) => {
+    return x + y;
+}
+	**Compared to:
+
+const add = function(x,y) {
+    return x + y;
+}
+
+**We can pass arrow functions as callbacks
+	--this is probably the most common use case
+	**Example:
+
+[1,2,3].forEach(function (n, idx) {
+    console.log(n, idx);
+});
+
+[1,2,3].forEach((n, idx) => {
+    console.log(n, idx);
+})
+	--both of these functions accomplish the same thing.
+	--the only difference is that the second uses an arrow function instead of a standard function expression
+
+	**Another Example/Practice:
+
+[2,3,6,78,99,104,23].reduce(function(max, currNum)){
+    return Math.max(max, currNum);
+}
+	--how could the previous function be written using an arrow function?
+	--Like this:
+
+[2,3,6,78,99,104,23].reduce((max, currNum) => {
+    return Math.max(max, currNum);
+})
+	--it's important to note that you add the parameters of the expression before the arrow function syntax
+	--the rest is the same
+	--this doesn't seem that much shorter
+	--in the next few videos we'll learn how to shorten it even more
+
+**Review
+	--arrow functions do not replace a function declaration
+	--arrow functions do not have names
+	--general syntax is parens with the parameters, the arrow function syntax, and then curly braces
+	**Example:
+
+(x, y) => {
+
+}
+
+			11.8.9
+			Arrow Functions Syntax
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64546
+
+**Different ways to shorten or avoid characters with arrow functions
+	--let's say we have single parameter for arrow function
+	--we do not need the second set of parens
+**Example of first Arrow Function Shortcut:
+
+**with extra parens:
+
+[1,2,3,4,5].forEach((n) => {
+    console.log(n * 10);
+})
+
+**Without Extra parens:
+
+[1,2,3,4,5].forEach(n => {
+    console.log(n * 10);
+})
+	--this is not considered a great option because it is inconsistent
+	--we can also write arrow functions with now parameters at all
+	**Example:
+
+const greet = () => {
+    console.log('Hello!!!')
+}
+	--we have no parameters but we still need one set of parens
+
+**Example of first Arrow Function Shortcut:
+	--with some arrow functions we can use an implicit return (an implied or understood return)
+	--not every arrow function is a candidate for this. There are rules.
+	**Example:
+
+let nums = [1,2,3];
+let arrSquared = nums.map(n => n ** 2); // [1,4,9]
+	--no curly braces, but it will still work as if there were curly braces
+	--how does it work?
+	**Example:
+
+[1,2,3,4,5,6].filter(function(num) {
+    return num % 2 === 0;
+})
+	--when called this prints out the even numbers of any array
+	--we can rewrite this an arrow function with an implicit return
+	**Example:
+
+[1,2,3,4,512,32,36,76,44,6].filter((num) => num % 2 === 0)
+	--this works the exact same as the first example
+	**Another Example:
+
+const double = (n) => n * 2;
+
+const double = (n) => {
+    return n * 2;
+}
+	--both of the above functions will work the same
+**Again you cannot do this with just any arrow function
+	--we want to map an array of numbers into even and odd
+	--we can accomplish this with the following example
+	**Example:
+
+[1,2,3,4,5,6,7,8].map (n => {
+    if (n % 2 ===0) {
+        return 'even';
+    }
+    return 'odd';
+});
+	--now any set of numbers we pass into the array will be mapped as odd or even
+	--this is not using an implicit return	
+	--if we tried using implicit returns it would like the following example
+	**Example:
+
+[1,2,3,4,5,6,7,8].map (n =>
+    if (n % 2 ===0) {
+        'even';
+    }
+         'odd';
+);
+	--this will not work because an Unexpected Token error will be returned
+	--we can make it work however
+	**Example:
+
+[1,2,3,4,5,6,7,8].map((n) => (n % 2 === 0 ? 'even' : 'odd')) 
+	--here we using the ternary operator which is expressed as question mark '?'
+	--a ternary operator is shorthand for an if-else statement
+**To use an implicit return:
+	--there has to be one and only one expression to be returned
+	--it cannot be multiple expressions
+	--this doesn't mean you can't have multiple lines, just no multiple expressions
+	**Example:
+
+const dailyRainTotals = [ [1.2,0.35,2.2], [1.7,0.6,0.1], [2.5,0.9,1.5] ]
+	--each subarray represents totals from different cities
+	--we want to sum each subarray
+	--and then turn it into a new array
+	--we want an array containing the sum of each subarray
+	--we could combine the map and reduce methods
+	--reduce to reduce subarrays to single number by summing each element
+	--map to call reduce on each subarray and give us a new end result array
+	**Example continued
+
+const dailyRainTotals = [ 
+    [1.2,0.35,2.2], 
+    [1.7,0.6,0.1], 
+    [2.5,0.9,1.5] 
+];
+dailyRainTotals.map((hourlyRainTotals) => {
+    return hourlyRainTotals.reduce((sum,inchesOfRain) => {
+    });
+});
+	--this example uses explicit returns instead of implicit returns
+	--now let's try it with implicit returns instead
+	**Example:
+
+dailyRainTotals.map((hourlyRainTotals) => 
+     hourlyRainTotals.reduce((sum,inchesOfRain) =>
+         sum + inchesOfRain)
+    )
+	--so we do not have to put implicit returns on one line
+	--just as long as we are only using one expression
+
+**Review
+	--we can use implicit returns if and only if there is one expression
+		--cannot use multiple expressions for implicit returns
+	--we don't need parens if there is only one parameter in an arrow function
+
+			11.8.10
+			Arrow Functions Gotcha
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64546/64556
+
+**Gotchas with Arrow Functions
+	--first has to do with implicitly returning an object with an arrow function
+	**Example:
+
+**First an explicit return
+
+const makeMath = (num) => {
+    return {
+        sqaure: num * num,
+        double: num * 2
+    }
+}
+	--if we pass in any number it will give us that number squared and that number doubled
+	--let's see what happens if we try this with an implicit return
+	**Example:
+
+const makeMath = (num) =>
+    {
+        sqaure: num * num,
+        double: num * 2
+    }
+	--this will give us a syntax error
+	--JS thinks the curly braces are the start of a function
+	--so it's reading the opening and closing curly braces of the object as the beginning and ending of a function
+	--we can easily fix this by wrapping our object in parens
+	**Example:
+
+const makeMath = (num) => ({
+        sqaure: num * num,
+        double: num * 2
+    });
+	--the parens makes this readable to JS
+
+**Second Gotcha of Arrow Functions
+	--more complex and difficult to explain
+	--has to do with the keyword 'this'
+	--keyword this is special value inside JS functions
+	--has different value in arrow functions than regular function expression
+	--arrow functions do not have their own this context
+	--if your function uses keyword 'this', be wary!
+**Don't use arrow functions:
+	1.) In an object method
+	2.) When you need your own keyword 'this'
+	**Example:
+
+
+const cat = {
+    name: 'Bubs',
+    meow: fucntion(){
+        return `${this.name} says MEOW!!!`;
+    }
+};
+	--this works fine without an arrow function
+	--if we type cat in the console we get the object with the property and method we gave it
+	--it we call cat.meow "Bubs says MEOW!!!" will print to the console 
+	--what if we try to use an arrow function instead of a regular function?
+	**Example:
+
+const cat = {
+    name: 'Bubs',
+    meow: () => {
+        return `${this.name} says MEOW!!!`;
+    }
+};
+	--this.name evaluates as undefined
+	--we can still return the cat object
+	--if we try to call the meow method on cat, however, we get " says MEOW!!!"
+	--so what the heck went wrong??
+	**Example:
+
+const cat = {
+    name: 'Bubs',
+    eat : function () {
+        console.log(this);
+        return `${this.name} chows down`
+    },
+    meow : () => {
+        console.log(this);
+        return `${this.name} says MEOW!!!`;
+    }
+};
+	--in the above code, we created an object with 1 property and 2 methods
+	--the eat() method is function expression
+	--the meow() method is an arrow function expression
+	--if we call cat.eat() cat is pointed to the eat method
+	--if we call cat.meow, however, it points to the global scope window object
+	--if we want to add an object to a function it's always best to use a regular function expression instead of an arrow function expression
+
+			11.8.11
+			Arrow Functions Recap
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64546/64556
+
+**Recap on arrow functions
+	1.) Can only be used as shorthand for anonymous function expressions (they can't be named)
+	2.) Must put parens around parameters if there are 0 or 2+ parameters
+	3.) Return statement is implied if you leave out curly braces (implicit return)
+		--not true when creating object literals
+	4.) They do not make their own keyword 'this' like a regular function expression does
+
+**Let's talk about Babel
+	--(babeljs.com)
+	--go to 'Try It Out' tab at the top
+	--Babel is a popular tool that takes modern JS syntax
+	--we could type an arrow function and it will transpile it (turn it into browser compatible JS)
+	**Example:
+
+const double = n => {
+    return n * 2;
+}
+	--if we type that arrow function into babel, it will change it into a function that works on Internet Explorer
+	--in this case it changes it into a regular function expression
+	--what if we used an implicit return in the above function?
+	**Example:
+
+const double = n => n * 2;
+	--we would get the same thing as the using an explicit return
+	**Another Example:
+
+const makeObj = () => {
+    return {mood: 'meh'}
+}
+	--in babel this transpiles to a regular function
+	--but if we try to make this arrow function an implicit return something different happens
+	**Example:
+
+const makeObj = () => {mood: 'meh'}
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+	
+
+
+
+
+	
+
+
+
+	
+
+
+		
+
+
+
+	
+
+	
+
+	
+	

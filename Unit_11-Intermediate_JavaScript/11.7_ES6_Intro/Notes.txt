@@ -1,0 +1,184 @@
+Notes for 11.7
+
+			11.7.1
+			How Are Features Added in JavaScript?
+			https://blog.bitsrc.io/how-new-features-are-added-to-javascript-5d8744bcc344
+
+**ECMA: European Computer Manufacturers Association
+	--this is instituation that facilitates Information Technology and Consumer Electronics standards.
+	--that includes programming languages
+**TC39: Technical Committee number 39
+	--a part of the ECMA responsible for standardizing and maintaining JavaScript.
+	--the team develops and evolves a specification named ECMAScript (ES for short)
+	--ES5 and ES2015 (aka ES6) are often popular
+	--new version of ES is released every June
+**How are new features selected?
+	--There is a process that TC39 developed to handle just that
+	--It goes something like the following:
+
+	Stage 0		-> 	Stage 1 	-> 	Stage 2
+	Strawperson		Proposal		Draft
+
+
+				Stage 3
+				Candidate
+
+
+				Stage 4
+				Finished
+
+	--Stage 0: Strawperson.
+		--Idea for a new spec or change to existing spec is input to the system.
+		--Informal
+	--Stage 1: Proposal
+		--This is where a formal proposal is made. 
+		--Outline of problem and solution are created
+	--Stage 2: Draft
+		--Initial spec is created
+		--Semantics and Syntax are defined and API is created
+	Stage 3: Draft
+		--Design work is completed
+		--Committee expects feedback from implementation
+	Stage 4: Finished
+		--Final semantics approved
+		--Only critical and editorial changes accepted
+
+			11.7.2
+			ES2015 Intro Handout
+			https://lessons.springboard.com/ES2015-Introduction-d2fb0f178d0342978e45b4828cf9671c
+
+**This is basically a repeat of what the following subunit covered.
+	--It defines ECMAScript and ECMA
+	--Introduces TC39
+	--Talks about stages of TC39 (Strawperson, Proposal, Draft, Candidate, Finished)
+
+			11.7.3
+			ES2015 Intro
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64537/64538
+
+**Newer features in JS. Things included in ES2015
+	--Some of the features aren't supported across all browsers (mainly Internet Explorer)
+	--We will talk about workarounds/fixes
+
+**Overview of Features
+	--ES6features.org
+	--We will cover a lot these features in the coming videos
+
+			11.7.4
+			Intro to ECMAScript
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64537/64541
+
+**Brief History of JS
+	--Browser wars of the 1990s
+	--no standard programming language across multiple browsers
+	--In 1995 Netscape hired Brendan Eich to implement a programming language (now known as JS)
+	--He did it in 10 days
+	--Then Microsoft reversed engineered it calling it Jscript
+	--Then Netscape proposed ECMAScript which would be a standardized programming language
+	--ECMAScript is a text document to describe how a language would work
+	--2013 is when all major browsers became ECMAScript compliant
+**JS is different than traditional software
+	--you download and get updates
+	--but JS doesn't have a set version you download
+	--when new feature is released, it's added to a text document
+**So what is ECMAScript?
+	--the standard for the JS language
+	--Started during the browser wars between Microsoft and Netscape
+	--Browser/Node implement the language based on this standard
+**What is ECMA?
+	--Organization that exists to make standards for all kinds of tech and consumer products
+	--things like acoustic systems, electromagnets, NFC, etc.
+	--ECMAScript is one of these standards
+	
+			11.7.5
+			Looking at the Spec
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64537/64541
+
+**Let's look at the ECMAScript document
+	--got ecma-international.org
+	--click on ECMAScript
+	--this document is a text oriented explanation of how the JS language should work
+
+			11.7.6
+			TC and New Releases
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64537/64541
+
+**How are new features added to the ECMAScript
+	--TC39 is the committee responsible
+	--tasked with maintaining and updating the ECMAScript
+	--drastic features are not removed or added all at once
+	--the goal is make the language future-proof
+
+**Evolving JS the old way
+	--New features were batched together into large releases
+	--these releases were named with version numbers (ES3, ES5, etc)
+	--version released infrequently, often with years between
+	--because it took so long they changed things
+**Evolving JS the new way
+	--updates to the standard are published yearly
+	--any new features read each year are added together
+	--versions named by year (ES2016, ES2017, etc)
+	--this new cadence also encouraged open development
+
+			11.7.7
+			Feature Proposal Process
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64537/64541
+
+**With the new yearly system came another change
+	--Formalized proposal process
+
+**Here's what it is
+	1.) Stage 0: Strawperson
+		--informal proposals
+		--we can see these proposals by going to TC39 organization and clicking proposals
+	2.) Stage 1: Proposal
+		--first official proposal stage
+		--there are expectations for proposals
+		--one is that someone from TC39 has to endorse you
+	3.) Stage 2: Draft
+		--still early on in development
+		--sometimes experimentation is done
+	4.) Stage 3: Candidate
+		--pretty unlikely that changes to how it works will be made if a proposal makes it here
+		--proposal move to this level with at least one browser implementation
+	5.) Stage 4: Finished
+		--now the new spec is a lock. it will make it into the ECMAScript
+
+**Everything we will see in this unit are Stage 4: Finished Features
+
+	
+
+	
+	
+	
+	
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
