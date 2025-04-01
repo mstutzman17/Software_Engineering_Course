@@ -39,24 +39,17 @@ const elephantGenetics = {
 
 // 5. **Analyze Ecosystem Health**: You are given an object with a nested structure detailing the ecosystem's health, including water quality and food supply. Perform a shallow copy and modify a nested property. Observe and explain how changes to nested properties affect both the original and the copied object.
 
-const ecosystemHealth = [
-    {
-    name: 'Grasslands',
-    waterQuality: "Above Average",
-    foodSuupply: "Average"
-    },
-    {
-    name: 'Forests',
-    waterQuality: "Slightly Below Average",
-    foodSuupply: "Above Average"
-    }
-];
+const ecosystemHealth = {
+	waterQuality: "Good",
+	foodSupply: {
+		herbivores: "Abundant",
+		carnivores: "Sufficient"
+	}
+};
 
-const ecosystemHealthCopy = {...ecosystemHealth, foodSupply: 'Below Average'}
+const ecosystemHealthCopy = {...ecosystemHealth, foodSupply: {...ecosystemHealth.foodSupply, herbivores: "Scarce"}}
 
-// This was confusing for me. Let's start with what I did. 
-// I declared a variable called ecosystemHelath that contains an array. Within that array there are 2 objects, with 3 properties each.
-// Using the spread operator, I then made a copy of the original array and called it ecosystemHealthCopy. I put that copy into a new object. I also changed the property foodSupply (which is a property that both objects have) to 'Below Average'.
-// What I expected to happen is different than what actually happend.
-// What I Expected: I expected the ecosystemHealthCopy to only be a duplicate of the original that points to the same spot in memory. With that expectation, I thought that when I spread ecosystemHealth into an empty array and changed the value of the property foodSupply, it would change the value of BOTH foodSupply poperties in BOTH copies of ecosystemHealth.
-// What Actually Happened: What actually happened is when I spread ecosystemHelath into a new array and updated the value of the foodSupply property, it did not change the value of either property in the copy. Instead it kept all the original property values and added a proto with the foodSupply property and the value that I specified. It also did not change the original.
+// What I orginally tried to do was the following: const ecosystemHealthCopy = {...ecosystemHealth, herbivores: "Scarce". The result of this was not what I expected. Upon further research, I learned that what I did was make a new top-level key called herbivores with the value that I specified. What I'm being asked to do is make a shallow copy and modify one of the nested properties. When I understood how to correctly perfom this operation, I wrote the code above. 
+// Here are my observations after correctly performing required operations: 
+// The above code spreads ecosystemHealth into a new varibale called ecosystemHealthCopy as well as accessing foodsupply in order to access the nested property herbivores. Once I accessed the herbivores property, I chnaged the value to scrace. Now when I call ecosystemHealth it remains unchanged. When I call ecosystemHealthCopy, the herbivores property was successfully updated to scarce, just like I specified.
+// So why does it happen like this? My original thought was to directly access and update the herbivores property which gave me the result that I detailed above. Because herbivores is a property nested inside the object of the foodSupply property, I had to get more specific in order to update the values that I wanted to update.
