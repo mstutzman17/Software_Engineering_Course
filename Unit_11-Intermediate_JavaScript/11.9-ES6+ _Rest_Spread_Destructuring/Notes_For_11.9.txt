@@ -1,0 +1,656 @@
+Notes for Unit 11 Subunit 9
+
+			11.9.1
+			rest/spread Handout
+			https://lessons.springboard.com/Rest-Spread-Operator-ce38fb9134904e0f9610d45863d7dbaf
+
+**The link above is for a text document that explains what's coming up in Subunit 9
+**The Goals are of this Subunit are:
+	1.) Understand what the rest operator does
+	2.) Understand what the spread operator does
+	3.) Use spread to copy arrays and objects
+	4.) Use rest to gather remaining arguments in an array
+
+			11.9.2
+			The arguments Object
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560
+
+**Rest and Spread
+	--operators in JS
+	--they use the same character, but operate differently
+	**Example:
+
+1 + 4		'a' + 't'
+	--the same concept is being used in both examples, but the outcome is different
+	--it's the same with rest and spread
+
+**Syntax for rest and spread
+	--the syntax is ...
+	**Examples:
+
+function min(...nums){
+    
+}
+	--spread/rest as a parameter
+
+[...]
+{...}
+	--spread/rest in arrays and objects
+	--sometimes it's called rest and sometimes it's called spread
+
+**Goals Overview
+	1.) Understand what the rest operator does
+	2.) Understand what the spread operator does
+	3.) Use spread to copy arrays and objects
+	4.) Use rest to gather remaining arguments into an array
+
+**We'll start with rest and how things used to be
+**So what was life like before rest?
+	--The arguments object
+	--sometimes we have unlimited arguments passed in
+	--there are built in JS methods 
+	--like Math.max
+	**Example:
+
+Math.max(1,4,6,99)
+	--this would give us the highest number in any given set of numbers
+	--how would we write a function for this without using the .max method?
+	--something that will accept any number of arguments
+	--it's not easy without an arguments object
+	**Example:
+
+function max(a , b , c , d , e , f , g){
+    
+}
+	--this way of doing it would be very messy, because we would have to reference every letter throughout the function
+	--this is not how Math.max is written
+	--we don't have to account for a variable list of arguments
+	--instead we don't have to write anything in the list of parameters
+	
+**Still what we used to do
+	--In JS, every function created using the function keyword has access to a special keyword called arguments
+	--except arrow functions
+
+**Let's look at arguments
+	**Example:
+
+function max(){
+    console.log(arguments);
+}
+	--if just pass in arguments to the console, we'll get a ReferenceError: arguments is not defined.
+	--that's because arguments is not valid outside of a function
+	--but if we call the function, arguments will be an object
+	**Example:
+
+console.log(max())
+	--if we call max() with a parameters we will get the same object with new information
+	**Example:
+
+console.log(max(2,5,4,78,17))
+	--return here is Arguments(5) [2,5,4,78,17]
+	--this could be very useful to use
+	--let's look at another example using sum
+	**Example:
+
+function SubmitEvent() {
+    arguments.reduce((sum, val)) => {
+        return sum + val;
+    }
+}
+	--now if we try to call this function we will get "Uncaught TypeError: argumetns.reduce is not a function
+	--that is because arguments LOOKS like an array but IS NOT an array
+	--arguments is an 'array-like'object'
+	--so it is an object not an array
+	--still, arguments has a length property
+	--still, you can access it at a specific index
+	**Example:
+
+
+function sum() {
+    console.log(arguments[0])
+    arguments.reduce((sum, val) => {
+        return sum + val;
+    })
+}
+	--HOWEVER, it doesn't have built in array methods like map, filter, etc.
+**In the Past
+	--we would make the arguments object into an array
+	**Example:
+
+function sum() {
+    console.log(Array.from(arguments))
+    arguments.reduce((sum, val) => {
+        return sum + val;
+    })
+}
+	--now sum(3,4,5) would return the array [3,4,5]
+	--arguments.reduce would still not work
+	--we could store Array.from in a variable and retrun it
+	**Example:
+
+function sum() {
+    const args = Array.from(arguments)
+    return args.reduce((sum, val) => {
+        return sum + val;
+    })
+}
+	--this would make our function work like it's supposed to
+	--now the a sum of whatever array is passed in will be returned
+	--the above example, although refined, is still not as easy as it could be.
+
+**Another shortcoming of the argrumnets object
+	--they don't work AT ALL in arrow functions
+	**Example:
+
+const max = () => {
+    console.log(arguments);
+}
+	--if we tried to call the max function we would get an "Uncaught ReferenceError: arguments is not defined at max"
+	--if we just tried calling arguments, we would get "arguments is not defined"
+	--that's because arguments do not exist in arrow functions (AF)
+	--we still have a way of working with unlimited or variable arguments inside arrow functions
+	--we just can't use it in AFs
+
+**Let's try writing max as a regular function expression
+	**Example: 
+
+const max = function() {
+    const args = Array.from(arguments);
+    return args.reduce((max, currVal) => {
+        return currVal > max ? currVal : max;
+    });
+};
+	--this is the old way of how we could handle functions with unlimited or variable arguments
+
+			11.9.3
+			The rest Operator
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560
+
+**Rest is the new way of doing the same thing as arguments do
+	--it also works is AFs
+
+**AGAIN
+	--rest/spread use the same syntax (...)
+	--when the three dots are part of a function definition, we call the operator the 'rest' operator
+	--so inside a function parameter list
+	--the rest operator is the last parameter defined in a function and will evaluate to an array of all additional arguments passed in
+	**Example:
+
+function sum(...nums){
+   console.log(nums)
+}
+	--if we call sums with any given set of numbers, it will return an ACTUAL array
+	--we don't have to convert it to an array and then use array methods
+	--it's an array right out of the gate
+	**Example:
+
+function sum(...nums){
+    return nums.reduce((sum, n) => sum + n);
+ }
+	--the rest operator also works with AFs and implicit returns
+	**Example:
+
+const sumAll = (...values) => {
+    return values.reduce((sum, n) => sum + n );
+}
+	--this is the first use case for rest
+	--we can collect all arguments that are passed in
+
+**The rest operator is the last parameter defined in a function and will evaluate to an array of all additional arguments passed in
+	--so we can use rest to collect remaining arguments
+	--we can start with named parameters that will capture on their own
+	--this is where the rest name comes from (it collects the rest)
+	**Example:
+--we want an array that will make a family array with 2 parents and subsequent children
+
+function makeFamily(parent1, parent2, ...kids){
+    console.log(parent1, parent2);
+    console.log(kids);
+}
+console.log(makeFamily("Moses", "Barbara", "Warren", "Evelyn")
+	--this will return an array with ["Moses", "Barbara"]
+	--there will be another array with 0: Warren and 1: Evelyn
+	--if we did not add the children, the children array would still exist, it would just be empty
+	--now let's update makeFamily so that it returns an object
+	--we will set parents to an array with 2 items
+	--and we set children to an array if there are kids in the array
+	**Example:
+
+function makeFamily(parent1, parent2, ...kids){
+    return {
+        parents: [parent1, parent2],
+        children: kids.length ? kids : "None"
+    };
+}
+console.log(makeFamily("Moses", "Barbara", "Warren", "Evelyn")
+	--now we will get an object with 2 arrays.
+	--the first array will be called children and contain the kids names
+	--the second array will be called parents and contain the parents names
+	--if we didn't add children so we did console.log(makeFamily("Moses", "Barbara")
+	--we would get the parents array and children would be labeled "None"
+**Let's try another example
+	--we want to filter by type
+	--so we could pass in a string as first argument and then pass in some value
+	--that would return an array that filters out the strings and puts them into an array
+	--if we filter by type Boolean it should contain an array that says true
+	--and so on and so forth
+	**Example:
+
+const filterByType = (type, ...vals) => {
+    return vals.filter(v => typeof v === type)	// for each val (v) the callback === the type passed in
+}
+console.log(filterByType('string', 23,45,true,false, 0, 'hello', 'goodbye'))
+	--this would return an array with 2 items
+	--the items would be the 2 strings in the argument 'hello', 'goodbye'
+	--we could do the same thing and filter for number
+	--console.log(filterByType('number', 23,45,true,false, 0, 'hello', 'goodbye'))
+	--this would return an array with 3 items
+	--the 3 items would be the three numbers within the argument
+	--23, 45, 0
+
+**There's one GOTCHA
+	--if you try to use rest when it's not the last parameter it won't be fun
+	**Example:
+
+function printStuff(a,...rest,b)
+	--this will not work because JS expects a closing parens because the rule is for rest to be the last parameter
+	--if we run this code we would get an "Uncaught SyntaxError: Rest parameter must be last formal parameter"
+	--because rest collects the "rest" of the arguments, if it's not the last formal parameter, it will not work
+
+			11.9.3
+			spread Function Calls
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560
+
+
+**Spread Operator
+	--unlike rest, we can use spread in multiple situations
+	--rest is only used when defining function expressions
+	--we can use spread in function calls, arrays, and objects
+	--the ... syntax, in a different context, is called the spread operator
+	--for example: when calling a function, you can 'spread out' array elements
+	**Example:
+
+function takesFour(one, two, three, four) {
+    console.log(one);
+    console.log(two);
+    console.log(three);
+    console.log(four);
+}
+
+const names = ['Mary', 'Colt', 'Angela', 'Abe',]
+
+takesFour(...names)
+	--if we have an array of names and want to call takesFour and pass in those names, we would get one array
+	--two, three, and four would be undefined
+	--that's because we'd only be passing one argument, which will be handled by the 'one' argument
+	--however, if we use the spread operator it will spread out the array into individual arguments
+	**Another Example:
+**We want to use Math.max with an array of numbers so we make a variable with an array
+const nums = [4,5,88,123,0,92]
+	--to find max of the entire nums array we pass one argument in
+Math.max(nums)
+	--this will return NaN (not a number)
+	--that's because instead of trying to find the maximum of the numbers within the array this will try to find the max of the whole array and nothing 	else
+	--so we're comparing one item (an array with multiple elements as one item) to another (nothing as an nothing)
+	--that's not what we want
+	--we want to pass in the numbers individually
+	--that's where the spread operator comes in
+	**Example:
+
+Math.max(...nums)
+	--you can think of it as looping
+	--it takes each element and adds them as individual arguments
+	--and from that the Math.max method is applied
+	--this will then do what we want it to and return the largest number within any given set of numbers
+
+**More examples and learning
+	--recall the filterByType function from another lesson
+	**Example:	
+
+const filterByType = (type, ...vals) => {
+    return vals.filter(v => typeof v === type)
+}
+filterByType('string', 23,45,true,false, 0, 'hello', 'goodbye')
+	--let's put the arguments into an array of their own and make it a variable
+
+const things = ['string', 23,45,true,false, 0, 'hello', 'goodbye']
+	--we want to get a new array containing the strings
+	--so we call filterByType(strings)
+	--then if we pass in things (filterByType(strings, things) it won't do what we want
+	--if we look at what things would be it's an empty array
+	--that's because again JS is taking the whole array and seeing it as one thing
+	--we want JS to see the array and each element inside it
+	--that's why we use spread
+	**Example:
+
+console.log(filterByType('string',...things))
+	--this will give us an array with 2 elements, like we wanted
+	--this shows we can spread not only the only argument in a function
+	--we can also spread after arguments (like the filterByType example)
+
+**We're not limited to spreading exclusively arrays
+	--we can spread other iterables (something we can iterate over)
+	--another type of iterable is a string
+	--we know if do console.log(2,3,4,5,6) it would print as 2 3 4 5 6
+	--if we try to log 'things' it will print out the whole 'things' array as an array
+	--if we spread 'things' into the console.log it will print each element of the array as an argument
+	--and the elements will no longer be inside the array
+**Let's see an example
+	--we'll do the same thing with a string
+	**Example:
+
+console.log(...'HELLO')
+	--this will print H E L L O to the console
+	--in effect we are doing the following
+	-- console.log('H', 'E', 'L', 'L', 'O')
+	--but takes half the time and effort
+**SOOOOOOO.....
+	--when you spread an array it iterates over each element and pulls it out as individual arguments
+	--when you spread a string it iterates over each letter in the string and pull them out as individual letters
+
+			11.9.5
+			Spreading Arrays
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560
+
+**We've seen how we can use spread in function calls
+	--so we can spread iterables as singlular arguments
+
+**Now we will talk about how we can spread over array literals
+	--so we know that when we see square brackets ([]) we are creating a new array
+	-- const palette = ['lavender berry', 'sunflower yellow', 'orchid orange']
+	-- we can spread an iterable into the above array
+	**Example:
+
+const ['lavender berry', 'sunflower yellow', 'orchid orange']
+	--we want to copy this array several times, but don't want to type out the array every time
+	--there are several ways to do this
+	--first, one way NOT to do it
+	**Example:
+
+const paletteCopy = palette
+	--this will NOT make a copy of the palette array
+	--arrays are reference types so paletteCopy has the exact same reference as palette
+	--let's prove it with an example
+	**Example:
+
+paletteCopy.pop()
+	--so we want to remove the last element of the paletteCopy array
+	--if we check, the last element has been removed from paletteCopy
+	--the problem is that the last element of the palette array has also been removed
+	--so we did not make a copy, only made two things pointing to the same reference
+
+**What if we wanted to make copy without spread?
+	--one option is to array.slice (palette.slice)
+	**Example:
+
+palette.slice(2)
+	--this will create a new array from index 2
+	--if we don't pass in an argument, however, it will create a new array with the same elements as the original
+	**Example:
+
+const paletteCopy = palette.slice();
+	--so here paletteCopy is pointing to a different space in memory
+	--if we change palette or we change paletteCopy the changes will only apply to the one we specify
+	--this still doesn't involve spread
+	--we can use spread to accomplish the same thing however
+	**Example:
+
+const palette = ['lavender berry', 'sunflower yellow', 'orchid orange']
+const paletteCopy = [...palette]
+	--this does the same thing as we was accomplished above
+	--this takes the original array and spreads into pieces then places them into an empty array
+	--if we compare palette ==== paletteCopy we get false
+	--they are not the same thing and paletteCopy is an actual copy of palette
+
+**Where does spread and array literals become extra useful?
+	--we can combine arrays
+	--we can add on to arrays by passing in new arguments after we spread
+		--it would be like pushing something to the end of an existing array
+	--we can even add arguments before we spread.
+	**Example:
+
+const paletteCopy = ['sky blue',...palette, 'grass green']
+	--so now we would have a new color at the start of the array and at the end (before and after the spread)
+	--at the same time, the original palette variable remains unchanged
+	--this happens because once we spread palette and saved into the paletteCopy variable, we changed where each variable is pointing in memory
+
+**We can also spread multiple times
+	--let's say we're making a website for a coffee shop
+	--we want to have a couple categories
+	--if we wanted to create a new array creating all the different teas we have, we could use spread to help us do it
+	**Example:
+
+const greenTeas = ['snow jasmine', 'fragrant leaf']
+const oolongTeas = ['oney orchid', 'winter sprout']
+const herbalTeas = ['afrincan solstice', 'marshmallowroot']
+const coffees = ['gutemala red cat', 'snow leopard blend']
+
+const allTeas = [...greenTeas, ...oolongTeas, ...herbalTeas]
+	--to start we have 3 arrays with names of different teas and one with names of different coffees
+	--we quickly and efficiently created an array called allTeas and combined all three tea arrays in one
+	--we did this by spreading each array into an empty array and saving it as a constant variable called allTeas
+	--none of the original arrays were changed in any way
+	--we can do it again and add an element that is not in the array as well
+	**Example:
+
+const withCaffeine = [...greenTeas, ...oolongTeas, ...coffees, 'Earl Grey']
+console.log(withCaffeine)
+	--now we have a new array, with different elements from the original arrays and one new element that we added in the same line of code
+
+**Similar to when we spread arrays into function calls, we can spread into an array literal
+	--we can spread other iterables like strings
+	**Example:
+
+const vowels = 'aeiou';
+const vowelArr = [...vowels]
+	--this creates an array with all the vowels as individual elements in the same array
+	--we could also do something like the following
+const vowelArr = [...vowels, 'sometimes y']
+	--this would spread the vowels into a new array and add 'sometimes y' at the end
+	
+**Review
+	--spread is a great way to:
+	1.) Create copies of an array
+	2.) Combing multiple arrays
+	3.) Creating new arrays based on existing arrays without having to use a bunch of different methods
+
+			11.9.6
+			Spreading Objects
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64565
+
+**Can we spread an object into an array or a function call?
+	--let's find out
+	**Example:
+
+const tea = {
+    type: 'oolong',
+    name: 'winter sprout',
+    origin: 'taiwan'
+};
+
+const arr = [...tea];
+	--we are attempting to spread an object into an array
+	--this WILL NOT work, however, because objects are not iterable and arrays are
+	--the same is true for the following example
+	**Example:
+
+for (let x of tea) {
+    console.log(x);
+}
+	--tea is not iterable
+	
+**We can use spread inside of a new object literal
+	--it is the same principle, but behaves differently with objects than arrays
+	--you can use the same operator to copy over pieces of an object into a new object
+	**Example:
+
+for (let x of tea) {
+    console.log(x);
+}
+
+const tea2 = {...tea};
+	--just like when we copy an array, we are copying the object
+	--the object we spread has the same properties as the original object
+	--the difference is that each object is pointing to a different location in memory
+
+**We can also add and change properties similar to how we could with arrays
+	**Example:
+
+const tea = {
+    type: 'oolong',
+    name: 'winter sprout',
+    origin: 'taiwan'
+};
+	
+const teaTin = {...tea, price: 22.99 };
+	--here we are spreading tea into a new object literal and adding a property to that new object literal
+	--order matters when we spread objects if we have confliciting properties
+	**Example:
+
+const tea = {
+    type: 'oolong',
+    name: 'winter sprout',
+    origin: 'taiwan'
+};
+
+const newTea = {...tea, name: 'golden frost'}
+	--in this example, because there is already a name property, we have changed it from 'winter sprout' to 'golden frost'
+	--but what if we tried setting the name before we spread the object?
+	**Example:
+
+const tea = {
+    type: 'oolong',
+    name: 'winter sprout',
+    origin: 'taiwan'
+};
+
+const newTea = {name: 'golden frost', ...tea}
+	--what happens here is the name is changed, but then when tea is spread that name change is overridden
+	--so it appears that the name did not change when, in reality, it was changed and than changed back
+
+**We can also use spread to combine an object into a new object
+	**Example:
+
+const tea = {
+    type: 'oolong',
+    name: 'winter sprout',
+    origin: 'taiwan'
+};
+
+const teaData = {
+    steepTime: '30s',
+    brewTemp: 175
+}
+
+const fullTea = {...tea, ...teaData}
+	--if we look at full tea it has all of the properties from both objects
+	--now let's say we have a conflict of properties
+	--both objects have a property of origin
+	--in the tea variable it's Taiwan and in the teaData variable it's Japan
+	--which property will show in the new object?
+	--spoiler alert, it's Japan
+	--the reason it's Japan is because teaData was spread second
+	
+**What happens if you try to spread an array into an object?
+	--it can get confusing
+	**Example:
+
+const colors = ['red', 'orange', 'blue']
+const dummyObj = {...colors}
+	--so here we are spreading an array into an object
+	--what happens is JS takes the indices of the colors array and changes them to key pairs in the new object
+		0: 'red'
+		1: 'orange'
+		2: 'blue'
+	--this is because in JS arrays are just special types of objects with additional methods and functionality
+
+**What if we spread a string into an object?
+	--what do we think would happen?
+	**Example
+
+const dummyObj = {...colors, ...'purple'}
+	--here we are spreading the colors array and the string 'purple' into an object 
+	--what happens is the word purple is placed inside the new object in the same way the colors array was
+	--that is, the new object contains a key pair for each letter in the string
+		0: 'p'
+		1: 'u'
+		2: 'r'
+		3: 'p'
+		4: 'l'
+		5: 'e'
+	--but what happened to the colors array?
+	--strings are primitive values but JS makes a temporary wrapper object for each string
+	--that means the string 'purple' is considered an object and iterable
+	--so what is happening is the objects are confliciting
+	--the colors object is created, and then it is overridden by the string 'purple'
+	--we can prove this by changing the order that we spread the string and the array
+	**Example:
+
+const dummyObj = {...'purple', ...colors}
+	--what actually happens here is the new object contains 6 key pairs
+	--the first 3 are the colors array and second three are the last 3 letters of the string 'purple'
+	--so it seems that if you spread a string first, the length of that string determines how many key pairs are in the new object
+	
+
+	
+
+	
+	
+
+	
+	
+
+
+
+
+
+
+
+	
+
+
+	
+
+
+
+
+
+	
+
+
+
+
+	
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

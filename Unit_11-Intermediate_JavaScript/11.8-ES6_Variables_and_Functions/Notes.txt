@@ -679,7 +679,7 @@ const cat = {
     }
 };
 	--in the above code, we created an object with 1 property and 2 methods
-	--the eat() method is function expression
+	--the eat() method is a function expression
 	--the meow() method is an arrow function expression
 	--if we call cat.eat() cat is pointed to the eat method
 	--if we call cat.meow, however, it points to the global scope window object
@@ -723,6 +723,64 @@ const makeObj = () => {
 	**Example:
 
 const makeObj = () => {mood: 'meh'}
+
+Babel does this:
+
+const makeObj = () => {
+  mood: 'meh';
+};
+	--there's no 'return' keyword
+	--that's because we created an object literal with an arrow function but didn't wrap the object in parens
+	--this confused JS
+	--if we add the parens it would look like the following:
+
+const makeObj = () => ({mood: 'meh'})
+
+Babel does this:
+
+const makeObj = () => {
+    return {
+    mood: 'meh'
+    };
+  };
+	--this works because the code we tried to transpile was correct
+
+**Let's look at another example
+	**Example:
+
+const cat = {
+    name: 'Bubs',
+    eat : function () {
+        console.log(this);
+        return `${this.name} chows down`
+    },
+    meow : () => {
+        console.log(this);
+        return `${this.name} says MEOW!!!`;
+    }
+};
+
+Babel does this:
+
+ var _this = void 0;
+
+  var cat = {
+    name: 'Bubs',
+    eat: function eat() {
+        console.log(this);
+        return "".concat(this.name, " chows down");
+    },
+    meow: function meow() {
+        console.log (_this);
+        return "".concat(_this.name, " says MEOW!!!")
+    } 
+  };
+	--for the arrow function we get _this
+	--this is because arrow functions do not create their own 'this' keyword
+	--Babel takes the code we write and transpiles it into code that works in all browsers (regular, "old-fashioned" JS)
+
+
+
 
 
 
