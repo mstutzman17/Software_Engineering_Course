@@ -590,59 +590,769 @@ const dummyObj = {...'purple', ...colors}
 	--what actually happens here is the new object contains 6 key pairs
 	--the first 3 are the colors array and second three are the last 3 letters of the string 'purple'
 	--so it seems that if you spread a string first, the length of that string determines how many key pairs are in the new object
+
+**Review: we've seen spread in 3 different ways
+	1.) Using it to call a function to spread an iterable into separate arguments 
+	2.) Using it inside array literal to copy/combine arrays to a new destination
+	3.) Using it inside object literals to copy/combine arrays to a new destination
+
+			11.9.7
+			Spread and Deep Copies
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64565
+
+**Let's talk about cloning or creating copies of nested data structures using spread operator
+	--spread is great to create copies of shallow data structures (one level array or object)
+	--when we use spread it won't create a deep copy/clone
+	--Example:
+
+const shoppingCart = [
+    {
+        name: 'honey orchid',
+        quantity: 2,
+        price: 13.50
+    },
+    {
+        name: 'african solstice',
+        quantity: 4,
+        price: 25.99
+    }
+];
+
+const cartCopy = [...shoppingCart]
+	--what happens here is what you would expect
+	--when we spread shoppingCart into the new array we get 2 arrays with one object in each
+	--the objects have all the key pairs you would expect
+	--and if we compare cartCopy === shoppingCart it would return false
+	--that means it has created a true copy
+	--HOWEVER!! If we compare cartCopy[0] === shoppingCart[0] we get true!
+	--that means that both cartCopy[0] AND shoppingCart[0] are pointing at the same reference in memory!
+
+**If we update the quantity for the honey orchid in the cartCopy array (the new array) what would happen?
+	--let's see
+	**Example:
+
+cartCopy[0].quantity = 99;
+	--here we have updated cartCopy
+	--the sad part is we also updated shoppingCart
+	--this is because spread can allow make shallow copies, one level deep
+	--if we try to make a copy of nested objects or arrays, it will only duplicate it
+	--so spread CANNOT make deep clones where every level of nested code is copied
+	--BOOOOOOOOO
+
+			11.9.9
+			Object Enhancements Handout
+			https://lessons.springboard.com/Object-Enhancements-bdaac698087c4bd39cbdce07b82e6843
+
+**This handout contains a text document for the information that we will be covering in detail in the upcoming Video Curriculum.
+**These things include the following:
+	1.) Object Shorthand
+	2.) Object Methods
+	3.) Computed Property Names
+	4.) Current Usage
+	5.) Computed Property Names in the Wild
+
+			11.9.10
+			Property Names Shorthand 
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64565
+
+**Three small features to create object literals
+	1.) Object Property Shorthand
 	
+**It's common to create objects
+	--like inside a function
+	--we had an old way of doing this
+	**Example: 
 
-	
+function makePerson (first, last, age){
+    return {
+        first: first,
+        last: last,
+        age: age,
+        isAlive: true
+    };
+}
 
-	
-	
+console.log(makePerson ('Moses', 'Stutzman', 32))
+	--the function above accepts 3 parameters
+	--when it's called you pass in arguments, it returns an object with all 4 arguments.
+	--we connected to the parameters of the function to the properties of the object that is being created
+	--then we console.log it voila, we have an object with all the properties we set
+**What is mildly annoying about this "old" way of doing what we just did?
+	--we have to type first, last and age twice when we're setting the properties for the object
+	--there is a new shorthand option
+		--if we want to create a new object with properties based off an existing variable
+		--AND we want to use the name of that variable as the key in the object
+	--what we can do for this shorthand is remove the what we want the key name to be and what it's referencing
+	--(Ex. first: first becomes just first; last: last, becomes just last,)
+	--ES6 JS is now built to understand that we want to use the parameters of the function as keys for the object we're creating.
+	**Example:
 
-	
-	
+function makePerson (first, last, age){
+    return {
+        first,
+        last,
+        age,
+        isAlive: true
+    };
+}
+
+console.log(makePerson ('Moses', 'Stutzman', 32))
+	--the code above works the same way as the "longhand" we started with
+	--we don't have to duplicate the property name AND the variable name
+**Browser support
+	--MDN object initializer page
+	--we have support in all major browsers except Internet Explorer (IE)
+	--we can use babel again to transpile this shorthand to something that would work in IE
+
+			11.9.11
+			Methods Shorthand
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64565
+
+**New small features to create object literals in JS
+	1.) Object Property Shorthand
+		--we discussed this in Subunit 10
+	2.) Creating methods easier in an object
+
+**Review
+	--created methods are functions inside an object that we are storing as a property of that object
+	**Example:
+
+const mathStuff = {
+    x: 200,
+    add: function (a,b) {
+        return a + b;
+    },
+    square: function (a) {
+        return a * a;
+    }
+};
+
+console.log (mathStuff.add(17,17))
+console.log (mathStuff.square(17,17))
+	--so here we have used the add methods that we created as properties inside of the object called mathStuff
+	--and that's what created methods look like inside an object
+**There is a new shorthand way to do what we just did
+	--this is used when a key in an object represents a function
+	--this allows us not to use the colon syntax
+	--instead we can write functions like the following
+	**Example:
+
+const mathStuff = {
+   x: 200,
+   add(a,b){
+    return a + b
+   },
+   square(a){
+    return a * a;
+   }
+};
+	--in the shorthand to create an object method we did 2 thigns
+		1.) Remove the word function before the parameters of our function
+		2.) Remove the colon after the method/key name
+		**Ex: add: function() becomes just add()
+		**Ex: square: function() becomes just square()
+**IMPORTANT NOTES: 
+	1.) When using this syntax it's easy to forget that it is as a regular property
+		--thus it's easy to forget a comma after we specify what a method is doing
+		--DON'T FORGET THE COMMA!
+	2.) DO NOT use arrow functions here!
+		--What would happen if we try to use an arrow function?
+	**Example: If we tried to add an arrow function
+
+square(a) => {
+  return a * a;
+ }	
+	--JS doesn't like this because it's expecting a curly brace after square(a)
+	--If tried adding an AF like we normally do what would happen?
+	**Example:
+
+() => {
+    
+}
+	--this wouldn't work becuase there is no property name
+	--Unlike function definitions AFs are not named
+	--you coulnd't randomly through an AF in your code like, but you can do that with a function definition
+	--you can't use AFs with this shorthand
+**If we REALLY wanted to use an AF to create an object method we could do something like the following
+	**Example:
+
+multiply: (a,b) => {
+return a * b;
+}
+	--this would work
+	--but again, we CANNOT use an AF for the shorthand to create objects methods
+
+**Again we can through this shorthand into Babel
+	--IE doesn't support the Methods shorthand
+	--babel can transpile code for this JS feature into code that would work on all browsers (including IE)
 
 
+			11.9.12
+			Computed Property Names Shorthand
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64572
 
+**New small features to create object literals in JS
+	1.) Object Property Shorthand
+		--we discussed this in Subunit 10
+	2.) Creating methods easier in an object
+		--we discussed this in Subunit 11
+	3.) Computed Property Names
 
+**Computed Property Names
+	--ES2015 allows us to create and object with a key that JS can compute at definition
+	--concise way of adding key to object where key name is variable/dynamic
+	--not a hard coded thing, so it could be different everytime
+	--consider two color names and hex codes
+	1.) 'periwinkle' '9c88ff'
+	2.) 'bright ube' 'D6A2E8'
+		--we want to make an object to look up hex code based off color name or color name based off hex code
+	--the following is how we would hard code it
+	**Example:
 
+const color = {
+   periwinkle: '9c88ff',
+   '9c88ff': 'periwinkle'
+};
+	--this would achieve what we want
+	--now we want to create a function with "two way lookup"
+	**Example:
 
+function makeColor(name, hex) {
+   return {
+      name: hex,
+      hex: name
+   };
+}
+	--now if pass in a color name and hex code we get an object with hex and name as keys.
+	--the values of those keys are defined by the arguments we pass in when calling the function
+	--what we want to do is make the key for name the actual name of the color and the key for the hex code the actual hex code for the named color
+	--we want to the key names to be dynamic
+	--in the past (without the enhancement of computed properties) is the following
+	**Example:
 
-	
+function makeColor(name, hex) {
+   const color = {}; // variable called color with empty object
+   color[name] = hex;   // square brackets evaluate the value of name and hex and return a string
+   color[hex] = name;
+   return color;
+}
+	--so here we had to make an object as one step and add each dynamic property as a separate line
+	--if wanted to make a single expression to add everything at once and return at the same time, we use computed property names
+	**Example:
 
+function makeColor(name, hex) {
+   return {
+      [name]: hex,
+      [hex]: name,
+   }
+}
+	--this does the same as the previous example, with less characters and less steps
+	--we could add multiple dynamic properties
+	--we can also add regular properties within the same object
+	--we could also write code within the square brackets
+	**Example:
 
-	
+const mystery = {			const obj = {};
+   [6 + 7]: 'thirteen'			obj [6 + 7] = 'thirteen'
+};
+	--both sets of code do the same thing
+	--the differences is that the first block is shorthand for dynamic properties
 
+**Browser Support
+	--IE does not support this shorthand
+	--again we could use babel to transpile the shorthand to code that would work in IE and other non supported browsers
 
+			11.9.13
+			Array and Object Destructuring Handout
+			https://lessons.springboard.com/Array-and-Object-Destructuring-9a11404c374e416296d9337795f93b80#4fc5d771e3a446519a5814bfd43a37ff
 
+**This handout list some goals for the next concepts
+	1.) Understand what Destructuring is
+	2.) Use object Destructuring to write less code
+	3.) Use array Destructuring to swap values and extract nested values
 
+**There is also text and examples for the following topics/concepts
+	--Object Destructuring
+	--Destructuring and Spread
+	--Renaming with Destructuring
+	--Defaults with Destructuring
+	--Destructuring Nested Objects
+	--Destructuring Functions
+	--Applying the same Concept to Arrays
+	--Fancy 1-Line Array Value Swap
 
-	
+			11.9.14
+			Object Destructuring
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64574
 
+**Goals for Destructuring
+	1.) Understand what Destructuring is
+	2.) Use object destructuring to write less code
+	3.) Use array destructuring to swap values and extract nested values
+	4.) Use destructuring in function definitions
+**What is destructuring?
+	--when you have data structure with different values we can destructure those values
+	--think of it as extraction: we can extract certain values into new variables with simple syntax
+	--let's start with an object called teaOrder with 6 properties
+	**Example:
 
+const teaOrder = {
+   variety: 'oolong',
+   teaName: 'winter sprout',
+   origin: 'taiwan',
+   price: 12.99,
+   hasCaffeine: true,
+   quantity: 3
+};
+	--let's try to alter this object without destructuring
+	--we want to get the value of origin in new variable and extract price and quantity
+	**Example:
 
+const price = teaOrder.price;
+const quantity = teaOrder.quantity;
+const teaName = teaOrder.teaName;
+	--now we have 3 standalone variables that originated from properties in our teaOrder object
+	--we have not altered or mutated the object in any way
+	--this method is obnoxious because we have to constantly write the name of the object
+	--if we want to make multiple updates or alterations, this a tedious thing to do
+**This is where destructuring comes in
+	--we can on a single line exract or destructure any of the values out of the teaOrder object
+	**Example:
 
-	
+const {price, quantity, teaName} = teaOrder;
+	--above we chose the properties that we want out of teaOrder
+	--then we set those props equal to the object
+	--curly braces are essential
+	--it tells JS that we are DESTRUCT the values into stand alone variables
+	--now JS looks for each given property in the teaOrder object and verifies that each exists in the given object
+	--so now we can code call price and see that it has the value of the property with the same name from teaOrder
+	--again we have not altered the teaOrder object in anyway
+	**IMPORTANT: Nothing we do with destructuring will ever mutate or alter the data structure we are working with in any way. All we are doing is 	seamlessly extracting and copying information from the data structure.
 
+**What if the name we use in destructuring does not exist in the object we are extracting from??
+	--we would just be creating a variable
+	--if we use a name that doesn't match a property in the object and call that name, we will get undefined
 
+**Another thing we can do is use rest operator in conjunction with destructuring
+	--remember rest
+	--function hi (...nums) would collect all arguments into a nums array
+	--when used in destructuring it will create a new object with all the properties that are not named
+	**Example:
 
+const teaOrder = {
+   variety: 'oolong',
+   teaName: 'winter sprout',
+   origin: 'taiwan',
+   price: 12.99,
+   hasCaffeine: true,
+   quantity: 3
+};
 
+const {price, quantity, teaName,...otherStuff} = teaOrder;
+	--now a variable named otherStuff has been created
+	--in that variable is an object with the properties from teaOrder that weren't named in destructuring
 
+**So far we've seen
+	--we can create new variables using an existing object
+		--we use name of prop we're looking for
+	--we also saw we can collect the rest of the properties from the object in the same line
 
+			11.9.15
+			More Destructuring Objects
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64574
 
+**With Destruct we can also set default values
+	--let's continue with the teaOrder object from subunit 14
+	**Example:
 
-	
+const teaOrder = {
+   variety: 'oolong',
+   teaName: 'winter sprout',
+   origin: 'taiwan',
+   price: 12.99,
+   hasCaffeine: true,
+   quantity: 3
+};
 
+const {brewTemp = 175) = teaOrder
+	--we are adding a property to teaOrder that does not exist
+	--we are simultaneously adding a value to that new property
+	--let's say the property brewTemp already existed and had a value attached to it
+	--the new variable created from destruct would default to value assigned within the object
+	--if the property name does not exist, we can set the value in the destruct
 
+**Renaming with Destruct
+	**Example: 
 
+const teaOrder = {
+   variety: 'oolong',
+   teaName: 'winter sprout',
+   origin: 'taiwan',
+   price: 12.99,
+   hasCaffeine: true,
+   quantity: 3
+};
 
+const { teaName: tea} = teaOrder
+	--this would change property called teaName and rename it to tea
+	--we can combine defaults and renaming
+	**Example:
 
+const teaOrder = {
+   variety: 'oolong',
+   teaName: 'winter sprout',
+   origin: 'taiwan',
+   price: 12.99,
+   hasCaffeine: true,
+   quantity: 3
+};
 
+const { brewTemp: temp = 175} = teaOrder
+	--now brewTemp is renamed to temp
+	--and the default value (because it is not in the teaOrder function) is 175
+**How can we use destruct with functions?
+	--Example:
 
+const teaOrder = {
+   variety: 'oolong',
+   teaName: 'winter sprout',
+   origin: 'taiwan',
+   price: 12.99,
+   hasCaffeine: true,
+   quantity: 3
+};
 
+function checkout(tea){
+   const {quantity, price} = tea;
+   return quantity * price;
+}
 
+console.log(checkout(teaOrder))
+	--when we console.log checkout(teaOrder), we pass the teaOrder object as an argument of the function checkout.
+	--inside the function, tea now refers to the teaOrder object.
+	--this allows checkout to access quantity and price from teaOrder indirectly through the tea parameter.
+	--then we can extract the quantity and price properties from teaOrder and use them in our function
+	--the values for these properties are determined by the value assigned within the object referred to in call of checkout
+**Let's see another example with a different teaOrder
+	**Example:
 
+const order1 = {
+   variety: 'green',
+   teaName: 'silver needle',
+   origin: 'taiwan',
+   price: 12.99,
+   hasCaffeine: true,
+};
 
+function checkout(tea){
+   const {quantity = 1, price} = tea;
+   return quantity * price;
+}
 
+console.log(checkout(order1))
+	--we removed the quantity prop from the object
+	--now when we call checkout(order1) the value for quantity is determined from the value in the destruct
 
+			11.9.16
+			Array Destructuring
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64576
+
+**We can use destruct on arrays as well
+	--in objects we destruct based on property/key names inside an object
+	--in arrays we destruct based on the index of item we're extracting
+	--we also use [] instead of {}
+	**Example:
+
+const students = [
+   {name: "Drake", GPA: 4.6},
+   {name: "Henrietta", GPA: 4.4},
+   {name: "Tung", GPA: 4.0},
+   {name: "Harry", GPA: 3.8},
+   {name: "Anthony", GPA: 3.2},
+];
+
+const [topStudent] = students;
+	--the new variable we created tells JS to take the first array element and save it inside that new variable
+	--so if we call topStudent we would get an object with the name: Drake and GPA: 4.6
+	--if we want to include another student in the new variable we use a comma
+	**Example: const [topStudent, secondbest] = students;
+	--now we would have variable for topStudent with info for Drake and variable for secondBest with info for Henrietta
+	--destructuring an array is all about the position of the element
+	--so when I'm destructuring an array, the first thing in the destruct list will be the first thing in the new variable
+	--the second in the destruct list will be the second
+	--and so on and so forth
+	--there is a way to skip elements however
+	**Example:
+
+const [topStudent, secondBest,,] = students;
+	--the second comma is the first element we skip.
+	--the third would mean skip 2 elements, and so on
+	**Example:
+
+const students = [
+   {name: "Drake", GPA: 4.6},
+   {name: "Henrietta", GPA: 4.4},
+   {name: "Tung", GPA: 4.0},
+   {name: "Harry", GPA: 3.8},
+   {name: "Anthony", GPA: 3.2},
+];
+
+const [topStudent, secondBest,, fourth]
+	--here it looks like we want to access the third element in the array
+	--but because there is an extra comma after secondBest, we are skipping one element
+	--that means that fourth is now saved as {name: 'Harry', GPA: 3.8} instead of {name: 'Tung', GPA: 4.0}
+	--when skipping elements you shouldn't skip more than one at a time
+	--that would involve counting commas and more "figuring out" than is needed
+**IMPRTANT NOTE
+	--as with objects, we are also not altering the original array in anyway
+	--when we extract any number of elements with destructuring, the original array remains unchanged
+**We can also use the rest operator when destructuring arrays
+	--Example:
+
+const [first, ...losers] = students;
+	--here we have new variable called first with the info from the first object in the array
+	--then we have a new variable called losers that contains the rest of the array
+
+			11.9.17
+			Function Destructuring
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64576
+
+**Function destructuring
+	--we can use this to extract key/value pairs from an object into variables
+	--if we know we're passing an object or array into a function
+	--and we need to use specific pieces of it
+	--we can use destruct in parameter list to grab terms in their own variables
+	**Example:
+
+const teaOrder = {
+   variety: 'oolong',
+   teaName: 'winter sprout',
+   origin: 'taiwan',
+   price: 12.99,
+   hasCaffeine: true,
+   quantity: 3
+};
+
+function getTotal(tea){
+   const {quantity, price} = tea;
+   return quantity * price;
+}
+	--here we are destructuring within the function when we say const {quantity, price} = tea;
+	--we could instead destruct in the parameter list and not even have to write const {quantity, price} = tea;
+	**Example:
+
+const teaOrder = {
+   variety: 'oolong',
+   teaName: 'winter sprout',
+   origin: 'taiwan',
+   price: 12.99,
+   hasCaffeine: true,
+   quantity: 3
+};
+
+function getTotal({quantity, price}){
+   return quantity * price;
+}
+	--now we have can could call getTotal(teaOrder)
+	--this will destruct quantity and price from the teaOrder object
+	--then it will carry out the return of the function
+	--everything else in the object is ignored because we haven't accessed it in any way
+	--so we could also add in something like ({quantity, price, ...rest}) to include the rest of the object in a new variable
+**We can do the same thing with arrays
+	--suppose we have 2 arrays of results from something or another
+	--where the first element is first place, the second is second place, and so on
+	--we want a function that returns an object where the first property of the object is gold:, the second is silver: and so on
+	**Example:
+
+const longJumResults = ['Tammy', 'Jessica', 'Violet' ];
+const swimMeetResults= ['Japan', 'France', 'Chile'];
+
+function awardMedals(){
+   return {
+      gold: 'Tammy',
+      silver:'Jessice'
+   }
+}
+	--instead of list each element as a key/value pair, we can use destruct
+	**Example:
+
+function awardMedals([gold, silver, bronze]){
+   return {gold, silver, bronze};
+}
+	--we call awardMedals and pass in the array we want to access as the argument
+	--we don't even need to list the properties with the value in the return because of the object property shorthand
+	--now when we call awardMedals(longJumpResults) we will get an object
+		{gold: 'Tammy', silver: 'Jessica', bronze: 'Violet'}
+	--so again we can destruct inside a function definition (parameter list)
+	--we can do it both with arrays AND objects
+	--it is far more common to do it with objects, though
+
+			11.9.18
+			Nested Destructuring
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64576
+
+**We can combine what we know about destructuring arrays and objects
+	--we can learn about destructuring nested objects/arrays
+	--we destructure nested objects by nesting the curly braces in the destructuring statement
+	**Example: 
+	**NOTE ABOUT THE EXAMPLE: for this example, we're using a rating database from an api
+	--I don't have access to the API and I don't want to copy it from the video because it's long and complicated
+	--so we're just going to have to use our.... "IMAGINATION" when talking about this
+	--.... carry on
+	**Example:
+
+const {Rated} = movie;
+const {rating, advisory} = Rated;
+	--here we are accessing the Rated object nested in the movie object
+	--then we are accessing the rating and advisory properties in the Rated object
+	--but we're using 2 steps to get access to what we really want which is the rating/advisory props
+	--instead we can nest our destructuring
+	**Example:
+
+const {Rated: {rating, advisory}} = movie
+	--in this example we've created 2 new variables for rating and advisory
+	--we have not created a variable for Rated
+	--that's because we are just using that to gain access to rating/advisory
+	--we could rename the props that we are destructuring
+	**Example:
+
+const {Rated: {rating, advisory: notes}} = movie
+	--here we have renamed the advisory prop to note
+	--now we don't have an advisory variable, but a note variable instead
+	--note will still access the value of advisory, the name has just been changed
+
+**We can do the same with arrays
+	--in the movie object with tons of props and methods and nested objects
+	--there are also nested arrays
+	--There is a Ratings array with user ratings
+	--each element is an object
+	--and each object contains a Source: and Value: prop 
+	--let's say we want to destructure the first element in the array
+	**Example:
+
+const [Ratings] = movie;
+const [imdbRating] = Ratings
+	--this would create a variable called imdbRatings and save the info from the first element of movies in it
+	--like with an object, this took 2 steps to get the info we want
+	--we can use nested destructuring here as well
+	**Example:
+
+const [Ratings: [imdbRating]] = movie;
+	--this will do the same thing as the first
+	--what if we wanted to access the second element and skip the first?
+	**Example:
+
+const [Rating: , rottenToms]] = movie;
+	--great! now we have created a variable called rottenToms which saves the information for the second element of movie array
+	--what if we want just the value property of object that is the first element of the movie array?
+	**Example:
+
+const { Ratings: [{Value}]} = movie;
+	--this gets deep, but follow along now
+	--we first access the Ratings array, inside the movie object
+	--then we access the first element of that array which is itself an object
+	--then we access the Value property from that object, nested in an array (Ratings), nested in an object (movie)
+	--now we have created a new variable that extracts the info we accessed which
+	--the variable is called Value and has a value of '8.3/10'
+	--we could also rename Value
+	**Exmaple:
+
+const { Ratings: [{Value: imdbRatingValue}]} = movie;
+	--we're accessing the same thing as before, we've just given the new varibale a different name
+	--we can continue down the list objects that are elements in the Ratings array
+	--we just need to stay inside the square brackets[]
+	**Example:
+
+const { Ratings: [ {Value: imdbRatingValue}, {Value: rtRatingValue}, {Value: metaRatingValue} ]} = movie;
+	--we are moving through each object of the array and pinpointing the value we want by using commmas in the destructuring
+
+**Let's look at another example:
+	--there is a Versions array which is a property of the movie object
+	--again, each element of the array is also an object
+	--these "element objects" contain 2 props, version: and runtime:
+	--we want to extract both runtimes
+	--but we want to combine this our original destructuring statement
+	**Example:
+
+const {
+   Ratings: [
+      {Value: imdbRating},
+      {Value: rtRating},
+      {Value: metaRating}
+   ],
+   Versions: [
+      {runtime: originalReleaseRuntime}
+      {runtime: directorsCutRuntime}
+   ]
+
+} = movie;
+	--now we are accessing what we want and it's all pretty clear cut
+
+**Nesting to 5 or 6 levels could become harder to understand
+	--it is shorter, but shorter does not always mean better
+
+			11.9.18
+			Destructuring Swap
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64560/64576
+
+**This is nothing new, just an application of destructuring
+	--a common application where we use destruct to help
+	--it's called swapping variables or swapping values
+	**Example:
+
+let delicious = "Mayonnaise";
+let disgusting = "Whipped Cream"
+	--without destructuring we would need to create a third temporary variable
+	--otherwise if we try to set
+delicious = disgusting
+	and
+disgusting = delicious
+	--delicious would equal "Whipped Cream" and disgusting would equal "Whipped Cream"
+	--because we set value of delicious to what was in disgusting
+	--so we need a temp placeholder
+	**Example:
+
+let temp = delicious	// we set temp to equal "Mayonnaise"
+delicious = disgusting	// we set "Mayonnaise" to equal disgusting
+disgusting = temp;	// we set "Whipped Cream" to equal delicious
+	--so here were are setting saving delicious (aka "Mayo") into the temp variable
+	--this is so that we can change the definition of disgusting later
+	--then we setting delicious (aka "Mayo") equal to disgusting (aka "Whipped Cream")
+	--now delicious = "Whipped Cream"
+	--then we set disgusting (still "Whipped Cream" because we made the temp variable) equal to temp
+	--now disgusting is equal to "Mayo"
+	--It's complicated, but we have a solution to this called swapping values
+	--first we'll see the "longhand" way of achieving this
+	**Example:
+
+let delicious = "Mayonnaise";
+let disgusting = "Whipped Cream"
+
+let both = [delicious, disgusting];
+
+[disgusting, delicious] = both;
+	--now disgusting is equal to mayo and delicious equal to whipped cream
+	--we can be even more succinct than this
+	**Example:
+
+[disgusting, delicious] = [delicious, disgusting]
+	--we don't use let or const to declare a new variable
+	--because we've used let already we can change the values
+	--with const we wouldn't be able to
+	--here we're just using destructuring to update existing variables
+**Here's a review on swapping variables
+	--we make an array
+	--we put values into the array so that we can use it to swap existing values
+	--we use destruct on left to set disgusting from whatever first element is to whatever second element is
+
+**Here's a review of what we learned about destructuring in general
+	1.) We can destructure objects and arrays
+	2.) We can use rest to collect the rest of an object or array while destruct
+	3.) We can rename the variables with colon and name we come up with
+	4.) We can have Default values using the equals sign
+	5.) We can destruct nested objects with {} and arrays with []
+	6.) We can use it define a function in a parameter list (typical with objects)
+	7.) We can us the one liner syntax for swapping values
 
 
 
