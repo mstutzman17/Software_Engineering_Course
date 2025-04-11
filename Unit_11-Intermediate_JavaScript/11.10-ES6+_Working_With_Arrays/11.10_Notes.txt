@@ -1,0 +1,252 @@
+Notes for Unit 11 Subunit 10
+
+			11.10.1
+			Callback Functions Revisited
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582
+
+**Subset of built array methods that accept callbacks as arguments
+	--array docs on MDN
+	--there are tons of array methods
+	--one such method is forEach method which accepts a callback
+	--another is reduce
+
+**Let's talk about functions as values in JS and how we can pass functions around
+	--we have multiple ways of defining a function
+	**Examples
+1.) Defining a funciton
+
+function holler() {
+    console.log("Hey you!")
+}
+
+2.) Annonymous Function Expression
+	--basically a function stored in a variable
+
+const whisper = function() {
+    console.log("pssst.... i have a secret")
+}
+	--let's rep here for second
+	--to execute we can call whisper in the console
+	--if we do that, we would get "pssst.... i have a secret" printed to the console
+	--so this is where we will start into the meat of this video which is passing functions around
+	**Example:
+
+function add(x,y){
+    return x + y;
+}
+
+function subtract(x,y){
+    return x - y;
+}
+
+function multiply(x,y){
+    return x * y;
+}
+
+function divide(x,y){
+    return x / y;
+}
+	--above, we have 4 simple math functions
+	--like a number or string, functions are values
+	--we could even put functions inside an array
+	**Example:
+
+const mathFuncs = [add, subtract, multiply, divide]
+	--it's important to note that you don't add the parens when you put functions into an array
+	--if you do you are trying to execute the function right away
+	--here we are just reference the value each function by putting the function name into the array
+	--now let's say we wanted call one of these functions using the mathFuncs variable
+	**Example:
+
+mathFuncs[3](18,2)
+	--here we are accessing index of 3.
+	--in the mathFuncs array index of 3 references the divide function
+	--so that is what function will be carried out
+
+**Let's talk about callbacks (functions as arguments)
+	--we've seen it before
+	**Example:
+
+const whisper = function() {
+    console.log("pssst.... i have a secret")
+}
+
+setTimeout(whisper, 4000)
+	--here we have set the first parameter to the name of the function
+	--the second parameter is the amount of time to wait before the function passed an argument is carried out
+	--it's important to note that we are not calling the function whisper.
+	--the setTimeout method is calling the function
+	--so we do not need the parens after the function name
+**The question is how do we write our own functions that do this?
+	--it's pretty straightforward
+	--we treat them like any other argument
+	**Example:
+
+function doMath(a,b,mathFunc){
+    return mathFunc(a,b)
+}
+	--here we have a function called doMath
+	--the first two parameters are set as a,b but you can call them whatever you want
+	--the third parameter is going to call a function (again the name can be whatever you want)
+	--in the body of the function we are returning whatever math function we decided on and whatever numbers we decided on.
+	**Example:
+
+function doMath(a,b,mathFunc){
+    return mathFunc(a,b)
+}
+
+console.log(doMath(17,27,add))
+	--here we have successfully used a function as an argument
+
+**We can also pass in an anonymous function
+	**Example:
+
+doMath(7,7, function(a,b){
+    console.log(`Answer: ${a ** b}`);
+})
+	--as our third parameter here, instead of callback a function, we written an anonymous function that only exists in this block of code
+	--in the example above we used an inline anonymous function
+
+**What if we used the mathFuncs array and defined a function called do all math
+	--this would accept 2 numbers and the mathFuncs array as 
+	--we want it to call each function in the array and list the answers
+	**Example:
+
+function doAllMath(a,b, mathFuncs){
+    for(let func of mathFuncs){
+        console.log(`Answer: ${func(a,b)}`)
+    }
+}
+
+console.log(doAllMath(7, 7, mathFuncs))
+	--the doAllMath function accepts 3 parameters
+	--we used a for loop to iterate over each value of the mathFuncs array
+	--after the for loop we console.log the result
+	--and voila, we've used an array as an argument in a function
+
+			11.10.3
+			forEach
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582
+
+**We're talking about array methods that expect a function as an argument
+	1.) First up is the forEach method
+		--it's the simpliest one
+		--not most powerful, not most useful, just easiest to understand
+**How does it work?
+	--Loops through an array
+	--runs a callback function for each value in the array and then returns undefined
+	--forEach will always return undefined - no matter what
+	**Example:
+
+const colors = ['teal', 'cyan','peach','purple']
+
+colors.forEach(function())
+	--this is the setup
+	--often you would write an inline function for the argument of the forEach method
+	--however, you can also call an existing function
+	**Example:
+
+colors.forEach(console.log)
+	--if we run this code, the console will return the following:
+
+teal 0 >Array(4)
+cyan 1 >Array(4)
+peach 2 >Array(4)
+purple 3 >Array(4)
+	--we see here that each color from our colors array are being individually printed, along with it's index and the entire colors array
+	--this gives us insight into how forEach works
+	--every function we pass into forEach can take/return 3 arguments
+	--in the colors example teal is the first argument, 0 is the second argument, and the entirety of the array is the third argument
+	--most often we will only use 2 arguments (the value and the index)
+	**Example:
+
+colors.forEach(function(val){
+    console.log(val.toUpperCase())
+})
+	--here we're accessing the colors array and printing the uppercase value (val) of each element to the console
+	--we could also write the function separately and pass the name of the function in as a callback
+	**Example:
+
+const colors = ['teal', 'cyan','peach','purple']
+
+function yellColors(val){
+    console.log(val.toUpperCase())
+}
+
+colors.forEach(yellColors)
+	--this would do the exact same thing as the prior example
+	--we could also use the index if we wanted to
+	**Example:
+
+const colors = ['teal', 'cyan','peach','purple']
+
+function yellColors(val, index){
+    const caps = val.toUpperCase()
+    console.log(`At index ${index}: ${caps}`)
+}
+
+colors.forEach(yellColors)
+	--here we have value AND index as parameters
+	--we then logged a template literal to the console where we called our index and our value
+**AGAIN
+	--Most often we would use an inline function like our first example
+	--but we could also use a callback function
+	--first parameter is value of the element
+	--second parameter is the index of the element
+	--third value is the array(not commonly used)
+
+**Let's try another example:
+	--we have an array of prices
+const prices = [30.99, 19.99, 2.5,99.0]
+	--we could use forEach to sum up all of these prices
+	--there are other ways to do it, but let's try forEach
+	--we need to create a variable using let
+	**Example:
+
+const prices = [30.99, 19.99, 2.5,99.0]
+let total = 0;
+prices.forEach(function(price){
+    total += price;
+})
+console.log(total)
+	--here we forEach calls our anonymous function and passes in the first value of the prices array
+	--total += price is taking the first element and adding it into the total variable
+	--then the process repeates until the end of the array
+	--and after that process is complete, the total variable is printed to the console
+**The thought may occur that we could do this with any old regular loop
+	--what about a for of loop
+	--we actually could do this
+	**Example:
+
+const prices = [30.99, 19.99, 2.5,99.0]
+let total = 0;
+for( let price of prices){
+    total += price;
+}
+console.log(total)
+	--this would do the exact same thing
+	--in fact it's cleaner and easier to understand
+	--but the reason forEach exists is because for of loops are a more recent addition to JS
+	--the difference between the 2 is that we don't use a callback or function in the for of loop
+	--so it we had function that we wanted to use a for of loop for we would have to write the loop and call the function within the loop
+	--with forEach we can just call the name of the function and be done with it
+	--in the past forEach was easier than a regular for loop
+	**Example:
+
+const prices = [30.99, 19.99, 2.5,99.0]
+let total = 0
+for (let i = 0; i < prices.lenght; i++){
+    total += prices[i];
+}
+
+
+
+
+
+
+
+
+
+
+
+

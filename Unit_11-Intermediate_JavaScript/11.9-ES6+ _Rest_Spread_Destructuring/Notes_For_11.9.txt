@@ -801,7 +801,7 @@ return a * b;
 **Computed Property Names
 	--ES2015 allows us to create and object with a key that JS can compute at definition
 	--concise way of adding key to object where key name is variable/dynamic
-	--not a hard coded thing, so it could be different everytime
+	--not a hard coded thing, so it could be different every time
 	--consider two color names and hex codes
 	1.) 'periwinkle' '9c88ff'
 	2.) 'bright ube' 'D6A2E8'
@@ -823,11 +823,11 @@ function makeColor(name, hex) {
       hex: name
    };
 }
-	--now if pass in a color name and hex code we get an object with hex and name as keys.
+	--now if we pass in a color name and color hex code we get an object with hex and name as keys.
 	--the values of those keys are defined by the arguments we pass in when calling the function
 	--what we want to do is make the key for name the actual name of the color and the key for the hex code the actual hex code for the named color
-	--we want to the key names to be dynamic
-	--in the past (without the enhancement of computed properties) is the following
+	--we want the key names to be dynamic
+	--in the past (without the enhancement of computed properties) we did the following
 	**Example:
 
 function makeColor(name, hex) {
