@@ -92,12 +92,81 @@ const prices = [30.99, 19.99, 2.5,99]
 //     console.log(value)
 // })
 
-function forEach(arr, callback){
-    for(let i = 0; i < arr.length; i++){
-        callback(arr[i])
+// function forEach(arr, callback){
+//     for(let i = 0; i < arr.length; i++){
+//         callback(arr[i])
+//     }
+// }
+
+// forEach(prices, function(price){
+//     console.log(price)
+// });
+
+// const numbers = [21, 37, 64, 99, 142]
+// const negatives = numbers.map(function(num){
+//     return ( num * -1);
+// })
+
+// const doubles = numbers.map(function(num){
+//     console.log(num * 2)
+// })
+
+const toDos = [
+    {
+        id: 1,
+        text: 'walk the dog',
+        priority: 'high'
+    },
+    {
+        id: 2,
+        text: 'walk the chickens',
+        priority: 'medium'
+    },
+    {
+        id: 3,
+        text: 'feed the cats',
+        priority: 'low'
+    },
+    {
+        id: 1,
+        text: 'put out fire in garage',
+        priority: 'very high'
     }
+]
+
+// const toDoText = toDos.map(function (todo) {
+//     return todo.text;
+// })
+
+// const links = Array.from(document.querySelectorAll('a'));
+// const urls = links.map(function (a){
+//     return a.href;
+// })
+
+// function myMap(array, callback){
+//     const emptyArray = [];
+//     for(let i = 0; i < array.length; i++){
+//         emptyArray.push(callback(array[i]))
+//     }
+// } 
+
+// const newToDos = myMap(toDos, function(toDos) {
+//     return toDos
+// }) 
+    
+function myMap(array, callback) {
+    const mappedArray = []
+    for (let i = 0; i < array.length; i++){
+        const val = callback(array[i], i, array)
+        mappedArray.push(val);
+    }
+    return mappedArray;
 }
 
-forEach(prices, function(price){
-    console.log(price)
-});
+// const priorityMap = myMap(toDos, function (priority){
+//     return priority.priority;
+// })
+
+const repeatedLetters = myMap(['a', 'b', 'c', 'd', 'e', ], function(str, idx){
+    return str.repeat(idx);
+})

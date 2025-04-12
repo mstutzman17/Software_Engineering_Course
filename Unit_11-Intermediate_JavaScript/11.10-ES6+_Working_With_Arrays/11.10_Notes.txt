@@ -239,6 +239,286 @@ for (let i = 0; i < prices.lenght; i++){
     total += prices[i];
 }
 
+			11.10.4
+			Writing forEach
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582
+
+**For this section of the unit we will be doing a practice exercise with forEach
+**We are attempting to create a function that does the same thing the forEach method does
+**Here are the requirements for the function
+	1.) Loops through an array
+	2.) Runs callback function on each value of array
+	3.) Returns undefined
+
+**My Attempt:
+
+const myForEach = [4,5,6]
+
+myForEach.forEach(function (value){
+    console.log(value)
+})
+
+**The right way
+
+function forEach(arr, callback){
+    for(let i = 0; i < arr.length; i++){
+        callback(arr[i])
+    }
+}
+
+forEach(prices, function(price){
+    console.log(price)
+});
+
+**Notes on my attempts
+	--in my attempt I didn't follow the directions that were given.
+	--I did successfully implement the forEach method while calling an inline, anonymous function
+	--but I was supposed to create a function that loops through an array, runs a callback function and returns undefined
+**Notes on the right way:
+	--the version that I coded along with (the right way) does things, well what do you know, the right way
+	--first there is a function called forEach with 2 parameters (arr, callback)
+	--the function loops through each value of an array using a for loop
+	--then we callback the arr at [i]
+
+**Important to understand how forEach works**
+	--it passes in the index as argument to callback second argument
+	--in other words, the first parameter of forEach points to the value of the array, the second points to the index of that value, and third points to 	the array in it's entirety
+	--that means we could also print the index of each price in the prices array
+	--in order to do that, though, we have to pass through the index in our function
+	--the only thing you need to change is adding that to the callback list in the function
+	--and adding it to console.log list as well
+	--the hardest part here is the callback
+	--we're setting callback as a parameter and then calling it the same function
+	--the thing, the callback function is not defined until we call our forEach function
+	--then the callback function is an inline anonymous function and the second argument of the forEach function
+**Pretty confusing, but we'll just build from here
+
+			11.10.7
+			map
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64588
+
+****Array Methods Continued
+	1.) First up is the forEach method
+	2.) the map method
+		--a very useful method for arrays in JS
+
+**Goals with map
+	1.) Understand wha map does
+	2.) Be able to write our own version of map
+**What is map?
+	--creates a new empty array
+	--iterates through an array
+	--runs callback function for each value in array
+	--returns new array
+	--map always returns a new array of the same length as the original array
+	**Example:
+
+const numbers = [21, 37, 64, 99, 142]
+numbers.map(function(num){
+    return num * -1;
+})
+	--just like for each, the first argument of the callback is the value of each individual element in the array
+	--in the above example we will get a new array.
+	--if we call the original numbers array, it will remain the same
+	--this is because map does not mutate or change the original array
+	--for that reason we need to use a function expression
+	**Example:
+
+const numbers = [21, 37, 64, 99, 142]
+const negatives = numbers.map(function(num){
+    return ( num * -1);
+})
+	--what we're doing is saving the map method that's being used on the numbers array into a new variable
+	--we do this because, again, map does not mutate the original array
+**When working with map...
+	--you need to make sure the callback function returns something
+	**Example:
+
+const doubles = numbers.map(function(num){
+    console.log(num * 2)
+})
+	--we will not get an array returned, because the map method expects a return value in order to build the new array
+	--what does console.log return?
+	--if we look at the doubles variable we just defined we would get an array of undefined the same length as the numbers array
+
+**Let's get more complicated
+	**Example:
+
+const toDos = [
+    {
+        id: 1,
+        text: 'walk the dog',
+        priority: 'high'
+    },
+    {
+        id: 2,
+        text: 'walk the chickens',
+        priority: 'medium'
+    },
+    {
+        id: 3,
+        text: 'feed the cats',
+        priority: 'low'
+    },
+    {
+        id: 1,
+        text: 'put out fire in garage',
+        priority: 'very high'
+    }
+]
+	--let's say we want to create an array with just the text property in each object
+	--this a common use case of the map method 
+		--when we have a more complicated data structure and want to extract specific pieces, but not all pieces of that data
+	--how would handle this?
+	**Example:
+
+const toDoText = toDos.map(function (todo) {
+    return todo.text;
+})
+	--map is iterating through each object of the array.
+	--each object is considered 1 element
+	--when it iterates through an object it is pulling out the value of the text property and putting it into a new array
+	--it continues till the end and then we get a new array
+	--in the new array we will have 4 elements
+	--each element will be the value of the text property from the original objects in the original array
+
+**Let's move on to a more realistic example:
+	--we have a website that has 4 links
+	--each link is to a different website
+	--we want to extract the href from the link tag in the html
+	--how the heck would we do that?
+	--well, we use map and something called query selector
+	**Example:
+const links = document.querySelectorAll('a');
+	--this would give us a NodeList which means that our array methods won't work on it
+	--we can change it into an array though
+	**Example: 
+Array.from(links)
+	--this gives us an actual array
+	--now we connect it all
+	**Example
+
+const links = Array.from(document.querySelectorAll('a'));
+const urls = links.map(function (a){
+    return a.href;
+})
+	--now if we call the urls variable we will get an array 4 elements
+	--each element is 1 href
+
+**The return statement of a.href is different
+	--if we type Array.from(links)[0] into the console it would return the first href in our ul from our html document
+	--it does this because we have transformed the ul in our html document into an array us the Array.from method
+	--we've also linked the each li from the ul to our JS by using the document.querySelectorAll method
+	--so now each li in our ul from our html is an elment in our array in our JS
+	--that means that Array.from(links)[0] is a reference to the first li in our ul
+	--Array.from(links)[1] is a reference to the second li and so on and so forth
+
+			11.10.8
+			Writing map
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64588
+
+**Same format as the writing forEach
+	--just like forEach, our function will work slightly differently
+	1.) We need to pass in the array
+	2.) Then we would pass in our callback
+	3.) The callback will return 3 different arguments if we want to accurately recreate how map works
+	**Example:
+
+myMap([1,2,3], function(val){
+    return val * 3;
+})
+	--even though there is only one parameter, this should return a new array [3,6,9]
+
+**Requirements
+	1.) Define a function
+	2.) The function needs 2 arguments (array, callback)
+	3.) Make new empty array
+	4.) Loop over array that is passed in
+	5.) call callback once per item in the array
+	6.) take return value and push it onto array
+	7.) return that array at the very end
+
+My Attempt:
+
+function myMap(array, callback){
+    const emptyArray = [];
+    for(let i = 0; i < array.length; i++){
+        emptyArray.push(callback(array[i]))
+    }
+} 
+
+const newToDos = myMap(toDos, function(toDos) {
+    return toDos
+})
+	--I know that this is not correct
+	--I am a lot closer than I was last time, though
+
+The Right Way:
+
+1. function myMap(array, callback) {
+2.    const mappedArray = []
+3.     for (let i = 0; i < array.length; i++){
+4.        mappedArray.push(callback(arr[i]))
+5.    }
+6.    return mappedArray;
+7. }
+8.
+9. const priorityMap = myMap(toDos, function (priority){
+10.   return priority.priority;
+11. })
+	--line 2 we start with a new, empty array
+	--line 3 then we loop over the array that we want to call
+	--line 4 we call the callback function AND we push that onto the mappedArray
+	--line 6 we return the mapped array
+	--line 9 we save our myMap function into a new variable called priorityMap
+		--the variable executes the myMap function on the toDos array.
+		--the parameter of the function is one element of the array
+	--line 10 we return the element of the array that we want
+		--in this case we are extracting the priority property from each object in the toDos array
+
+**IMPORTANT TO REMEMBER
+	--the map method always returns 3 arguments
+		1.) The value of the element
+		2.) The index of the element
+		3.) The entire array
+	--in our above example we could add to line 4
+		--mappedArray.push(callback(array[i], i, arr))
+	**Example:
+
+1. function myMap(array, callback) {
+2.    const mappedArray = []
+3.    for (let i = 0; i < array.length; i++){
+4.        const val = callback(array[i], i, arr)
+5.        mappedArray.push(val);
+6.    }
+7.    return mappedArray;
+8.}
+9. 
+10.  const repeatedLetters = myMap(['a', 'b', 'c', 'd', 'e', ], function(str, idx){
+11.    return str.repeat(idx);
+12. }) 
+
+	--line 4 we created a variable to store our values for our parameters in
+	--line 5 we're pushing those values into the new array
+	--we call our function on a new array (the one that's inline)
+		--we have an inline function that accepts 2 parameters
+		--we save the function to the variable
+	--we're using string.repeat method
+		--this allows us to repeat a string ("lol".repeat(4) would b "lollollollol" 
+		--we repeat each string idx times.
+		--this means that we are repeating each string based on the index of the string ('a' repeats 0 times, 'b' repeats once, 'c' twice, and so on
+		--we need a return otherwise we'll get a bunch of undefined
+	--
+
+
+
+
+
+
+
+
+
+
 
 
 
