@@ -500,15 +500,278 @@ The Right Way:
 
 	--line 4 we created a variable to store our values for our parameters in
 	--line 5 we're pushing those values into the new array
-	--we call our function on a new array (the one that's inline)
+	--line 10 we call our function on a new array (the one that's inline)
 		--we have an inline function that accepts 2 parameters
 		--we save the function to the variable
-	--we're using string.repeat method
+	--line 11 we're using string.repeat method
 		--this allows us to repeat a string ("lol".repeat(4) would b "lollollollol" 
 		--we repeat each string idx times.
-		--this means that we are repeating each string based on the index of the string ('a' repeats 0 times, 'b' repeats once, 'c' twice, and so on
+		--this means that we are repeating each string based on the index of that string ('a' repeats 0 times, 'b' once, 'c' twice, and so on
 		--we need a return otherwise we'll get a bunch of undefined
-	--
+
+**Here's a couple scenarios where you would use map method
+	--you want to "transform" an array into another array of the same length
+		--you wanna take a piece of data for each element in an existing array
+		--and then you want to doing something with that element (double it, add, subtract, extract)
+		--extracting is most common
+		--like you want to extract the price from a list of items or something along those lines
+	--you do not want to overwrite an existing array and instead return a new copy
+
+**Review
+	--map creates new array
+	--map runs a callback on each value and pushes the result of each callback in the new array
+
+***It is the difference between this:
+
+
+const numbers = [21, 37, 64, 99, 142]
+const negatives = numbers.map(function(num){
+    return ( num * -1);
+})
+
+***And this:
+
+function myMap(array, callback) {
+    const mappedArray = []
+    for (let i = 0; i < array.length; i++){
+        const val = callback(array[i], i, array)
+        mappedArray.push(val);
+    }
+    return mappedArray;
+}
+
+const repeatedLetters = myMap(['a', 'b', 'c', 'd', 'e', ], function(str, idx){
+    return str.repeat(idx);
+})
+
+
+			11.10.11
+			filter
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64592
+
+****Array Methods Continued
+	1.) forEach method
+	2.) map method
+	3.) filter method
+		--instead of mapping each element it creates new array where we filter based on a condition
+**Goals
+	1.) Understand what filter does
+	2.) Write your own filter function
+
+**How does filter work?
+	--creates new array
+	--Loops through an array
+	--runs a callback function on each value in the array
+	--if callback is true value is pushed to new array
+	--if callback function false, value will not be included in the new array
+	--result of the callback will always be evaluated into a Boolean
+
+Let's see an example of the filter method
+	**Example:
+
+const words = [
+    'immunoelectrophoretically',
+    'rotavator',
+    'tsktsk',
+    'psychophysicotherapeutics',
+    'squirrelled',
+    'crypt',
+    'uncopyrightable',
+    'pseudopseudohypoparatahyroidism',
+    'immunoelectrophoretically',
+    'unimaginatively'
+]
+
+const longWords = words.filter(function (word){
+    return word.length >= 20;
+})
+	--this will create an array with words that have 20 or more characters
+	--it is referencing the words array above
+	--so if we call longWords, it will return an array of 3 items with 20 or more letters
+	--we can also create a new array for words that start with u or c
+	**Example:
+
+const words = [
+    'immunoelectrophoretically',
+    'rotavator',
+    'tsktsk',
+    'psychophysicotherapeutics',
+    'squirrelled',
+    'crypt',
+    'uncopyrightable',
+    'pseudopseudohypoparatahyroidism',
+    'immunoelectrophoretically',
+    'unimaginatively'
+]
+
+const randomWords = words.filter(function (w){
+    return w[0] === 'u' || w[0] === 'c'
+})
+	--this creates an array with words that start with the letter 'u' or 'c'
+
+**We can get even fancier
+	--we want to create a new array with words that do not have vowels in them
+	**Example:
+
+const containsVowel = function(word){
+    for (let char of word){
+        if(isVowel(char)) return true;
+    }
+    return false;
+}
+
+const randomWords = words.filter(function (w){
+    return w[0] === 'u' || w[0] === 'c'
+})
+
+const vowelWords = words.filter(containsVowel)
+const noVowels = words.filter(function(word){
+    return !containsVowel(word)
+})
+	--we create variable called isVowel
+	--the variable has function that accepts a character
+	--returns true or false if character is or isn't a vowel
+	--then we make a string of the vowels and check if the any of them are in the word using indexOf
+	--if it's false it will return -1, if true a positive 1 is returned
+	--we set this 'aeiou'.indexOf(char) != -1 so that we can avoid the vowels
+	--then we make a variable called containsVowel with a function that accepts a word
+	--we us a for of loop to determine whether each letter in the word is a vowel or not
+	--we do this by using an if statement on the isVowel function
+	--so if the word contains a vowel the if statement returns true
+	--if we make it through every character of a word and there aren't any vowels, that statement will return false
+	--then we can pass in the containsVowel function saved in a variable to the noVowels variable
+	--if it returns true, the word will be added to the filtered array
+	--so it doesn't work how we want it to
+	--now we need to create another variable with a custom function
+	--this function will return the opposite of containsVowel
+	--so now if we filter will create an array with words that DO NOT contain vowels
+
+			11.10.12
+			map and filter
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64592
+
+**Another example of using filter with some dom elements
+	**Example:
+
+const allCheckboxes = document.querySelectorAll('input[type="checkbox"]')
+	--so we start by selecting all of the input type='checkbox' list items from our html doc
+	--we can then filter only the checked checkboxes
+	--the only problem once again is that allCheckboxes is not an array
+	--so we have to turn it into one
+	**Example:
+
+Array.from(allCheckboxes)
+	--now we have an array called allCheckboxes
+	--we can then use the 'checked' property to see if which elements are and are not checked
+	**Example:
+
+Array.from(allCheckboxes)[0].checked
+	--this would return true because the [0] (first element) is a checked checkbox
+	--Array.from(allCheckboxes)[1].checked would return false because the second element (index of 1) is not a checked checkbox
+	--now we can move on and use the filter method to create an array with only checked inputs
+	**Example:
+
+const allCheckboxes = document.querySelectorAll('input[type="checkbox"]')
+
+const checked = Array.from(allCheckboxes).filter(function (box){
+    return box.checked;
+})
+	--now we have array with all the inputs that are checked on the todo list
+	--what if we wanted to know which things are done
+	--we could just call checked.lenght and would tell us how many tasks we completed
+	--but we want to know how many tasks AND which tasks were completed
+	--we could use map to accomplish
+	**Example
+
+const completedItems = checked.map(function (checkbox){
+    return checkbox.parentElement.innerText;
+})
+	--we have an array of checked boxes
+	--for each one we create new array where we access parent li element and access the inner text for that li element
+	--then we return that text as an element in the new array that the map method is creating
+	--so now we have a new array that tells us which items we completed that day
+	--we could cut down some steps in this process
+	**Example:
+
+function extractCompletedTodos(){
+    const allCheckboxes = document.querySelectorAll('input[type="checkbox"]')
+    return Array.from(allCheckboxes).filter(function (box){
+        return box.checked;
+    })
+    .map(function (checkbox){
+        return checkbox.parentElement.innerText;
+    })
+}
+	--now we've combined each step of the process into one function
+	--in the function we have a return statement that runs the .filter and .map methods to create a lovely new array
+
+			11.10.13
+			Writing filter
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
+
+**Now we want to write our own code that will behave like the filter method would
+	--our version needs to accept an array first myFilter(arr, callback)
+
+**My Attempt:
+
+I honestly can't manage an a well thought out attempt right now. So I will rely on the "Right Way" to teach and guide me.
+
+**The Right Way:
+
+const words = [
+    'immunoelectrophoretically',
+    'rotavator',
+    'tsktsk',
+    'psychophysicotherapeutics',
+    'squirrelled',
+    'crypt',
+    'uncopyrightable',
+    'cysts',
+    'pseudopseudohypoparatahyroidism',
+    'unimaginatively'
+]
+
+1. function myFilter(arr, callback){
+2.    const filteredArray=[]
+3.    for (let i = 0; i < arr.length; i++){
+4.        if(callback(arr[i], i, arr)){
+5.            filteredArray.push(arr[i])
+6        }
+7    }
+8    return filteredArray;
+9 }
+
+10 const shortWords = myFilter(words, function(word){
+11    return word.length<=10;
+12 })
+	--line 1 we define our myFilter function
+	--it accepts an array and a callback function(arr, callback)
+	--line 2 we create a filterArray variable that we can push our elements into
+	--line 3 we need a for loop to iterate through the array that we choose
+	--line 4 we need an if statement
+	--the if statement calls the callback on the index of i, the index of the array and the arr itself
+	--line 5 if everything in the callback is true we push the arr[i] to the filteredArray
+	--if not, we move on
+	--line 8 at the end of the function we are returning the filtered array which will have all the correct information
+	--line 10 we create a variable called shortwords
+	--line 10 we set the variable equal to our version of myFilter (the myFilter function)
+	--line 10 when we call this function we reference the words array
+	--line 10 then we write an inline function that determines our condition 
+	--line 11 our condition is words that are 10 or less letters long
+	--if we call the shortWords variable we get an array that has pulled out any word that is 10 or less letters from the words array
+
+**We could also use the index that the filter method returns
+	--let's filter our everyother word based on the index
+	--so we're making a new array with every even index
+	**Example:
+
+const evenIndex = myFilter(words, function(word, i){
+    return i % 2 === 0
+})
+	--now every other word in the words array is put into a new array
+	--we did this by using the index parameter that is also native to the filter function (just like map and forEach)
+
+
 
 
 

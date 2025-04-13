@@ -1,10 +1,10 @@
-function holler() {
-    console.log("Hey you!")
-}
+// function holler() {
+//     console.log("Hey you!")
+// }
 
-const whisper = function() {
-    console.log("pssst.... i have a secret")
-}
+// const whisper = function() {
+//     console.log("pssst.... i have a secret")
+// }
 
 // function add(x,y){
 //     return x + y;
@@ -71,7 +71,7 @@ const whisper = function() {
 // })
 // console.log(total)
 
-const prices = [30.99, 19.99, 2.5,99]
+// const prices = [30.99, 19.99, 2.5,99]
 // let total = 0;
 // for( let price of prices){
 //     total += price;
@@ -111,28 +111,28 @@ const prices = [30.99, 19.99, 2.5,99]
 //     console.log(num * 2)
 // })
 
-const toDos = [
-    {
-        id: 1,
-        text: 'walk the dog',
-        priority: 'high'
-    },
-    {
-        id: 2,
-        text: 'walk the chickens',
-        priority: 'medium'
-    },
-    {
-        id: 3,
-        text: 'feed the cats',
-        priority: 'low'
-    },
-    {
-        id: 1,
-        text: 'put out fire in garage',
-        priority: 'very high'
-    }
-]
+// const toDos = [
+//     {
+//         id: 1,
+//         text: 'walk the dog',
+//         priority: 'high'
+//     },
+//     {
+//         id: 2,
+//         text: 'walk the chickens',
+//         priority: 'medium'
+//     },
+//     {
+//         id: 3,
+//         text: 'feed the cats',
+//         priority: 'low'
+//     },
+//     {
+//         id: 1,
+//         text: 'put out fire in garage',
+//         priority: 'very high'
+//     }
+// ]
 
 // const toDoText = toDos.map(function (todo) {
 //     return todo.text;
@@ -154,19 +154,107 @@ const toDos = [
 //     return toDos
 // }) 
     
-function myMap(array, callback) {
-    const mappedArray = []
-    for (let i = 0; i < array.length; i++){
-        const val = callback(array[i], i, array)
-        mappedArray.push(val);
-    }
-    return mappedArray;
-}
+// function myMap(array, callback) {
+//     const mappedArray = []
+//     for (let i = 0; i < array.length; i++){
+//         const val = callback(array[i], i, array)
+//         mappedArray.push(val);
+//     }
+//     return mappedArray;
+// }
 
 // const priorityMap = myMap(toDos, function (priority){
 //     return priority.priority;
 // })
 
-const repeatedLetters = myMap(['a', 'b', 'c', 'd', 'e', ], function(str, idx){
-    return str.repeat(idx);
+// const repeatedLetters = myMap(['a', 'b', 'c', 'd', 'e', ], function(str, idx){
+//     return str.repeat(idx);
+// })
+
+// const words = [
+//     'immunoelectrophoretically',
+//     'rotavator',
+//     'tsktsk',
+//     'psychophysicotherapeutics',
+//     'squirrelled',
+//     'crypt',
+//     'uncopyrightable',
+//     'cysts',
+//     'pseudopseudohypoparatahyroidism',
+//     'unimaginatively'
+// ]
+
+// const containsVowel = function(word){
+//     for (let char of word){
+//         if(isVowel(char)) return true;
+//     }
+//     return false;
+// }
+
+// const randomWords = words.filter(function (w){
+//     return w[0] === 'u' || w[0] === 'c'
+// })
+
+// const vowelWords = words.filter(containsVowel)
+// const noVowels = words.filter(function(word){
+//     return !containsVowel(word)
+// })
+
+// const isVowel = function (char){
+//     return 'aeiou'.indexOf(char) !== -1;
+// }
+
+// const longWords = words.filter(function (word){
+//     return word.length >= 20;
+// })
+
+// const allCheckboxes = document.querySelectorAll('input[type="checkbox"]')
+
+// const checked = Array.from(allCheckboxes).filter(function (box){
+//     return box.checked;
+// })
+
+// const completedItems = checked.map(function (checkbox){
+//     return checkbox.parentElement.innerText;
+// })
+
+// function extractCompletedTodos(){
+//     const allCheckboxes = document.querySelectorAll('input[type="checkbox"]')
+//     return Array.from(allCheckboxes).filter(function (box){
+//         return box.checked;
+//     })
+//     .map(function (checkbox){
+//         return checkbox.parentElement.innerText;
+//     })
+// }
+
+const words = [
+    'immunoelectrophoretically',
+    'rotavator',
+    'tsktsk',
+    'psychophysicotherapeutics',
+    'squirrelled',
+    'crypt',
+    'uncopyrightable',
+    'cysts',
+    'pseudopseudohypoparatahyroidism',
+    'unimaginatively'
+]
+
+function myFilter(arr, callback){
+    const filteredArray=[]
+    for (let i = 0; i < arr.length; i++){
+        if(callback(arr[i], i, arr)){
+            filteredArray.push(arr[i])
+        }
+    }
+    return filteredArray;
+}
+
+const shortWords = myFilter(words, function(word){
+    return word.length<=10;
+})
+
+const evenIndex = myFilter(words, function(word, i){
+    return i % 2 === 0
 })
