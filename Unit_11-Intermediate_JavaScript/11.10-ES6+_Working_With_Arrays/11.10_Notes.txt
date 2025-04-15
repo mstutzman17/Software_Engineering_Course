@@ -771,6 +771,416 @@ const evenIndex = myFilter(words, function(word, i){
 	--now every other word in the words array is put into a new array
 	--we did this by using the index parameter that is also native to the filter function (just like map and forEach)
 
+			11.10.15
+			some and every Handout
+			https://lessons.springboard.com/some-every-fb449e666cb74b0ca7630f8d102c1465
+
+**This handout includes goals for the some and every methods
+**Goals:
+	1.) Understand what some and every do
+	2.) Write your own version of some and every
+**The handout also includes the definition of the some method and the definition of the every method
+**This handout also includes examples of how to use each method
+	--all of this information will be covered in the following videos
+
+			11.10.16
+			some and every
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
+
+****Array Methods Continued
+	1.) forEach method
+	2.) map method
+	3.) filter method
+	4.) some and every
+		--these methods are similar which is why they will be covered together
+
+**Goals
+	1.) Understand how each method works
+	2.) Write our own version of each method
+
+**Let's start with some
+	--both some and every return true or false
+	--iterates through an array
+	--runs a callback on every element in an array
+	--if callback returns true for at least one value, the whole method returns true
+	--if the callback never returns true, then the method returns false
+**Let's try it out
+	**Example:
+
+const words = [
+    'immunoelectrophoretically',
+    'rotavator',
+    'tsktsk',
+    'psychophysicotherapeutics',
+    'squirrelled',
+    'crypt',
+    'uncopyrightable',
+    'cysts',
+    'pseudopseudohypoparatahyroidism',
+    'unimaginatively'
+]
+
+const longWords = words.some(function(word){
+    return word.length > 60;
+})
+	--we are checking to see if any of the words in the words array are longer than 60 characters
+	--there are none, so the variable we put this in returns false
+	--if we had used 25 instead of 60, the variable longWords would have returned true
+	--we can also use this to check if a sequence of letters is in a word
+	**Example:
+
+const wordsWithThyroid = words.some(function(word){
+    return word.indexOf('thyroid') !== -1;
+})
+	--we use indexOf to check if the specified string exists in any of the strings within the words array
+**Let's look at the every method
+	--this does the opposite of some
+	--if one element of an array does not meet criteria, it returns false
+	--if every element meets the specified criteria, it returns true
+	**Example:
+
+const words = [
+    'immunoelectrophoretically',
+    'rotavator',
+    'tsktsk',
+    'psychophysicotherapeutics',
+    'squirrelled',
+    'crypt',
+    'uncopyrightable',
+    'cysts',
+    'pseudopseudohypoparatathyroidism',
+    'unimaginatively'
+]
+
+words.every(function(w){
+    return w.length >= 5;
+})
+	--if every word in the words array is at least 5 characters, this will return true.
+	--otherwise it would return false
+	--let's check to see if every element in an array is a string
+	**Example:
+
+function allStrings(arr){
+    return arr.every(function(el){
+        typeof el === string
+    })
+}
+	--here we've created a function to check whether each element is a string or not
+	--we 'baked in' the every method so that we would get a Boolean returned (true or false)
+	--we also use the typeof operator which is a little different
+		--it's not camelCase
+		--it returns in a string the data type that is being used in any specific set of code
+		--typeof 4 would return "number" typeof 'amen' would return 'string'
+	--so in our function we are iterating through each element in an array
+**Let's look at a more practical example
+	**Example:
+
+const btn = document.querySelector('button');
+btn.addEventListener('click', function (e){
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+    const allChecked = Array.from(checkboxes).every(function(checkbox){
+        return checkbox.checked
+    })
+    console.log(allChecked)
+})
+	--what this code does is check to see how many boxes have been checked
+	--the boxes that are not selected end up in a Node like this: NodeList(4) [input, input, input, input]
+	--you can tell that 4 of the boxes have not been checked
+	--we start by selecting the button
+	--then we add an event listener for when the user clicks
+	--then we want to select all of the checkboxes
+	--then we have to convert the NodeList into an array so that we can use the some or every methods
+	--we save the Array.from into a variable
+	--now if we click on the submit button it will return false if not every box is checked
+	--if every box IS checked, it will return true
+	--we can add an alert to let the user know that they have to check all the boxes to continue
+	**Example:
+
+const btn = document.querySelector('button');
+btn.addEventListener('click', function (e){
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+    const allChecked = Array.from(checkboxes).some(function(checkbox){
+        return checkbox.checked
+    })
+    if(!allChecked) alert("Please agree to all terms before you continue.")
+})
+
+			11.17.10
+			Writing some and every
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
+
+**Here we will try to write our own code to mimic the some and every array methods
+**Writing some
+	--iterates through an array
+	--runs a callback on each value in the array
+	--if callback returns true for at least on single value, return true
+	--if ALL values return false, return false
+
+**My Attempt
+
+const mySome = function(arr, callback){
+    for(let i = 0; i <= arr.length; i++){
+        if (callback(arr[i])){
+            return true
+        }
+        return false;
+        }
+        
+}
+
+**The Right Way:
+
+const mySome = function(arr, callback){
+    for(let i = 0; i <= arr.length; i++){
+        if (callback(arr[i], i, arr)) return true
+    }
+    return false;
+}
+
+mySome(words, function (word){
+    return word.length >= 5 ;
+})
+	--my way and the right way were pretty much identical
+	--however, I did forget how to implement my version of the method
+	--other than that, it was pretty straight forward
+
+**Writing every
+	--iterates through an array
+	--runs callback on each value in the array
+	--if the callback ever returns all false, return true
+	--if the callback returns even one element differently, return false
+
+**My Attempt
+
+const myEvery = function(arr, callback){
+    for(let i = 0; i <= arr.length; i++){
+        if (callback(arr[i], i, arr)) return false
+    }
+    return true;
+}
+	--my thought was that I would just have to switch the terms true/false
+	--this was only a part of it, though
+
+
+**The Right Way
+
+const myEvery = function(arr, callback){
+    for(let i = 0; i <= arr.length; i++){
+        if (!callback(arr[i], i, arr)) return false
+    }
+    return true;
+}
+
+myEvery(words, function(word){
+    return typeof word === 'string'
+})
+	--the only things we did is change the name of the function (obvious)
+	--and then change the if statement by adding if NOT callback...
+	--this will then act like the very method for arrays
+
+			11.18.10
+			find and findIndex Handout
+			https://lessons.springboard.com/find-findIndex-e77d1e4e9d1241b2a10ae13e79a6a0cd
+
+**This handout lists some goals for the find and findindex methods
+	1.) Understand what find and finIndex do
+	2.) Write your own version of find and findIndex
+
+**This handout also lists the following about find
+	--how this method works
+	--how to use it in a function
+	--WHEN to use it
+**This handout also lists the following about findIndex
+	--it defines the method/explains how it works
+	--how to use findIndex in a function
+	--WHEN to use findIndex
+
+			11.19.10
+			find and findIndex
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
+
+****Array Methods Continued
+	1.) forEach method
+	2.) map method
+	3.) filter method
+	4.) some and every
+	5.) find and findIndex
+
+**Goals of find and findIndex
+	1.) Understand how they work
+	2.) Write our own versions of each method
+
+**How does find work?
+	--iterates through an array
+	--runs callback on each value in the array
+	--if callback returns true at any point, return the value in the array that we're iterating over
+		--this only returns the first match
+	--otherwise, return undefined
+	**Example:
+
+const scores = [
+    0, 0, 0, 0, 0, 0, 0, 0,
+    55, 59, 69, 73, 73, 75, 79, 83, 88, 91, 93
+]
+
+scores.find(function(score){
+    return score >= 75
+})
+	--when we run this code it will return the number 75 to us
+	--75 is the first time that our callback is true
+	--the method does not even continue running after it finds something fulfills the condition we set in the callback\
+	--if we were to set our condition to be a score above 100, it would return undefined
+	--let's try something more complex
+	**Example:
+
+scores.find(function(score){
+    return score % 2 === 0
+})
+	--this will check for the first even number
+	--rather, it will check for the first number with 0 as a remainder if it's divided by 2
+	--0 passes that check
+	--if we want to avoid the 0 we would add logic to the return line
+	**Example:
+
+scores.find(function(score){
+    return score !== 0 && score % 2 === 0
+})
+	--now we have set 2 conditions that both need to be met
+	--how would we do find all
+	--there is no findAll method
+	--but we can use the filter method to accomplish the same thing
+	**Example:
+
+const evenScores = wscores.filter(function(score){
+    return score % 2 === 0
+})
+	--so filter acts as a sort of "findAll" method
+
+**We also have findIndex
+	--iterates through an array
+	--runs callback on each value in the array
+	--if callback returns true for any single value, return the INDEX of that value
+	--unlike find, findIndex does not return the value
+	--findIndex returns the index of the value that meets the condition we set in our callback
+	**Example:
+
+const firstEven = scores.findIndex(function(score){
+    return score !== 0 && score % 2 === 0
+})
+	--this iterates through the scores array from earlier
+	--it then returns the index of the first value that is not 0, but is even
+	--we use findIndex when indexOf will not work
+	--indexOf is great when you want the index of a specific value
+	--we can't use indexOf to find even or odd or something more advanced
+	--let's say we want an array split into 2 subarrays
+	--we could use findIndex to help (assuming the array is sorted)
+	**Example:
+
+function partition (arr, pivot){
+    const pivotIndex = arr.findIndex(function(element){
+        return element > pivot
+    })
+    console.log(pivotIndex)
+}
+	--this tells us the index of where we will divide our array (the pivotIndex)
+	--to do this we would have to plug in 2 arguments to our partition function
+		--an array
+		--and the number we want to pivot at
+	--now we want to create 2 new arrays based off of pivotIndex
+	--we can use splice to do this
+	**Example:
+
+function partition (arr, pivot){
+    const pivotIndex = arr.findIndex(function(element){
+        return element > pivot
+    })
+    const failing = arr.slice(0, pivotIndex);
+    const passing = arr.slice(pivotIndex)
+    return [`Failing: ${failing} Passing: ${passing}`]
+}
+	--here we created 2 variables to hold our pivot points
+	--we return these 2 variables and the function works
+	--now if let's say we call partition(scroes, 69) we woud
+	--this would return 2 arrays.
+		--the first labeled Failing: goes from 0 to 69
+		--the second labeled Passing: goes from 70 to the end of the array
+
+**Next we'll try recreating the find and findIndex methods on our own
+
+			11.20.10
+			Writing find and findIndex
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
+
+**As before, I'll attempt this on my own first
+**Here are the requirements
+
+**Requirements for myFind
+	--iterates through an array
+	--runs a callback on each value of the array
+	--if the callback returns true AT ANY POINT, return the value and stop iterating
+	--otherwise, return undefined
+
+**MY Attempt
+
+function myFind(arr, callback){
+    for(let i = 0; i <= arr.length; i++){
+        if (callback(arr[i], i, arr))
+            return arr[i]
+    }
+    return undefined
+}
+
+myFind(scores, function (score){
+    return score === 88;
+})
+
+*The Right Way
+
+function myFind2(arr, callback){
+    for(let i = 0; i < arr.length; i++){
+        if (callback(arr[i], i, arr) === true) return arr[i]
+    }
+}
+	--the logic for my attempt works just fine!
+	--we could make my attempt more succinct and direct
+	--the other thing that is wrong with my attempt is that I stat i <= arr.length
+		--this is wrong because it iterates outside the parameters of the array, which could cause unwanted behavior
+	--second, we don't need to return undefined, because if no value is found in a function it automatically returns undefinded
+
+**Requirements for myFindIndex
+	--iterates through an array
+	--runs a callback on each value of the array
+	--if the callback returns true AT ANY POINT, return the index of the value and stop iterating
+	--otherwise, return -1
+	**NOTE ABOUT findIndex: if it never finds what we're looking for we get -1
+		--the same is true when we try to find "abc".indexOf('z')
+		--z does not exist in the string we called, so it returns -1
+		--because the value does not exist, there is no index to give
+	--we need to remember this when attempting to recreate the findIndex method
+
+**My Attempt
+	
+function myFindIndex(arr, callback){
+    for(let i = 0; i < arr.length; i++){
+        if (callback([i], i, arr) === true) return [i]
+    }
+    return -1
+}
+
+myFindIndex(scores, function(score){
+    return score > 0
+})
+
+**The Right Way
+
+
+
+
+
+
+
+
+
 
 
 

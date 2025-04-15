@@ -228,6 +228,37 @@
 //     })
 // }
 
+// const words = [
+//     'immunoelectrophoretically',
+//     'rotavator',
+//     'tsktsk',
+//     'psychophysicotherapeutics',
+//     'squirrelled',
+//     'crypt',
+//     'uncopyrightable',
+//     'cysts',
+//     'pseudopseudohypoparatahyroidism',
+//     'unimaginatively'
+// ]
+
+// function myFilter(arr, callback){
+//     const filteredArray=[]
+//     for (let i = 0; i < arr.length; i++){
+//         if(callback(arr[i], i, arr)){
+//             filteredArray.push(arr[i])
+//         }
+//     }
+//     return filteredArray;
+// }
+
+// const shortWords = myFilter(words, function(word){
+//     return word.length<=10;
+// })
+
+// const evenIndex = myFilter(words, function(word, i){
+//     return i % 2 === 0
+// })
+
 const words = [
     'immunoelectrophoretically',
     'rotavator',
@@ -237,24 +268,124 @@ const words = [
     'crypt',
     'uncopyrightable',
     'cysts',
-    'pseudopseudohypoparatahyroidism',
+    'pseudopseudohypoparatathyroidism',
     'unimaginatively'
 ]
 
-function myFilter(arr, callback){
-    const filteredArray=[]
-    for (let i = 0; i < arr.length; i++){
-        if(callback(arr[i], i, arr)){
-            filteredArray.push(arr[i])
-        }
+// const longWords = words.some(function(word){
+//     return word.length > 60;
+// })
+
+// const wordsWithThyroid = words.some(function(word){
+//     return word.indexOf('thyroid') !== -1;
+// })
+
+// words.every(function(w){
+//     return w.length >= 5;
+// })
+
+// function allStrings(arr){
+//     return arr.every(function(el){
+//        return typeof el === 'string'
+//     })
+// }
+
+// const btn = document.querySelector('button');
+// btn.addEventListener('click', function (e){
+//     const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+//     const allChecked = Array.from(checkboxes).some(function(checkbox){
+//         return checkbox.checked
+//     })
+//     if(!allChecked) alert("Please agree to all terms before you continue.")
+// })
+
+// const mySome = function(arr, callback){
+//     for(let i = 0; i <= arr.length; i++){
+//         if (callback(arr[i], i, arr)) return true
+//     }
+//     return false;
+// }
+
+// mySome(words, function (word){
+//     return word.length >= 5
+// })
+
+// const myEvery = function(arr, callback){
+//     for(let i = 0; i <= arr.length; i++){
+//         if (!callback(arr[i], i, arr)) return false
+//     }
+//     return true;
+// }
+
+// myEvery(words, function(word){
+//     return typeof word === 'string'
+// })
+
+// myEvery(words, function(word){
+//     return word > [3];
+// })
+
+// const scores = [
+//     0, 0, 0, 0, 0, 0, 0, 0,
+//     55, 59, 69, 73, 73, 75, 79, 83, 88, 91, 93
+// ]
+
+// scores.find(function(score){
+//     return score >= 75
+// })
+
+// scores.find(function(score){
+//     return score !== 0 && score % 2 === 0
+// })
+
+// const evenScores = scores.filter(function(score){
+//     return score % 2 === 0
+// })
+
+// const firstEven = scores.findIndex(function(score){
+//     return score !== 0 && score % 2 === 0
+// })
+
+// function partition (arr, pivot){
+//     const pivotIndex = arr.findIndex(function(element){
+//         return element > pivot
+//     })
+//     const failing = arr.slice(0, pivotIndex);
+//     const passing = arr.slice(pivotIndex)
+//     return [`Failing: ${failing} Passing: ${passing}`]
+// }
+
+const scores = [
+    0, 0, 0, 0, 0, 0, 0, 0,
+    55, 59, 69, 73, 73, 75, 79, 83, 88, 91, 93
+]
+
+function myFind(arr, callback){
+    for(let i = 0; i < arr.length; i++){
+        if (callback(arr[i], i, arr))
+            return arr[i]
     }
-    return filteredArray;
+    return undefined
 }
 
-const shortWords = myFilter(words, function(word){
-    return word.length<=10;
+myFind(scores, function (score){
+    return score === 88;
 })
 
-const evenIndex = myFilter(words, function(word, i){
-    return i % 2 === 0
+function myFind2(arr, callback){
+    for(let i = 0; i < arr.length; i++){
+        if (callback(arr[i], i, arr) === true) return arr[i]
+    }
+}
+
+function myFindIndex(arr, callback){
+    for(let i = 0; i < arr.length; i++){
+        if (callback(arr[i], i, arr) === true) return i
+    }
+    return -1
+}
+
+myFindIndex(scores, function(score){
+    return score > 0
 })
+
