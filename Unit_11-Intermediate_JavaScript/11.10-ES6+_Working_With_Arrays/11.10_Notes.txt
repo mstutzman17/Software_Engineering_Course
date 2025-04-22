@@ -905,7 +905,7 @@ btn.addEventListener('click', function (e){
     if(!allChecked) alert("Please agree to all terms before you continue.")
 })
 
-			11.17.10
+			11.10.17
 			Writing some and every
 			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
 
@@ -978,7 +978,7 @@ myEvery(words, function(word){
 	--and then change the if statement by adding if NOT callback...
 	--this will then act like the very method for arrays
 
-			11.18.10
+			11.10.18
 			find and findIndex Handout
 			https://lessons.springboard.com/find-findIndex-e77d1e4e9d1241b2a10ae13e79a6a0cd
 
@@ -995,7 +995,7 @@ myEvery(words, function(word){
 	--how to use findIndex in a function
 	--WHEN to use findIndex
 
-			11.19.10
+			11.10.19
 			find and findIndex
 			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
 
@@ -1107,7 +1107,7 @@ function partition (arr, pivot){
 
 **Next we'll try recreating the find and findIndex methods on our own
 
-			11.20.10
+			11.10.20
 			Writing find and findIndex
 			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
 
@@ -1173,14 +1173,218 @@ myFindIndex(scores, function(score){
 
 **The Right Way
 
+function myFindIndex(arr, callback){
+    for(let i = 0; i < arr.length; i++){
+        if (callback(arr[i], i, arr) === true) return i
+    }
+    return -1
+}
+
+myFindIndex(scores, function(score){
+    return score > 0
+})
+	--I did a couple thing wrong
+	--first I did not run the callback on each value, just on the index of each value
+	--second, i tried to return [i] when I could have simply said return i, because i is a parameter of my if statement
+	--otherwise, I was pretty close
+
+			11.22.10
+			reduce Handout
+			https://lessons.springboard.com/reduce-90df38e5a5d744a5bf7176628220239e
+
+**This handout out lists goals for the reduce method
+	1.) Understand what reduce does
+	2.) use reduce to create new data structures
+**It also does the following:
+	--explains how reduce works
+	--gives examples of how to use reduce
+	--explains when you should use reduce
+
+			11.23.10
+			reduce
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
 
 
+****Array Callback Methods Continued
+	1.) forEach method
+	2.) map method
+	3.) filter method
+	4.) some and every
+	5.) find and findIndex
+	6.) reduce
+		--can be used in many different ways
+		--not as straightforward as the other methods we've learned
+
+**Goals for reduce
+	1.) Understand how it works
+	2.) Use reduce to create new data structures
+	3.) Create our own simple version of the reduce method
+
+**What does the name reduce even mean?
+	--the other array method names are meaningful
+	--reduce is a little unclear judging by just it's name
+**So what does reduce actually do?
+	--it takes an array of elements and reduce them to a single value
+	--like summing every element
+	--or creating a new data structure based off an array
+	--we could also find the min, max, or avg of a dataset
+**Let's start by accomplishing some of these tasks without using reduce
+	1.) Finding the sum of an array of numbers
+	**Example:
+
+const nums = [20, 30, 50, 12,-2,45,99,19,22,85]
+
+let total = 0
+for(let num of nums){
+    total += num
+}
+console.log (total)
+	2.) Finding the min/max value of an array
+	**Example of min:
+
+const nums = [20, 30, 50, 12,-2,45,99,19,22,85]
+
+let min = nums[0]
+for(let i = 1; i < nums.length; i++){
+    if (nums[i] < min) min = min = nums [i]
+}
+console.log(min)
+	**Example of max:
+
+const nums = [20, 30, 50, 12,-2,45,99,19,22,85]
 
 
+let max = nums[0]
+for(let i = 1; i < nums.length; i++){
+    if (nums[i] > max) max = nums [i]
+}
+console.log(max)
+	3.) Moving the letters of a string into an array
+	**Example:
 
+const str="lollapalooza"
+const charFreq  = {}
+for(let char of str){
+    if(charFreq[char]){
+        charFreq[char] += 1;
+    }
+    else {
+        charFreq[char] = 1
+    }
+}
+	--in all 3 examples we are taking a group of values and reducing them into a single value
+	--whether its sum or min. or creating a new array
+	--all three of these are situations that we could use the array.reduce method
 
+			11.24.10
+			Using reduce
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64582/64595
 
+**Let's actually use the array.method reduce
+	--in the previous video we showed how we could write our own code to do what the reduce method essentially does
+**Reduce is a lot to take in
+**So how does it work?
+	--it accepts a callback function and an optional second parameter
+	--iterates through the array that we're reducing
+	--runs a callback on each value in the array
+	--the callback has 2 parameters
+		--the first parameter to the callback is either the first value (the accumulator(the value your reducing to (min/max, sum, etc))) 
+		--second parameter is each value in the array
+		--whatever is returned from callback becomes new value of accumulator
+**Let's work on some examples:
+	**Example One:
 
+let evens = [2,4,6,8,10]
+evens.reduce(function(accumulator, nextValue){
+    return accumulator + nextValue
+})
+	--here accumulator is the "end product" or the thing we're reducing into (could be an array, object, etc)
+	--the end value of accumulator is what is returned by reduce itself
+	--first time through, the accumulator will be 2 (the first value of the array)
+	--next value is 4 so we are returning 2 plus 4.
+	--now the next time through the array, JS uses the sum of those values (6) as the new accumulator
+	--so the next time through would be 6 plus 6
+	--now the new accumulator is 12 and the next time through would be 12 plus 8
+	--the new accumulator is now 20 and the next time through is 20 + 10
+	--this all happens because of the return statement we used in the
+
+	**Example Two:
+
+const words = ['hello', 'i', 'love', 'you']
+words.reduce(function(accum, nextWord){
+    console.log(accum, nextWord)
+})
+	--here our result would look like this in the console
+	hello i
+	undefined 'love'
+	undefined 'you'
+	--this is because we don't return a value
+	--so after console.log accum is set to whatever is returned in the callback, but it's not set to anything
+	--let's actually return something
+	**Example Two (continued):
+
+const words = ['hello', 'i', 'love', 'you']
+const results = words.reduce(function(accum, nextWord){
+    console.log(accum, nextWord);
+    return accum + nextWord;
+})
+	--we are concatenating these strings
+	--let's try working with some numbers
+
+	**Example Three:
+
+const midtermScores = [ 88,70,93,94,64,62,56]
+const minScore = midtermScores.reduce(function(min, nextScore){
+    if(nextScore < min){
+        return nextScore;
+    }
+    return min;
+})
+	--here we are checking for the lowest score in the array
+	--the way reduce works here is it looks at the first value and next value
+	--it returns the smaller of the two and then moves on and does the same thing
+	--after it does that with each element of the array, it returns the lowest value
+	--they are not named like it, but here the first parameter in callback is still "accumulator" and the second is the actual value of that element
+	--we do not need to update the accumulator itself, we just need to return something and that value will be used as the new accumulator
+	--let's rewrite this with a ternary operator
+	**Example Three (continued):
+
+const minScore = midtermScores.reduce(function(min, nextScore){
+    return nextScore < min ? nextScore : min
+})
+	--we could also make this return the maximum score
+	**Example Three (continued)
+
+const maxScore = midtermScores.reduce(function(max, nextScore){
+    return nextScore > max ? nextScore : max
+})
+	--all these examples of reduce are not using the optional second parameter of the reduce method
+	--we can optionally pass in a value as the second argument
+	--the argument will be used to initialize the accumulator
+	--so instead of starting the accumulator as the first value in an array, we can set the accumulator that we want to start with
+	--let's see how this would work
+	--we want to find the lowest value of 2 separate arrays
+	--we can use reduce to do this
+
+	**Example Four:
+
+const midtermScores = [ 88,70,93,94,64,62,56]
+const finalsScores = [92,93,76,77,78,59,61]
+
+const minOverallScore = finalsScores.reduce(function(min, nextScore){
+    return nextScore < min ? nextScore : min
+}, minMidtermScore);
+	--here we used the minMidtermScore variable as the second parameter for our reduce method
+	--this has now taken 2 separate arrays and found the lowest score between the two
+**TO REVIEW
+	--the reduce method can have 2 parameters
+	--the first parameter is the accumulator and is not optional
+	--the second (optional) parameter sets where the accumulator starts
+	--it can be a function, it can be a value, it can be a variable
+	--whatever we set it to be is where the reduce method will start iterating from
+
+			11.25.10
+			
 
 
 

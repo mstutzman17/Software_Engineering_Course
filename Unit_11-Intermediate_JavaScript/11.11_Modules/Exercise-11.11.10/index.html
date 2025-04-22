@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module"  src='./app.mjs'></script>
+    <script type="module" src="app.js"></script>
+    <title>Inventory Modifiers and Inventory Demo</title>
+</head>
+<body>
+    <script type="module">
+        import {addItem, removeItem, listItems} from './inventory.mjs'
+    </script>
+    <script type="module">
+        import Post from './Post.mjs'
+
+        const myFirstPost = new Post('My First Blog Post', 'Today, I walked my dog around the city of Grand Rapids. He enjoyed seeing all the sights and experienced lots of new smells.')
+
+        console.log(myFirstPost.publish());
+    </script>
+    <script type="module">
+        import {capitalize, reverseString, countVowels, add, subtract, multiply, divide} from './utilities_and_index.mjs'
+    </script>
+    <script type="module">
+        import './globalConfig.mjs'
+    </script>
+</body>
+</html>

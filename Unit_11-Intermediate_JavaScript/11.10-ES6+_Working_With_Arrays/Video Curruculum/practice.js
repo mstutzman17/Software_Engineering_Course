@@ -259,18 +259,18 @@
 //     return i % 2 === 0
 // })
 
-const words = [
-    'immunoelectrophoretically',
-    'rotavator',
-    'tsktsk',
-    'psychophysicotherapeutics',
-    'squirrelled',
-    'crypt',
-    'uncopyrightable',
-    'cysts',
-    'pseudopseudohypoparatathyroidism',
-    'unimaginatively'
-]
+// const words = [
+//     'immunoelectrophoretically',
+//     'rotavator',
+//     'tsktsk',
+//     'psychophysicotherapeutics',
+//     'squirrelled',
+//     'crypt',
+//     'uncopyrightable',
+//     'cysts',
+//     'pseudopseudohypoparatathyroidism',
+//     'unimaginatively'
+// ]
 
 // const longWords = words.some(function(word){
 //     return word.length > 60;
@@ -355,37 +355,111 @@ const words = [
 //     return [`Failing: ${failing} Passing: ${passing}`]
 // }
 
-const scores = [
-    0, 0, 0, 0, 0, 0, 0, 0,
-    55, 59, 69, 73, 73, 75, 79, 83, 88, 91, 93
-]
+// const scores = [
+//     0, 0, 0, 0, 0, 0, 0, 0,
+//     55, 59, 69, 73, 73, 75, 79, 83, 88, 91, 93
+// ]
 
-function myFind(arr, callback){
-    for(let i = 0; i < arr.length; i++){
-        if (callback(arr[i], i, arr))
-            return arr[i]
-    }
-    return undefined
-}
+// function myFind(arr, callback){
+//     for(let i = 0; i < arr.length; i++){
+//         if (callback(arr[i], i, arr))
+//             return arr[i]
+//     }
+//     return undefined
+// }
 
-myFind(scores, function (score){
-    return score === 88;
+// myFind(scores, function (score){
+//     return score === 88;
+// })
+
+// function myFind2(arr, callback){
+//     for(let i = 0; i < arr.length; i++){
+//         if (callback(arr[i], i, arr) === true) return arr[i]
+//     }
+// }
+
+// function myFindIndex(arr, callback){
+//     for(let i = 0; i < arr.length; i++){
+//         if (callback(arr[i], i, arr) === true) return i
+//     }
+//     return -1
+// }
+
+// myFindIndex(scores, function(score){
+//     return score > 0
+// })
+
+// const nums = [20, 30, 50, 12,-2,45,99,19,22,85]
+
+// let total = 0
+// for(let num of nums){
+//     total += num
+// }
+// console.log (total)
+
+// let min = nums[0]
+// for(let i = 1; i < nums.length; i++){
+//     if (nums[i] < min) min = min = nums [i]
+// }
+// console.log(min)
+
+// let max = nums[0]
+// for(let i = 1; i < nums.length; i++){
+//     if (nums[i] > max) max = nums [i]
+// }
+// console.log(max)
+
+// const str="lollapalooza"
+// const charFreq  = {}
+// for(let char of str){
+//     if(charFreq[char]){
+//         charFreq[char] += 1;
+//     }
+//     else {
+//         charFreq[char] = 1
+//     }
+// }
+
+// let evens = [2,4,6,8,10]
+// console.log (evens.reduce(function(accumulator, nextValue){
+//     return accumulator + nextValue
+// }))
+
+// const words = ['Hello. ', 'I ', 'love ', 'you.']
+// const results = words.reduce(function(accum, nextWord){
+//     console.log(accum, nextWord);
+//     return accum + nextWord;
+// })
+
+// const midtermScores = [ 88,70,93,94,64,62,56]
+// const finalsScores = [92,93,76,77,78,59,61]
+// const minScore = midtermScores.reduce(function(min, nextScore){
+//     if(nextScore < min){
+//         return nextScore;
+//     }
+//     return min;
+// })
+
+// const minMidtermScore = midtermScores.reduce(function(min, nextScore){
+//     return nextScore < min ? nextScore : min
+// })
+
+// const maxScore = midtermScores.reduce(function(max, nextScore){
+//     return nextScore > max ? nextScore : max
+// })
+
+const midtermScores = [ 88,70,93,94,64,62,56]
+const finalsScores = [92,93,76,77,78,59,61]
+
+const minMidtermScore = midtermScores.reduce(function(min, nextScore){
+    return nextScore < min ? nextScore : min
 })
 
-function myFind2(arr, callback){
-    for(let i = 0; i < arr.length; i++){
-        if (callback(arr[i], i, arr) === true) return arr[i]
-    }
-}
-
-function myFindIndex(arr, callback){
-    for(let i = 0; i < arr.length; i++){
-        if (callback(arr[i], i, arr) === true) return i
-    }
-    return -1
-}
-
-myFindIndex(scores, function(score){
-    return score > 0
+const minFinalsScore = finalsScores.reduce(function(min, nextScore){
+    return nextScore < min ? nextScore : min
 })
 
+
+const minOverallScore = finalsScores.reduce(function(min, nextScore){
+    return nextScore < min ? nextScore : min
+}, minMidtermScore);

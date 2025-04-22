@@ -1,0 +1,762 @@
+Notes for Unit 11 Subunit 11
+
+			11.1.11
+			Introduction to Modular Design
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64610/64611
+
+**Modules in JS
+	--they are an important concept
+	--like a painter has different color paints on different palettes
+	--or a writer writing different chapters of 1 one book
+	--good modules are self-contained
+	--allowing them to be reused without disrupting an entire application or website
+	--modules allow us to "import" and "export" code
+	--the concept of modules goes beyond just JS, but to computer programming as a whole
+
+			11.11.2
+			What is a Module
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64610/64611
+
+**What are modules?
+**What are programs in general?
+	--a way to modify data
+	--the way we structure the data is the most important part of the code
+	--the better the structure, the more maintainable that code becomes
+	--if we just have a few variables to think about, we could maintain it in one page of code
+	--we can keep track of the variables in our heads
+	**Example:
+
+function signin(){
+    var textfield = 'hehehe'
+    }
+
+function isHuman(){
+    ...
+}
+	--we have 'special' access to the variables inside functions, so we don't have to worry about them "interloping" or "clashing"
+	--in the example above, the var in the signin function will not affect the isHuman function at all
+	--that is because of scope and we can work on one function at a time
+	--the downside is that without talking to other functions, we can't write programs
+	--so we need a way to share data
+	--so how do we do this?
+	**Example:
+
+const user = {}
+
+function signin(user){
+    var textfield = 'hehehe'
+    }
+
+function isHuman(user){
+    ...
+}
+	--if we create an object called user, we can pass that object into functions and use it in various ways
+	--this is how we've managed big programs in the past
+	--we move the relevant data up in scope, so that it can be used in various ways
+	--the problem is when we have bigger and bigger programs and we continue to add to the scope, it can have unwanted effects
+	--this concept is called "tight coupling"
+	--it means various pieces of the same code become interdependent and at the top of the scope may have unforeseen effects on the whole program
+	--this also creates hard to debug data because we pollute the global name space
+
+**So how do we solve this problem?
+	--imagine we have a massive file with 1000 lines of JS
+	--there are too many things depending on one another
+	--too much tight coupling
+	--the global name space has been thoroughly polluted
+	--one solution might be to divide the script files and reference them in the html code
+	--however, the browser does not differentiate these files and compiles it into 1 script
+	--that means that any function could grab anything from the global scope
+	--which in turn means that you don't know what functions are grabbing from what script
+	**Example:
+
+let harry = 'potter'
+let voldemort = 'He who must not be named'
+
+function fight (char1, char2){
+    let attack1 = Math.floor(Math.random() * char1.length);
+    let attack2 = Math.floor(Math.random() * char2.length);
+    console.log(attack1)
+    return attack1 > attack2 ? `${char1} Wins!` :`${char2} Wins!`;
+}
+	--now that we have these functions we can save it and we see that we have the script file on our html page
+	--this allows us to use the console to test our code
+	--so we would have access to the fight function
+	--the problem arises when we have another script
+	--so let's say we add a script to our html and the script evaluates fight as a var with the string 'hahah'
+	--this will conflict with our other script that evaluates fight as a function
+	--we could change the order that the scripts are called, but this would still be a problem
+	--this is why we need modules
+	--because the variables are on a global scope, every part of that code is accessible in the browser
+	--every serious coding language has a way to build modules
+**Back in the day
+	--we just used one page of JS
+	--once things started to grow and web apps became more complex, it became harder to keep track of all the code, scopes, etc
+	--so how did we solve this problem?
+	--we'll answer that in the next video
+
+			11.11.3
+			Module and Module Pattern
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64610/64611
+
+**Let's see the first way we used the concept of modules in JS
+	--it was called the module pattern
+	--modules give us a better way to organize variables and functions
+	--in the past we have the idea of Global Scope and Function Scope
+	--now we also have the concept of Block Ccope (let and const)
+	--ideally, we have another scope called the Module Scope
+	--this module scope can share these variables between scripts
+	--with a module scope we can be explicit 
+	**Example: 
+		--for Module 1 we want it execute this and this function
+		--for Module 2 we want to execute different functions
+**In the past, we created this Module Scope, with something called the Module Pattern
+	--we did not have classes so developers were clever enough to use closure and encapsulation to create our own module scope
+	**Example:
+
+(function() {
+
+}) ()
+	--this is called an immediately invoked function expression (IIFE)
+	--because we wrap it in parens, it's not a function declaration
+	--this is because the compiler (JS) does not see the function keyword first
+	--this is essentially a module
+	--let's say we took all the code for our fight function and wrapped it in this IIFE
+	**Example:
+
+(function() {
+    let harry = 'potter'
+    let voldemort = 'He who must not be named'
+    
+    function fight (char1, char2){
+        let attack1 = Math.floor(Math.random() * char1.length);
+        let attack2 = Math.floor(Math.random() * char2.length);
+        console.log(attack1)
+        return attack1 > attack2 ? `${char1} Wins!` :`${char2} Wins!`;
+    }
+}) ()
+	--with this, we have removed everything from the global scope
+	--the file still gets run
+	--if we try to access the fight function from the console, we cannot
+	--that's because it is no longer a part of the global scope
+	--the same goes with the let variables
+	--let's say we wanted other scripts to have access to the fight function
+	--but we don't want them to be able to touch the harry or Voldemort variables
+	--we can put it into something called the Module Pattern
+	**Example:
+
+const fightModule = (function() {
+    let harry = 'potter'
+    let voldemort = 'He who must not be named'
+    
+    function fight (char1, char2){
+        let attack1 = Math.floor(Math.random() * char1.length);
+        let attack2 = Math.floor(Math.random() * char2.length);
+        console.log(attack1)
+        return attack1 > attack2 ? `${char1} Wins!` :`${char2} Wins!`;
+    }
+    console.log(fight(harry, voldemort))
+}) ()
+	--we have now saved our code inside a const variable
+	--this allows us to assign to that variable whatever the return of that function is
+	**Example:
+
+const fightModule = (function() {
+    let harry = 'potter'
+    let voldemort = 'He who must not be named'
+    
+    function fight (char1, char2){
+        let attack1 = Math.floor(Math.random() * char1.length);
+        let attack2 = Math.floor(Math.random() * char2.length);
+        console.log(attack1)
+        return attack1 > attack2 ? `${char1} Wins!` :`${char2} Wins!`;
+    }
+    return {
+        fight: fight
+    }
+}) ()
+	--this gives anyone access to the fight function by using the fightModule variable
+	--there is no access to the harry or Voldemort variables
+	--so we could do things like the following
+	**Example:
+
+fightModule.fight('Ron', 'Hagrid')
+	--now other pieces of code can use the functionality of the fight function, but only what we tell it to
+	--we are essentially saying that this is our public API/interface
+	--we are exporting what we want you to have access to, and not what we don't
+	--this pattern of returning what we need is called the Revealing Module Pattern
+	--we could include private functions and variables that aren't exported
+	--we only export what we want others to have access to
+	--the other benefit to this was used by jQuery libraries
+	**Example:
+		--we have added the jquery into our html as a script that the webpage will reference 
+		--"under the hood" jquery is doing what we just hard coded
+		--it's saying that that we created a jquery variable that gives others access to what we want them to access
+	**Example:
+
+    <script>
+        let globalSecret = '12234'
+        let fight = 'hahaha'
+    </script>
+    <script>
+        var script2 = (function(){
+    $('h1').click(function(){
+        $('h1').hide()
+    })
+    globalSecret = '0'
+})()
+	--here we are changing our html to include various scripts
+	--because we made a variable called script2, nothing inside that variable is accessible, unless we allow it to be
+	--but things in other scripts, outside that variable, are accessible within the function
+	--for example, we changed the globalSecret from '12234' to '0'
+	--now if we were to call globalSecret, it would be different than we want it to be
+	--we can change this by adding a parameter to the script2 function
+	**Example:
+
+    <script>
+        let globalSecret = '12234'
+        let fight = 'hahaha'
+    </script>
+    <script>
+        var script2 = (function(globalSecret){
+    $('h1').click(function(){
+        $('h1').hide()
+    })
+    globalSecret = '0'
+})()
+	--now JS is not referencing the global name space, because we have declared globalSecret within the scope of our function
+	--now if we were to access globalSecret from the console, we would get the original value of the variable
+	--in other words, we do not move up the scope chain with this method which leaves the globalSecret variable unchanged
+	--this is a powerful tool
+	**Example:
+
+  <script>
+        let globalSecret = '12234'
+        let fight = 'hahaha'
+    </script>
+    <script>
+        var script2 = (function($, globalSecret){
+    $('h1').click(function(){
+        $('h1').hide()
+    })
+    globalSecret = '0'
+})(jQuery, globalSecret)
+    </script> 
+	--again, this would leave the original globalSecret variable unchanged
+	--so if we were to change the value of the $, it would not go outside the scope of the function
+	--or we changed the value of globalSecret, it would not go up the scope chain to effect globalSecret in any way
+	--it would only make the changes to the globalSecret inside the scope of that function/ Module Pattern
+	--using the module pattern we can make somethings accessible to the outside world while we keep other things unaccessible
+
+			11.11.4
+			Pros and Cons of a Module Pattern
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64610/64611
+
+**Review about Module Pattern
+	--using an IIFE (immediately invoked function expression) we're able to create function scope, that mimics a module scope
+	--we wrap an entire JS file in this IIFE and it will run because we are immediately invoking it
+	--we can than return what we need to the global scope
+	--take the fightModule example:
+		--the clear benefit is that we're only revealing one variable into the global name space
+		--everything we want to make public, we return within this IIFE
+		--we can also import whatever we want to from the global variable space
+		--that way, if we modify anything inside the function scope, it won't effect the global scope
+	--updating a single module is easier if it's detached from the global code
+	--so we could have a 2 teams working on the same program with 2 separate moudles
+	--the other great thing is reusability
+	--instead of writing the same functionality in multiple places, you store in a Module Pattern
+		--so if anything goes wrong in the code, it's easy to find the problem
+**2 Main problems with Module Patterns
+	1.) we still technically pollute the global name space
+		--that's because our IIFE is saved as a variable
+	2.) We don't know all the dependencies when using this method
+		--what would happen if we removed the jQuery code from our html and moved it to after we used the jQuery module?
+		--well, we would get an uncaught reference error, because jQuery was not defined until after the scope it was used in
+		--if we have 100 script tags, in an html, it would get confusing to determine which depended on which
+
+			11.11.5
+			CommonJS AMD, UMD
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64610/64611
+
+**Can we design a way to improve the Module Pattern
+	--yes. after MP came 2 solutions
+	1.) CommonJS
+	2.) AMD
+		--designed so there is no interference witht the global scope
+	**Example:
+
+let module1 = require('module1').fight
+let module2 = require('module2').importedFunc2
+
+function fight(){
+
+}
+
+module.exports = {
+    fight: fight
+}
+
+**With CommonJS, modules are loaded synchronously
+	--this can cause an overload when used in a browser
+	--one solution to this is browserify
+	**Example:
+
+browserify script.js > bundle.js
+	--if we write this in the console, it will read our CommonJS syntax and make it "browser worthy"
+	--browserify will then be able to organize your scripts and tell what depends on what
+	--it creates all the dependencies that our code relies on and puts it into one file 
+	--this allows us to use CommonJS even though its synchronous
+	
+**What about AMD?
+	--here's how it looks
+	**Example:
+
+define(['module1', 'module2'],
+    function (module1Import, module2Import) {
+        let module1 = module1Import
+        let module2 = module2Import
+
+        function dance() {
+
+        }
+        return {
+            dance: dance,
+        }
+    }
+)
+	--AMD is designed specifically for browsers
+	--it loads scripts asynchronously
+	--it still does the same thing as Module Patterns or CommonJS
+
+**So we have two solutions: CommonJS and AMD
+	--these were solutions to 2 problems
+	1.) Global Name Space Pollution
+	2.) Dependency Resolution
+**AMD allows us to load modules asynchronously, but comes with messier syntax
+**CommonJS has cleaner syntax, but it loads modules synchronously
+
+**There was another solution called UMD (Universal Module Definition)
+	--this was just a simple if/else statement, so it didn't solve the core problem
+
+**We now have native module support in JS
+	--in the next video all the complications go out the window with ES6 Module Support
+
+			11.11.6
+			ES6 Modules
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64610/64611
+
+**ES6 Modules
+	--we don't have to worry about CommonJS, AMD or UMD
+	--so how does a module look?
+	**Example:
+
+import module1 from 'module1'
+import module2 from 'module2'
+
+export function jump() {
+
+}
+	--we now have the 2 keywords for modules
+		1.) import
+		2.) export
+	--let's make the fight function/ fightModule variable work with these new keywords
+	**Example:
+
+export function fight (char1, char2){
+    let attack1 = Math.floor(Math.random() * char1.length);
+    let attack2 = Math.floor(Math.random() * char2.length);
+    console.log(attack1)
+    return attack1 > attack2 ? `${char1} Wins!` :`${char2} Wins!`;
+}
+	--all we need to do to get access to the fight function, is add the word export before we define the function
+	--so any part of the script that you want others to have access to, you can use the keyword export in front of
+	--if you don't want others to have access to parts of the script, you just don't use the keyword export
+	--let's see how this works in the browser
+	**Example:
+
+In html:
+
+ <script>
+        import {fight} from 'practice'
+    </script>
+	--this is called a named export
+	--here we are only name one thing to import from practice.js
+	--if we wanted to import more, we would just add a comma and the name of the next import
+In JS:
+
+export function fight (char1, char2){
+    let attack1 = Math.floor(Math.random() * char1.length);
+    let attack2 = Math.floor(Math.random() * char2.length);
+    console.log(attack1)
+    return attack1 > attack2 ? `${char1} Wins!` :`${char2} Wins!`;
+}
+
+**We could also use a default export
+	**Example:
+
+In html:
+
+<script>
+        import fight from 'practice'
+    </script>   
+
+export default function fight (char1, char2){
+    let attack1 = Math.floor(Math.random() * char1.length);
+    let attack2 = Math.floor(Math.random() * char2.length);
+    console.log(attack1)
+    return attack1 > attack2 ? `${char1} Wins!` :`${char2} Wins!`;
+}
+	--we don't need the brackets in the html portion anymore, because we're only importing one thing from practice.js
+
+**What we currently have, will not work because there are 2 other tricks to make it work
+	1.) You have to define the script as a <script type="module">
+		--because this script is now a module, it has to be served from a server
+	2.) The other thing we have to do is specify where the script we want to import from is located
+		**Example: 
+
+	<script type='module'>
+        import fight from 'practice.js'
+    	</script>
+
+**Imagine we want to import multiple things from the script
+	--some are default exports and some are not
+	--this is how we would do it
+	**Example: 
+
+<script type='module'>
+        import fight, {jump} from 'practice.js'
+    	</script>
+
+**Important note:
+	--when we use the export/import module method, we cannot access the variables, funcitons, arrays, objects, etc in the console
+	--that's because what we import and export are no longer in the global name space
+
+			11.11.7
+			Modules Section Review
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64610/64616
+
+**Let's review what we've learned about modules
+	--we used to just use single script tags
+	--as webpages got more complex, we started to run into issues
+	--we learned how to use IIFE (immediately invoked functions) to try to solve that problem
+	--then we learned about CommonJS, AMD and UMD
+	--finally, we discovered modules, that use native JS keywords to divide programs into smaller chunks that work alone
+	--we can now do things like isolate teams of programmers to develop different parts of the same application, at the same time
+
+			11.11.8
+			ES7 and ES8 Features
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64610/64616
+
+**Let's dive into the new features of ES7 and ES8
+	1.) string.prototype.padStart and string.prototype.padend
+	2.) Object.values
+	3.) Object.entries
+	4.) Async functions
+	5.) Exponentiation
+	6.) Trailing commas
+
+1.) padStart/padEnd
+	--padStart pads the current string with a new string multiple times until the new string is a given length
+		--the new strings are added in front of the old string
+	--padEnd does the same thing, with one difference
+		--it adds the new string to the end of the old string
+	**Example:
+
+const string = ""
+
+console.log(string.padStart(10, 'Hi'))
+	--this would print the word Hi 5 times.
+	--it does this because it fulfills the length that we set using the .padStart
+	--we create an empty string in a variable to add our letters to.
+	--it could also be a specified string of letters
+	--with the padStart method, we call our variable and attach it with .padStart
+	--in the parens, we specify how long we want our string to be
+	--then we insert a comma
+	--then we specify what letters we want to add to the string
+	--if our specified length is less than the numbers of characters in the string we specify, it will cut anything over our specified amount out
+	**Example:
+
+const string = ""
+
+console.log(string.padStart(10, 'JavaScript Master'))
+	--here, everything after the 10th character would not be printed
+
+**What's the use of padStart and padEnd?
+	--one use for padStart is prepending an area code to a phone number, if the user does not include it in their entry
+	--one use for padEnd could be used for decimal precision
+	**Example:
+
+const string = "12345"
+
+console.log(string.padEnd(10, '.'))
+	--here we would see the original string printed out, and 5 dots printed after it
+	--this is because we specified that we want the length of the string to end up being 10 characters
+	--the original string "12345" is only 5, so JS adds 5 dots, to fulfill the specifications
+
+2.) Object.values
+	--provides us with an array of object properties
+	**Example:
+
+const object = {
+    name: 'john',
+    age: 20
+}
+
+console.log(Object.values(object))
+	--this gives us an array with values of the properties from the object, object
+	--this is really useful if you work with objects a lot
+	**Example:
+
+const object = {
+    name: 'john',
+    age: 20,
+    favoriteBooks: ['Harry Potter 1', 'Harry Potter 2']
+}
+
+console.log(Object.values(object))
+	--this would return an array 3 elements
+	--the third element is another array that has 2 elements
+
+3.) Object.entries
+	--this is similar in nature to Object.values
+	--this returns an array with every key/value pair in a specified object
+	**Example:
+
+console.log(Object.entries(object))
+	--this returns an array with every key/value pair in the object we created
+
+4.) Async Functions
+	--functions that operate asynchronously, but keep the syntax and structure of a standard synchronous function
+	--there will be a separate video on this concept
+
+5.) Exponentiation
+	--here JS has provided us with a new way of dealing with exponents
+	--here's what we did before exponentiation
+	**Example: 
+
+console.log(Math.pow(2,3))
+	--here we are raising the number 2 to the 3rd power
+	--we can use exponentiation to simplify this syntax
+	**Example:
+
+console.log (2 ** 3)
+	--here we just use a double star between the numbers we want to use to represent Math.pow
+
+6.) Trailing Commas
+	--not a new feature
+	--they are a fix for something that we could write wrong
+	--the ability of a compoiler not to raise a syntax error if we add too many commas at the end of a list
+	**Example:
+
+const anotherObject = {
+    first: 1,
+    second: 2,
+    third: 3,
+}
+
+console.log(anotherObject)
+	--so even though we added an unnecessary comma after the third property, the code runs fine
+	--we can use this concept on arrays as well
+	**Example:
+
+const array = [1,2,3,4,]
+console.log(array)
+	--there would again be no syntax error because of the trailing commas update
+	--what if we try to log array.length and have 2 commas at the end of the array
+	**Example:
+
+const array = [1,2,3,,]
+console.log(array.length)
+	--this would just add one to the length of the array, even though there is no value defined
+	--the array.lenght of the object without 2 commas at the end would be 3
+	--with 2 commas at the end, the length would be 4
+	--the same would be true if we had the following
+	**Example:
+
+const array = [1, ,3]
+console.log(array.length)
+	--even though there are only 2 elements defined, the array is still evaluated as having 3 elements because of the extra comma
+	--now if we want to the no what the value of that second element was we would do something like this
+	**Example:
+
+console.log(array[1])
+	--this would return undefined, because the second element in the array is blank
+
+**This is all that has been added to ES7 and ES8
+	--these small updates make the life of a developer just that much easier
+
+			11.11.9
+			JS Features in 2024q
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64610/64616
+
+**New Features for 2024 JS
+	
+**1.) Change array by copy and array-grouping
+	--.toSorted()
+	--.toReversed()
+	--.toSpliced()
+	--.with()
+	--Object.groupBy()
+		--all of these features replace features that are already in JS
+		--difference is that these methods create new arrays, instead of mutating the old one
+2.) Promise.withResolvers()
+3.) Temporal API
+4.) JSON Modules
+5.) Decorators
+6.) new methods for the Set: intersection
+
+**Let's start with Change array by copy and array-grouping features
+	--toSorted()
+	--if we used the original .sort() method, here's what would happen
+	**Example:
+
+const a = [2,1,3]
+console.log(a.sort())
+	--this would sort the array, but it would also mutate the original array
+	--that means we no longer have the original const a = [2,1,3]
+	--that's where .toSorted comes in
+	**Example:
+
+const a = [2,1,3]
+const b = a.toSorted()
+console.log(b)
+	--now we have 2 separate arrays: a and b
+	--be is the sorted version of the a array
+**.toReversed() and toSpliced() work the same way
+	--instead of mutating the original array, these new methods create a separate array that is reversed or spliced
+
+**What does .with() do?
+	--this allows us to change specific elements in an array
+	--here's how we do it without the .with() method
+	**Example:
+
+const a = [2,1,3]
+a[2] = "a"
+	--this would change the value index 2 to "a"
+	--this would also mutate the a array in the process
+	--to avoid that, we could use the .with() method
+	**Example:
+
+const a = [2,1,3]
+const b = a.with(2, "a")
+	--now array a is copied and the value of the [2] is changed in the copy of it
+
+**Object.groupBy()
+	--you pass it an array of objects and then a function
+	--the function returns whatever we want to groupBy
+	**Example:
+
+const people = [
+    {name: "Moses", age: 32},
+    {name: "Barbara", age: 35}
+]
+
+Object.groupBy (people, person => {
+    return person.age
+})
+	--here we want to group each person by their age
+	--the Object.groupBy method returns a new object
+	--inside the new object is a key for each age
+	--every person in the original object with a specific age is put into an object inside an array, inside the new object
+	--the object in the array in the new object holds the key/value pairs of everyone with that specific age
+	--Let's see what is returned from the example above
+	**Example:
+
+{32: Array(1), 35: Array(1)}
+32
+: 
+Array(1)
+0
+: 
+{name: 'Moses', age: 32}
+length
+: 
+1
+[[Prototype]]
+: 
+Array(0)
+35
+: 
+[{…}]
+
+**2.) Promise.withResolvers
+	--allows us to create promises without having to execute the promise immediately
+	--normally we would do the following
+	**Example:
+
+const promise = new Promise((resolve, reject) => {
+resolve()
+reject()
+})
+	--basically we would call a promise as a function with 2 parameters
+	--inside the function we call resolve and reject somewhere along the line
+	--that way the promise will work
+	--this works for 99% of use cases
+	--but sometimes you want to create a promise and not use the resolve or reject
+	--for that situation we could use Promise.withResolvers()
+	**Example:
+
+const {promise, resolve, reject} = Promise.withResolvers()
+	--now we can call our resolve or reject functions anywhere
+	--it does not have to be within the scope of the promise
+	--this is not a super useful or often used feature
+
+**3.) Temporal API
+	--this is in stage 3 of developments
+	--this is a new way to write dates
+	--the date system in JS sucks
+	--Temporal API will make working with dates in JS a lot easier
+
+**4.) JSON modules
+	--this feature is still in stage 3 of development, but will likely make it to stage 4
+	--you may have seen statement like the following in JS before
+	**Example:
+
+import users from "users.json"
+	--this works fine, but is not a native JS feature
+	--the proposal for JSON Modules would allow us to import JSON with third parties involed
+	--it will make JSON Modules a native feature of JS
+	--here's how it could work
+	**Example:
+
+
+import users from "users.json" with { type: "json"}
+	--here we are saying with and specifying the type as json
+	--this allows us to import json directly into JS, without having to use bundlers
+
+**5.) Decorators
+	--no support in browsers, still in stage 3
+	--this improves how we work with classes in JS
+	**Example:
+
+@defineElement("my-class")
+class C extends HTMLElement{
+    @reactive accessor clicked = false;
+}
+	--decorators are a way to hook into classes
+	--adds extra functionality within a class, without having to write a new function
+	--so you are "decorating" a class with functionality from code that has already been written
+
+**6.) new methods for the Set: intersection
+	--only supported in Safari and brand new iteration of Chrome
+	--you can create a new unique array by saying new Set
+	--this will create an array with only unique values
+	--so if you had the number 1 multiple times in an array, it would only be seen once if you make a new Set
+	**Example:
+
+console.log(new Set ([1,2,3,1]))
+	--the number 1 would only be printed once if logged this to the console
+**The new proposed methods are a way to interact with new sets in JS
+	--this means we could run more complex mathematical operations on them
+
+
+
+
+	
+	
+
+
+
+
+
+
+
