@@ -1,0 +1,498 @@
+Notes for Unit 11 Subunit 12
+
+			11.12.1
+			VisualAlgo
+			https://visualgo.net/en
+
+--This is literally just a link to the Visualgo Website
+--This website gives a visual representation of different data structures and sorting types
+
+			11.12.2
+			Intro to Maps
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64621
+
+**What is a data structure?
+	--they are formats for efficiently collecting or storing data
+	--we are familiar with arrays and objects
+	--Maps and Sets are 2 new data structures
+	--Maps, Sets, Arrays and Objects have the same basic goal of storing data
+		--the difference is in the way each of data structures accomplishes this task
+
+**Maps
+	--also called hash maps in other languages
+	--Until ES2015 objects were replacements for maps
+	--maps are similar to objects, except the keys can be ANY data type!
+	--let's compare this to objects
+	**Example:
+
+const myObject = {}
+myObject ['a'] = 1
+	--here we have made a key called 'a' and it's value is set to 1
+	--that works just fine
+myObject [true] = 'TRUE!!!!'
+console.log(myObject)
+	--here we have created a key called true and it's value is set to 'TRUE!!!!'
+	--now if we called my object we'd have 2 keys (a and true) with values (1 and 'TRUE!!!!')
+	--it seems like it works with a Boolean, but what's actually happening is JS is converting key true to a string
+	--then it looks for that string with the myObject object
+	--the real problems arise when we try to use arrays or objcets or functions as keys
+	**Example:
+
+const key = {}
+myObject[key] = 'An object'
+console.log(myObject)
+	--we are trying to use the empty object called key as a key for myObject
+	--this does not create a key called key, it creates a key that is an empty object
+	--we could try to set an object that has key/value pairs, but look what happens
+	**Example:
+
+const mystery = {stuff: 1, otherStuff: 4}
+console.log(myObject[mystery])
+	--the values for the mystery object are not saved
+	--instead what is being referenced is the value of the key named key
+
+**Maps solves this problem
+	--so we can use any data type as a key and it won't be converted into a string
+**So how do we make one?
+	--it is not like creating an array or object where we can use [] or {} to create them
+	--we don't have a literal syntax for maps
+	--instead we use the new keyword followed by Map()
+	**Example:
+
+const myMap = new Map();
+	--this creates a new empty map
+	--so now we could add information into this empty map
+	--if logged what we currently have to the console, we would see that myMap is a new, empty Map with 0 properties
+	--let's add some keys and values
+	**Example:
+
+myMap.set(7, 'seven')
+	--we can define the key/value pairs for Map using .set
+	--we see that the key is number and the value is a string
+	--just like an object we could set the value to any data type
+	--the difference here is that the key is kept as a number
+	--with an object that key as a number would be converted to a key as a string
+	--now when we log myMap to the console, we'll see that the key is still evaluated as a number and the value as a string
+	--what would happen if we defined our key as a string?
+	**Example:
+
+const myMap = new Map();
+myMap.set('7', 'seven string')
+	--this would set the key as a string with the number 7 in it
+	--how do we retrieve a value from a Map?
+	--we cannot use this syntax
+		--myMap['7']
+		--that would return undefined
+	--if you have a key, you can use myMap.get
+	**Example:
+
+myMap.get('7')
+	--this would return the value of that key, which in this case is "seven string"
+	--we could store an empty array as one of the keys
+	--but of course there is a problem with this
+	**Example:
+
+myMap.set([], "empty array")
+myMap.get([])
+	--if we try to retrieve the value of this key we would get undefined.
+	--But why?
+	--because arrays are reference types
+	--that means that the array stored as a key is different than the empyty array as a key that we try to retrieve
+	--What if we want to correctly make an empty array a key in a Map?
+	**Example:
+
+const empty = [];
+myMap.set(empty, "empty array")
+myMap.get(empty)
+	--this saves an empty array as a key for this map
+	--if we want to access the value of the key, we need to reference the name of that empty array
+	--we could also set the key to be a Boolean
+	**Exmaple:
+
+myMapy.set(true, 'TRUE')
+myMap.get(true)
+	--as before, we can now retrieve the value of that key with .get
+	--let's compare this to an object
+	**Example:
+
+const obj = {true: '123456']
+obj[true]
+obj['ture']
+	--for an object, we could reference true or 'true' it would show the same value
+	--that's because every key in an obj is saved as a string, regardless of what data type we want it to be
+		--a Boolean = string, number = string, etc
+	--in a Map, they would be an entirely different value
+
+			11.12.3
+			Map Methods
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64621
+
+**How could we set a function as a key in a Map?
+	--let's imagine we have a couple different functions
+	**Example:
+
+const add = (x, y) => x + y;
+const multiply = (x, y) => x * y;
+	--now let's say we want to keep track of how many times we call these functions
+	--we could make a Map to do that
+	**Example:
+
+const funcCalls = new Map();
+funcCalls.set(add, 0)
+funcCalls.set(multiply, 0)
+	--now we have 2 key/value pairs in our map
+	--each key has the value of a different function
+	--suppose people have been using these functions
+	**Example:
+
+funcCalls.set(add, 1)
+funcCalls.set(multiply, 9)
+	--the add function has been used once and the multiply function has been called 9 times
+	--if we did funcCalls.get(add) we would get 1
+	--if we did funcCalls.get(multiply) we would get 9
+
+**Now let's take a look at some built in methods for Maps in JS
+	--there are not that many
+	--we have already used 2 of them called .set and .get
+
+**How could we create a Map that is not empty?
+	--so far we have been defining a variable as an empty map and then using the .set method to define it's contents
+	**Example:
+
+const myMap = new Map()
+myMap.set(12, 'twelve')
+	--but we can also create a Map that has contents
+	--to do this we need to pass in an array which follows a very particular format
+	--it's an array that contains a bunch of subarrays and each subarray has 2 elements
+		--a key and a value
+	--it would look something like this
+		-- [ [key,value], [key,value], [key,value] ]
+	**Example:
+
+const bandData = [
+[3, "3 Doors Down"],
+['three', "Three Dog Night"],
+['nine', "Nine Inch Nails"],
+['four', "The Four Seasons"],
+[41, "Sum 41"],
+];
+
+const bandMap = new Map(bandData)
+	--so here we have 1 array, with 5 subarrays, with 2 elements each
+	--then we name our map by saving it into a variable using the keyword new and calling the array that we just created
+	--if we then call bandMap, we will see that each key/value pair has been correctly set
+
+**We can also take any Map and turn it back into an array
+	--we use the spread operator to accomplish this
+	**Example:
+
+console.log([...bandMap])
+	--this would give us what we started with
+		--1 array, with 5 subarrays, with 2 elements per subarray
+	--we can also add contents to an existing Map
+	--when we use the .set method it returns the whole Map
+	--that means that we can chain .set together to add multiple values
+	**Example:
+
+bandMap.set(182, 'Blink-182').set('twenty-one','Twenty One Pilots')
+	--now if we look at bandMap we have 7 elements
+
+**Onto other methods
+	--.has
+	--this method checks if a map has a certain element
+	**Example:
+
+bandMap.has(41)
+bandMap.has(3)
+bandMap.has(9)
+bandMap.has('nine')
+	--if the value we are looking for exists .has will return true
+	--if does not exist, .has will return false
+	--so (41), (3), ('nine') would all return true because those values exist in the bandMap
+	--(9) would return false, because that value does not exist in bandMap
+
+**More Map methods
+	1.) delete
+		--deletes a key/value pair, based off a particular key
+	2.) clear
+		--this will empty out a Map entirely
+	3.) values
+		--retrieves all the values from a given Map
+	4.) keys
+		--retrieve all keys from a given Map
+
+**Delete
+	**Example:
+
+bandMap.delete('twenty')
+console.log(bandMap.has('twenty'))
+	--this will delete the key/value pair ('twenty', 'Matchbox Twenty') from the Map
+	--we can verify this by using .has which would now return false
+
+**Clear
+	**Example:
+
+bandMap.clear()
+console.log(bandMap)
+	--now if we tried to retrieve what's in our bandMap, we couldn't
+	--that's because there is nothing inside anymore
+	--the contents of that Map have been cleared
+
+**Keys/Values
+	**Example:
+
+console.log(bandMap.keys())
+	--this will list all the keys of the bandMap, Map
+	--it's not an array
+	--it's called a MapIterator
+	--it allows us to iterate over the keys of the Map
+	--we could use spread and turn it into an array
+	**Example:
+
+[...bandMap.keys()]
+	--this will create an array with all the keys from the bandMap
+	--values works the same way but with values in a Map, not keys
+	**Example:
+
+console.log(bandMap.values()]
+	--this will give us a MapIterator with every value of the bandMap
+	--again we could use spread to turn this list into an array
+	**Example:
+
+[...bandMap.values()]
+	--now we would get an array with all the values of the bandMap
+
+**Review
+	--there are not a whole lot Map methods, which makes Maps pretty straight forward
+	--.set and .get are the main ones used
+	--.has is also useful to see it something exists in a Map
+
+			11.12.4
+			Iterating Maps
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64621
+
+**Looping through maps
+	--how do we iterate with a map
+	--we can use for/of or forEach
+	--maps are ordered
+	--meaning they will always be in a certain order based on insertion
+	--objects do not have set order, but Maps do
+	--Maps also have a size
+	--like bandMap.size would return 7 because there are 7 key/value pairs
+	--objects do not have a size
+	--objects are also trickier to iterate over
+	**Example:
+
+bandMap.forEach((key, val) => {
+    console.log(key + '=' + val)
+})
+	--it's important to note that the first parameter is the value and the second parameter is the key
+	--we could also use a for/of loop
+	**Example:
+
+for(let x of bandMap) {
+    console.log(x);
+}
+	--the result of this loop is we get an array
+	--just like when we created the map and we had an array of subarrays
+	--when we iterate over a Map, it prints out all the subarrays
+	--we use destructuring to grab the key and the value
+	--although we could
+	**Example:
+
+for(let pair of bandMap) {
+    let [key, val] = pair;
+    console.log(pair);
+}
+	--this does the same thing as just console.log(x)
+	--we could also do the same thing inline
+	**Example:
+
+for(let [key, value] of bandMap) {
+    console.log(key, '=', value)
+}
+
+**REVIEW AND IMPORTANT
+	--when we use a for/of loop, the order is key, value
+	--REMEMBER, it is the opposite order if we use forEach
+	--Maps are an iterable data type
+	--just like an array
+	--objects are not an iterable data type
+
+			11.12.5
+			Set Basics
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64621/64625
+
+**Second new data structure: Set
+	--kind of like arrays because they are a collection of values
+	--they only store unique values
+	--any type of value can exist in a set
+	--created using the new keyword
+	--Sets exist in quite a few other languages
+	--ES2015 made them available in JS
+	--when you have the choice to use an array or set to do something, it's almost always faster to use a set
+	--sets lookup and add new values very quickly
+
+**How do we make a set
+	--it's very simple
+	**Example:
+
+const bannedHashTags = new Set();
+	--we have created an empty set
+	--another option is to pass in an iterable
+	**Example:
+
+const bannedHashTags = new Set(
+    ['nofilter', 'justsaying', 'winning', 'yolo']
+);
+	--here we have used an array to define the key/value pairs of a set
+	**Another Example:
+
+const randomSet = new Set ('hello', 'goodbye')
+console.log(randomSet)
+	--here 'h', 'e', 'l', 'o' are printed to the console
+	--this is because a Set can only accept one iterable
+	--also because a Set can only contain unique data types
+	--that's why the second l is not included in this Set
+	--there is no error, the other information is just not used
+**How can we add to set
+	--we use the method called add
+	--if item is not in set it will be added
+	--if it already exists it will be ignored
+	**Example:
+
+bannedHashTags.add('bestLife')
+bannedHashTags.add('yolo')
+console.log(bannedHashTags)
+	--here we are trying to add 2 things the bannedHashTags set
+	--'bestLife' is added without a problem
+	--but because 'yolo' already exists in this Set, it is ignored and nothing happens
+	--we can also chain the add method together
+	**Example:
+
+bannedHashTags.add('bestLife').add('TFW').add('FTW')
+	--here we have added 3 new values to this Set
+	
+**How do we check if a value is the set
+	--we use the method called .has
+	**Example:
+
+console.log(bannedHashTags.has('bestLife'))
+	--this will return a Boolean, either true or false
+
+**Other methods for Set
+	--we also have access to .clear and .delte
+	--it does the same thing with a Set as it does with a Map
+	**Example:
+
+bannedHashTags.delete('winning')
+	--here we have deleted a specified value from the Set
+	--let's see how clear works
+	**Example:
+
+bannedHashTags.clear()
+	--here we have cleared all of the contents of the Set using the .clear() method
+
+**Let's see how we would use Sets
+	--we'll stick with the bannedHashTags example
+	--we want a function that removes banned hash tags from a list of hash tags
+	**Example:
+
+function filterHashTags (tags){
+    const bannedHashTags = new Set([
+        'nofilter', 'justsaying', 'winning', 'yolo'
+    ]);
+    return tags.filter((tags) => !bannedHashTags.has(tags))
+}
+
+const susansTags = ['happyMonday', 'yolo', 'winning', 'sunset']
+
+console.log(filterHashTags(susansTags))
+	--here we have created a function that removes bnannedHashTags from any list of hash tags
+	--in this function, tags is referring to whatever list of hash tags we use
+	--in the example, it is referring to the susansTags array
+	--here, we easily could have used an array instead of Set
+	--that's because we don't have to write any logic that deals with duplicates
+	--if we had used an array, we would have had to account for that
+	--but since Sets cannot have any duplicates, it's easier to use them in a situation like this
+	--the way Sets are implemented, they are really fast at checking for values and adding values
+	--with an array we would have to check every element for an instance of one thing
+	--with a Set, JS sees it as one thing and returns true or false
+	
+**Another common use case for sets
+	--remove duplicates from an array
+	--easy way to take an array with duplicate data and eliminate them in a single line of code
+	--there are a couple options for how to accomplish this
+	**Example:
+
+const ages = [45,42,21,23,24,98,2,2, 4, 12, 13, 12, 45]
+new Set(ages)
+	--the first option is to create a Set using the new keyword and the variable we created
+	--this creates a Set with unique values and no duplicates
+	--sets don't have a lot array methods that we would want so we could easily turn this back into an array
+	**Example:
+
+[...new Set(ages)]
+	--here we have transformed the ages Set back into an array by spreading the values of the ages Set into an array
+	--this array will exist without the duplicates of the original array
+	--this is because when we made the original array a Set, it removed all of the duplicates
+	--we can now use all the methods available to arrays on this particular set of data
+
+			11.12.6
+			Maps and Sets Recap
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64621/64625
+
+**When would we use a Set?
+	1.) removing duplicate values from iterable data types (arrays, strings)
+	2.) if you require uniqueness
+	3.) Sets efficiently check if an item is in a collection (much better than arrays) (you could have 10 or 10,000 items it would take roughly the	same 	amount of time
+		--again, this is because with a set you are iterating through one piece of data
+		--with arrays you have to iterate through every element
+
+**Browser compatibility
+	--Internet Explorer is again the problem child
+	--the following will not work in IE
+		1.) (partial support) add method 2.) entries 3.) Key equality for -0 and 0 4.) new Set(iterable)
+		5.) values method 6.) @@iterator 7.) @@species
+
+**Let's look closer at 3.) Key equality for -0 and 0
+	--in JS there is a difference between -0 and 0
+	--they are different values, just like infinity and negative infinity
+	--in most sets of browsers, both versions of 0 are seen as the same
+	**Example:
+
+const test = new Set()
+test.add(0, -0)
+	--this Set would only contain 1 value, because both 0 and -0 are considered to be the same number
+	--IE, however, sees 0 and -0 as different values
+
+**More weird equality with Sets
+	--NaN in general is never equal to it's self
+	--it would be like saying {} === {}
+	--this is not true because objects are reference types, so each instance of an empty object points to a different place in memory
+	--the same is true for NaN
+	--each instance of NaN, points to a different place in memory
+	--with the algorithm for Sets, NaN is not considered a unique value
+	--that means you cannot have more than one NaN in a particular Set
+	--even though an empty object and NaN are generally unique values, they act differently in Sets
+	--you could add multiple empty objects {} in a set, but as we seen we cannot do the same with NaN
+	--again, the contents of the object are not being compared, it's the reference in memory
+	--this allows for multiple empty objects to be added to one particular Set
+
+**Maps Recap (aka Hash Maps)
+**Why would we use a Map?
+	1.) There is a size for Maps unlike objects
+		--inding the size is easy - no more loops or Object.keys()
+	2.) The Keys canb be any data type
+		--if you need to use objects, arrays or functions, you can do so
+
+**Browser Compatibility (things not supported in IE)
+	1.) entries
+	2.) Key equality for -0 and 0
+	3.) keys
+	4.) new Map(iterable)
+	5.) (partial support) set method
+	6.) values
+	7.) @@iterator
+	8.) @@species
+

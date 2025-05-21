@@ -1,0 +1,580 @@
+Notes for Unit 11 Subunit 13
+
+			11.13.1
+			Trees Handout
+			https://lessons.springboard.com/Trees-Binary-Trees-d82169f465cc42b883276a226825daac
+**Concerning Trees
+**Goals
+	1.) Introduce terminology
+	2.) Create a tree class and methods
+	3.) Learn uses for trees
+
+**Terminology
+	1.) Node: basic unit
+	2.) Children: nodes directly below a node
+	3.) Descendants: nodes below a node
+	4.) Parent: node that is directly above a node
+	5.) Ancestor: node that is above a node
+	6.) Root Node: node at the top of tree
+	7.) Leaf Node: node without any children
+
+**Information about Binary Trees and Other Trees
+	--What are they?
+	--What are they good for?
+	--Advanced Ideas
+
+			11.13.2
+			Intro to Trees
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64629
+
+**Trees are not actually new. We have worked with them, we just have called them trees
+**Goals:
+	1.) Introduce terminology
+	2.) Create a tree class and methods
+	3.) Learn uses for trees
+
+**JS Trees are like an upside down version of a tree in nature
+	--they are similar
+	--both have roots and branches
+	--branches can split and split and split
+	--both have leaves
+**In general
+	--a JS tree has a root node at the top
+
+**Types of trees
+	1.) Organization Chart
+	2.) Filesystem of a computer
+	3.) HTML DOM (writing HTML code)
+		--this gets pretty in depth
+		--as we know, HTML docs are trees
+		--for example, the body of an HTML would be the root node
+		--and each element inside the body would be a child, an ancestor, a descendant or a parent
+		--we can look up these nodes in JS
+		**Example:
+
+	document.documentElement.children
+		--in the console, this would bring up an array containing head and body
+	document.documentElement.children[0]	
+		--this would take us into the head element
+	document.documentElement.children[1]
+		--this would take us into the body element
+	4.) Taxonomy (classifying organisms in Biology)
+
+**Requirements for trees
+	--if it does NOT have a root node, it is not a tree
+	--a node can only have one parent
+	**Example using Taxonomy
+
+|--Organisms
+|__Kingdom
+	|--plants
+	|--fungi
+	|--animals
+		|__Phylum
+			|--cnidaria
+			|--molluscs
+			|--chordata
+				|__Class
+					|--actinopterygii
+					|--mammalia
+						|__Order
+							|--carnivora
+							|--primate
+							|--artiodactyla
+							|--rodentia
+					|--chondrichthyes
+					|--aves
+					|--amphibia
+					|--reptilia
+	--in the above example, we have a root node (organisms)
+	--then we have multiple parents growing from that root node
+	--for example, mammalia is the parent of 4 children
+	--chordata is the parent of 6 children and so on
+	--each child can only have one parent
+	--each parent can have multiple children
+
+
+
+			11.13.3
+			Tree Terminology
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64629
+
+**Example of a Tree
+
+|--Amy
+	|--Bob
+		|--Carol
+			|--Daniel
+				|--Edward
+				|--Eric
+			|--Derick
+	|--Barb
+		|--Carlos
+		|--Connie
+			|--Darlene
+			|--David
+				|--Ellen
+				|--Erica
+	|--Barry
+		|--Consuela
+
+**Nodes
+	--nodes are every element of a tree
+	--so each name in the example is a node
+	--just like a linked list (every element in an li is a node)
+**Children:
+	--any node directly below another node
+	--in the example, Bob, Barb and Barry are all children of Amy
+**Descendants:
+	--any node that is not a direct child of another node
+	--In the example, Daniel would NOT be a child of Bob, he would be a descendant
+**Parent:
+	--a node directly above another node
+	--in the example, Amy is a parent of Bob, Barb and Barry
+	--Bob is a parent of Carol
+	--Carol is a parent of Daniel	
+**Ancestor:
+	--in the example, Amy would be an ancestor of Connie
+	--Connie would be an ancestor Erica and so on
+**Root Node:
+	--a root node is the very top of the tree (Amy in the example)
+	--to be considered a tree, you NEED a root node
+**Leaf Node:
+	--a leaf node is a node without children (the final node of a branch)
+	--in the example, Consuela is a leaf node
+	--Erica is a leaf node and so on
+**Binary Trees:
+	--in a binary tree there are rules about how many children a parent can have
+	--AT MOST, the node of a binary tree can have 2 children (hence the name binary)
+	--the tree examples we have been looking at have nodes with more than 2 children
+**Other types of trees
+	--Quad tree
+		--each node has exactly 4 children
+	--Oct Tree
+		--each node has 8 children at most
+**Trees
+	--general tree structures are sometimes referred to as "Anary Trees"
+		--this means there is no constraint on how many children a node can have
+
+
+
+			11.13.4
+			Implementing a Tree
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64629
+
+**Let's see how we can implement a general tree structure in JS
+	**Example:
+
+class Node {
+    constructor(){
+        this.val = val
+        this.right = null;
+        this.left = null;
+    }
+}
+	--this would work for binary tree, because we have this.val for each node
+	--then we have this.left for one child and this.right for the next
+	--this would not work for a general "n-ary" tree
+	--we could make this work by hard coding each node
+	--even then, there would be cap on how many children each node could have
+	--we can solve this by using an array
+	**Example:
+
+class Node {
+    constructor(val){
+        this.val = val
+        this.children = []
+    }
+}
+
+let amy = new Node ('Amy')
+let bob = new Node ('Bob')
+let barb = new Node ('Barb')
+let barry = new Node ('Barry')
+
+amy.children.push(bob)
+amy.children.push(barb)
+amy.children.push(barry)
+	--here we are adding children to our root node (amy)
+	--this will give us a simple tree structure
+	--if console.log amy we see that amy is a root node with 3 children
+	--each child has 0 children, so they are considered leaf nodes
+	--we could also write this so that our constructor will accept children right off the bat
+	**Example:
+
+class Node {
+    constructor(val, children=[]){
+        this.val = val
+        this.children = children
+    }
+}
+
+let amy = new Node('amy', [new Node('Bob'), new Node('Barb'), new Node('Barry')])
+console.log(amy)
+	--this will give us the same structure as before, but with simplified code
+	--let's do DOM (domain) example 
+	**Example:
+
+let htmlEl = new Node('html', [
+    new Node('head', [new Node('title')]), 
+    new Node('body', [new Node('ul', [new Node('li'), new Node('li2')])])])
+	--here we have a root node of html
+	--html has 2 children (head and body)
+	--head has 1 child (title)
+	--body has 1 child (ul)
+	--ul has 2 children (li and li2)
+
+**Next we will talk about traversing a tree
+
+
+
+			11.13.5
+			Depth First Search
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64633
+
+**Tree Traversal
+	--has to do with finding nodes
+	--usually starts with the root node
+	--using code, how do we find things that may  be hundreds or thousands of layers deep?
+**Two types of traversal
+	1.) Breadth First Search
+		--this method is searching "across" a tree
+		--so starting at the root node and then moving through each child of that root node
+	2.) Depth First Search
+		--this method is searching down the tree
+		--so you would start at the root, then go to the first child and the children of the first child
+		--then to the children of the children of the first child and so on
+	**The question remains, do we go as broad as possible or as deep as possible to start
+		--either way we need a way to keep track of or store the nodes we have yet to visit
+		--unlike a linked list where we can .next through it, we cannot do the same with a tree
+	**Example:
+
+1 class Node {
+2    constructor(val, children=[]){
+3        this.val = val
+4        this.children = children
+5    }
+6    find(val){
+7        const toVisitStack = [this];
+8        while(toVisitStack.length){
+9            const current = toVisitStack.pop();
+10            if(current.val === val){
+11                return current;
+12            }
+13            for(let child of current.children){
+14                toVisitStack.push(child)
+15            }
+16        }
+17    }
+18 }
+19
+20 let htmlEl = new Node('html', [
+21    new Node('head', [new Node('title')]), 
+22    new Node('body', [new Node('ul', [new Node('li'), new Node('li2')])])
+23 ]);
+24
+25 console.log(htmlEl.find('div'))
+	**lines 20 to 23 have the code for the tree that we are attempting to find the li element in
+
+**Here's a thorough explanation of what the heck is happening up there:
+	--let's say we're trying to find 'li' in this tree
+	--so htmlEl.find('li')
+	--line 6 is obviously the name of our function
+	--in line 7 we start by making our stack which is array containing 'this'
+		--this will refer to whatever we called find on
+		--so in the beginning the stack looks like this [{val: 'html', children: [other things]}]
+	--line 8 is checking if there is a length to the stack that we just created
+	--if there is, line 9 will pop something off of the stack
+		--still on line 9, the thing we pop off is stored to the variable 'current'
+	--line 10 we are checking if the current element that we have in the 'current' variable is equal to what we want to find
+		--val in line 10 is referring to whateve html element we may be looking for
+		--if the line 10 statement returns false, the return value in the function does not run
+	--line 13/14 are pushing each child from the element we are currently on (html) onto the toVisitStack
+		--so in our example, we have 2 children from the 'html' root node (head and body)
+		--these children are what is put into the stack
+	**Visual Example:
+	--after one time through the tree, this is how we could picture the result
+		stack: ['head', 'body']
+		current: ['html']
+			--html is the node that we are currently looking through and is stored in the 'current' variable
+			--head and body are the children of html so they are stored in the toVisitStack, stack
+	--then everything starts over until we find the element we are looking for
+	--once we start again, we pop off the most recently added thing from the stack (body in this case)
+	--body is then stored in the 'current' variable
+	--body is then the current value and NOT equal to the element we want to find
+	--so the children of the body node are pushed onto the stack
+	**Visual Example:
+		stack: ['head', 'ul']
+		current: [body]
+			--because head is in the stack, it will be searched if we don't find 'li' in the children or descendants or ancestors of body\
+	--ul is not equal to li
+	--so we pop ul from stack and push to current
+	--then we push li and li2 to the stack
+	**Visual Example:
+		stack: ['head', 'li', 'li2']
+		current: ['ul']
+	--li2 (the most recent addition to the stack) is also not equal to li
+	--so we pop li2 from the stack and push it current
+	**Visual Example:
+		stack: ['head', 'li']
+		current: ['li2']
+	--there are no children of li2, so we repeat the process with li
+	--first we pop li from stack and push it to current
+	--li makes our equality statement true so current (which holds li) is returned
+**Important Note about This process:
+	--the first thing that happens in each step of this process, is we check to see if there is still a length to the stack
+	--if there is nota length to the stack, it means what we're trying to find doesn't exist in our tree
+	--if there is a length to the stack, it means that we just haven't found what we're searching for yet
+**this is one implementation of traversing through a tree
+	--the way we accomplished this is called depth first search (uses stack)
+
+
+
+			11.13.6
+			Breadth First Search
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64633
+
+**Depth first search uses a stack
+	--breadth first search does not use a stack
+**Why breadth first?
+
+						Amy
+			Bob				Barb					Barry
+		Carol				Carlos		Connie					Consuela
+Daniel			Derick					Darlene	David
+Edward	Eric								Ellen Erica
+	--using the tree from above, let's say we have multiple Consuela's and we want to find the highest ranking Consuela
+	--depth first wouldn't be useful, because we would be moving all the way down a branch and finding a less high ranking Consuela first
+	--breadth first, would go through everything on one level first
+	--secret to implementing a breadth first search is using a queue instead of a stack
+	**Example:
+
+1 class Node {
+2    constructor(val, children=[]){
+3        this.val = val
+4        this.children = children
+5    }
+6    find(val){
+7        const toVisitQueue = [this];
+8        while(toVisitQueue.length){
+9            const current = toVisitQueue.pop();
+10            if(current.val === val){
+11                return current;
+12            }
+13            for(let child of current.children){
+14                toVisitQueue.push(child)
+15            }
+16        }
+17    }
+18 }
+19
+20 let htmlEl = new Node('html', [
+21    new Node('head', [new Node('title')]), 
+22    new Node('body', [new Node('ul', [new Node('li'), new Node('li2')])])
+23 ]);
+24
+25 console.log(htmlEl.findBFS('li'))
+	--the only real difference between this implementation and the DFS implementation is we remove things from stack/queue
+	--in DFS, we are removing the most recently added thing from the stack
+	--in BFS, we remove from beginning of our array (like a to do list)
+		--so whatever is added first is worked on first
+	**Visual Example:
+		Queue: ['head', body']
+		Current: ['head']
+	Then
+		Queue: ['body', 'title']
+		Current: ['body']
+	Then
+		Queue: ['title', 'ul']
+		Current: ['title']
+	Then
+		Queue: ['ul']
+		Current: ['ul']
+	Then
+		Queue: ['li', 'li2']
+		Current: ['li']
+	--so in the visual above, whatever element we added first (so the element that's been in the stack the longest) is shifted to current
+	--if that is not equal to the value we're looking for, then the children of that element are put into the queue
+	--in the visual we see that head is pushed to current
+	--since head is not the value we want, we move one
+	--once we move on, body is shifted to the first element of the queue
+	--then the children of body are added to the queue as well
+	--the first element of the queue is again removed from the queue and pushed to current
+	--so in our example, body becomes the current element and the next node is put into the queue
+
+
+
+			11.13.7
+			Tree Class
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64633
+
+**So far we've been writing our code for trees directly inside the node class
+	--so should we make a tree class or do we need one?
+	--we don't NEED a tree class
+	--we could keep track of the root which is useful
+	--what gets confusing is that every node itself could be its own tree
+**Let's see an example of making a tree class
+	**Example:
+
+class Tree {
+    constructor(root){
+        this.root = root
+    }
+    findInTreeDFS(val){
+
+        return this.root.findDFS(val)
+    }
+    findInTreeBFS(val){
+
+        return this.root.findBFS(val)
+    }
+}
+
+const tree = new Tree(htmlEl)
+	--here we have a way of "copying" a tree
+	--this.root will refer to whatever root we copy
+	--in the example, we copied htmlEl so the root of our new tree called 'tree' is the same
+	--this.root.findDFS and this.root.findBFS are referencing our Node class from earlier
+	--so now we can call tree.findInTreeDFS and it will do the same as htmlEl.findDFS
+	--again that's because this.root.findDFS is referencing findDFS from our Node class
+
+
+
+
+			11.13.8
+			Trees Wrapup
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64635
+
+**Let's talk about other types of trees
+	--binary trees are trees that can have a max of 2 children on any particular node
+	--if we structure binary tree we add left and right property
+	**Why use a binary tree?
+		--sometimes they're used to store data in a normal hierarchy, like a tree
+		--they're often used for other structures
+		--often they have a 'rule' about the arrangemenet:
+			--binary search trees
+			--min/max heap
+	--we've also discussed quad-trees
+		--these are often used for geographic programs, to keep track of N/S/E/W (cardinal directions) information from a node
+**Advanced ideas about trees
+	--there is not way to move up in a tree
+	--in some trees, however, we can point up or down
+		--this is called a bidirectionalNode or tree
+
+
+
+
+			11.13.9
+			Trees in Review
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64635
+
+**Let's discuss the tree data structure
+
+**Goals
+	1.) Understand what a Tree Data Structure is.
+	2.) Understand why we use Trees
+	3.) Understand tree terminologies
+	4.) Talk about Tree Nodes
+	5.) Talk about types of trees
+	6.) Learn how to traverse a tree
+	7.) Go over applications of trees
+
+**First up: Understand what a tree data structure is
+	--trees are non-linear
+**Second: Why do we need trees?
+	--linear data structures store data elements in sequential form
+	--in operation performed in the linear data structures, time complexity increases with increased data size
+	--trees make storing and finding data less complex
+	--tree data structure is non-linear and allows easier and quicker access to the data element
+**Third: Tree terminology
+	**Nodes: entity that contains keys and pointer to its child nodes
+	**Edges: Connecting links of any two nodes
+	**Root Node: in TDS (tree data structure) this is the very first node
+	**Parent Node: in TDS, the node that is a node's predecessor
+	**Child Node: the descendant node of any node
+	**Leaf Node: node which does not have any children
+	**Internal Node: node with at least one child node
+	**Node Degree: the total number of children of a node
+	**Example:
+
+					A
+			B				C
+		D		E		F		G
+	--in the tree above A, B, and C have a degree of two
+	--this is because A has 2 children
+	--the degree of B, D, and E is also 2 because B has 2 children
+	--C, F, and G also have a degree of 2 because C has 2 children
+	--D, E, F, and G have a degree of 0 because none of these nodes have children
+**Tree Level: in a TDS, the root node is said to be at level 0 the children of the root node at level 1 and the children of nodes at 	level 1 will 	be at level 2
+
+	**Example:
+
+					A	(Level 0)
+			B				C	(Level 1)
+		D		E		F		G	(Level 2)
+	--here we can see the levels of the tree with A at 0, B and C at 1 and D, E, F, G at 2
+
+**Tree Height: the total number of edges from a leaf node to a particular node in the longest path
+	**Example:
+
+					A	(Height 2)
+			B				C	(Height 1)
+		D		E		F		G	(Height 0)
+	--unlike levels, this calculated from the bottom up
+	--so a is 2 "heights" above the very last level in the tree, meaning its Height 2
+	--B and C are 1 "height" above the last level, so they are Height 1
+	--D, E, F, G ARE the last level so they are Height 0
+
+**Tree Depth: in TDS, the total number of edges from the root node to a particular node is called the depth of that node
+	**Example:
+
+					A	(Depth 0)
+			B				C	(Depth 1)
+		D		E		F		G	(Depth 2)
+	--number of node edges connecting A to B and connecting A to C is one.
+	--there are 2 edges connecting D, E, F and G to the root node
+
+**Fourth: Talk about Tree Nodes
+	--a TDS has a data part and references to it's left and right child node in the tree data structure
+	**Example:
+
+				Node
+		Left Child 	Data	Right Child
+**There are four different types of trees
+	1.) Binary Tree: each parent node at most has two children
+	**Example:
+
+						100
+		50							150
+			75					125
+		74		76			124		130
+	73									131
+
+	2.) Binary Search Tree (BST): TDS in which each node has a max of two children
+		--all nodes of the left subtree are less than the root node
+		--all nodes of the right subtree are node than the root node
+	**Example:
+
+						40
+		4							45
+			34					55
+		14					48		
+	13		15			47		49					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
