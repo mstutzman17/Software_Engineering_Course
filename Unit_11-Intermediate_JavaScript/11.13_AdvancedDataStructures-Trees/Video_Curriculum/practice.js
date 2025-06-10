@@ -127,3 +127,159 @@
 // console.log(tree.findInTreeDFS('ul'))
 // console.log(htmlEl.findDFS('ul'))
 
+// class Node {
+//     constructor (val, left=null, right =null){
+//         this.val = val;
+//         this.left = left;
+//         this.right = right;
+//     }
+
+//     find (sought) {
+//         let currentNode = this
+
+//         while(currentNode){
+//             console.log("Visiting:", currentNode.val)
+
+//             if(currentNode.val === sought) return currentNode;
+
+//             if(sought < currentNode.val){
+//                 currentNode = currentNode.left
+            
+//             } else {
+//                 currentNode = currentNode.right;
+//             }
+//         }
+//     }
+// }
+
+// class BinarySearchTree {
+//     constructor (root){
+//         this.root = root;
+//     }
+//         // In Order Traversal
+//     inOrderTraverse(node=this.root){
+//        if(node.left) this.inOrderTraverse(node.left);
+//         console.log(node.val)
+//         if (node.right) this.inOrderTraverse(node.right)
+//     }
+
+//          // Pre Order Traversal
+//     preOrderTraverse(node=this.root){
+//         console.log(node.val);
+//         if(node.left) this.preOrderTraverse(node.left);
+//         if (node.right) this.preOrderTraverse(node.right)
+//         }
+
+//              // Pre Order Traversal
+//     postOrderTraverse(node=this.root){
+//         if(node.left) this.postOrderTraverse(node.left);
+//         if (node.right) this.postOrderTraverse(node.right)
+//         console.log(node.val);
+//         }
+//     }
+
+// const E = new Node('E');
+// const A = new Node('A');
+// const B = new Node('B');
+// const C = new Node('C');
+// const D = new Node('D');
+// const F = new Node('F');
+// const G = new Node('G');
+
+// E.left = B;
+// E.right = G;
+// B.left = A;
+// B.right = D;
+// G.left = F;
+
+// const tree = new BinarySearchTree(E);
+
+// console.log(tree.inOrderTraverse())
+// console.log(tree.preOrderTraverse())
+// console.log(tree.postOrderTraverse())
+
+// this will consit of root node and methods we want to use
+class BST{
+
+    //constructor will be run whenever we create a new instance of the BST
+    constructor(){
+        this.root = null        // this means the root won't have a value until we assign it one
+     }
+
+     insert(value){
+
+        // since we may be making multiple references to the new node, will define a variable
+        const newNode = new Node(value)
+
+        // these two lines are  saying that if there is no root node, the value that we insert when calling our insert method will become the root
+    
+        if(!this.root){
+            this.root = newNode
+
+            return this     // if we have to create a root node, this would return the whole tree (which is just a root node at this point)
+        }
+
+        //this is our current marker
+        let current = this.root
+
+        function addNode(){
+
+            if(value === current.value) return undefined
+            if(value < current.value){      // this is checking if the number we want to add is less than our current node
+
+                if(!current.left){      // this is checking if there is NOT a left child attached to the current node
+
+                    current.left = newNode      //if both statements are true, we insert our number (newNode) as the left child of our current node
+
+                    return this     // this will break us out of the while loop
+                }
+
+                current = current.left      // if there was already a value at current.left, this will move the current marker to the next node.
+                // this also ensures that the while loopo keeps looping until there is NOT a left child so that we can insert the new value there
+
+                addNode()       // this moves our current node marker to a node that we can add to
+            } else if(value > current.value){
+                if(!current.right){
+                    current.right = newNode
+                    return this
+                }
+                
+                current = current.right
+                addNode()
+            }
+        }
+        addNode()
+     }
+
+     insertRecursively(){
+        
+     }
+}
+
+// this will be used to create the nodes of the tree
+class Node{
+
+    //this constructor will consist of the 3 things
+    constructor(value){
+        this.value = value
+
+        // like this.root = null. this means the left/right nodes don't have a value until we assign them one
+        this.left = null        
+        this.right = null
+    }
+}
+
+// this is how we assign a value to the root
+const tree = new BST()
+
+// tree.root = new Node(20)
+tree.insert(20)
+tree.insert(10)
+tree.insert(5)
+tree.insert(15)
+tree.insert(30)
+tree.insert(25)
+tree.insert(32)
+
+console.log(tree)
+

@@ -172,7 +172,7 @@ class Node {
         this.left = null;
     }
 }
-	--this would work for binary tree, because we have this.val for each node
+	--this wouldn't work unless we knew it was a binary tree, because we have this.val for each node
 	--then we have this.left for one child and this.right for the next
 	--this would not work for a general "n-ary" tree
 	--we could make this work by hard coding each node
@@ -215,9 +215,12 @@ console.log(amy)
 	--let's do DOM (domain) example 
 	**Example:
 
-let htmlEl = new Node('html', [
-    new Node('head', [new Node('title')]), 
-    new Node('body', [new Node('ul', [new Node('li'), new Node('li2')])])])
+let htmlEl = new Node('html', 
+	[new Node('head', 
+		[new Node('title')]), 
+    new Node('body', 
+	[new Node('ul', 
+		[new Node('li'), new Node('li2')])])])
 	--here we have a root node of html
 	--html has 2 children (head and body)
 	--head has 1 child (title)
@@ -280,14 +283,14 @@ let htmlEl = new Node('html', [
 	--let's say we're trying to find 'li' in this tree
 	--so htmlEl.find('li')
 	--line 6 is obviously the name of our function
-	--in line 7 we start by making our stack which is array containing 'this'
+	--in line 7 we start by making our stack which is an array containing 'this'
 		--this will refer to whatever we called find on
 		--so in the beginning the stack looks like this [{val: 'html', children: [other things]}]
 	--line 8 is checking if there is a length to the stack that we just created
 	--if there is, line 9 will pop something off of the stack
 		--still on line 9, the thing we pop off is stored to the variable 'current'
 	--line 10 we are checking if the current element that we have in the 'current' variable is equal to what we want to find
-		--val in line 10 is referring to whateve html element we may be looking for
+		--val in line 10 is referring to whatever html element we may be looking for
 		--if the line 10 statement returns false, the return value in the function does not run
 	--line 13/14 are pushing each child from the element we are currently on (html) onto the toVisitStack
 		--so in our example, we have 2 children from the 'html' root node (head and body)
@@ -540,6 +543,8 @@ const tree = new Tree(htmlEl)
 
 				Node
 		Left Child 	Data	Right Child
+
+*Fifth: Types of Trees
 **There are four different types of trees
 	1.) Binary Tree: each parent node at most has two children
 	**Example:
@@ -555,11 +560,605 @@ const tree = new Tree(htmlEl)
 		--all nodes of the right subtree are node than the root node
 	**Example:
 
-						40
+					40
 		4							45
 			34					55
 		14					48		
 	13		15			47		49					
+
+	3.) AVL Tree: AVL tree got its name after inventory Georgy Adelson-Velsky and Landis
+		--AVL tree is a self-balancing tree in whi8ch each node maintains a balance factor whose value is either -1, 0, or 1
+		--Balance Factor: (Height of left subtree)-(heigh of right subtree) 
+							or
+				  (Heigh of right subtree) - (Height of left subtree)
+	**Example:
+
+
+			Insert 1
+			5
+		3		8
+	1				12
+
+	4.) B-Tree: Special kind of self-balancing search tree in which each node can contain more than one key and can have more than two children
+		--B tree is also known as a height-balanced m-way tree.
+**Sixth: Tree Traversal
+	--this helpos to visit required node in the tree to perform specific operation
+	--tree traversal can be performed in 3 ways
+		1.) Pre-order Traversal: Visit Root Node. Visit all node from left side. Visit all nodes from right side
+		2.) In-Order Traversal: First vist all nodes from left side, then root node, then all nodes from right side.
+		3.) Post-order Traversal: Visit all nodes from left, then all nodes from right, then root node last
+
+**Seventh: Applications of Trees
+	1.) Binary Search Trees
+		--quickly check whether an element is present in a set or not
+	2.) B-Trees
+		--most popular for databases
+	3.) Tries (Modified version of trees)
+		--used in the router to store rout8ing information
+	4.) Syntax Trees
+		--used by compilers to validate the syntax of every program you write
+
+
+
+			11.13.11
+			Binary Search Trees Handout
+			https://lessons.springboard.com/Binary-Search-Trees-6caeb4153837418bb8bbcd5dc1133058
+
+**Everything within this handout and more will be covered in the video curriculum
+
+
+
+
+			11.13.12
+			BST (Binary Search Trees) Intro
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64638
+
+**BST
+	--this is a slightly fancier version of a Binary Tree
+	--it adds an additional layer of restraint to the 2 or less children rule
+
+**Imagine we have list of words
+	--apple, fence, ghost, jackal, just, money, mystic, nerd, pencil, zebra
+	**Example:
+
+[apple, fence, ghost, jackal, just, money, mystic, nerd, pencil, zebra]
+	--we have an array
+	--we know ways to search through this sorted array
+	--time complexity of searching through this sorted array is O(log n)
+	--inserting into this array is not going to be very efficient
+	--we could find correct spot relatively easily because it's sorted
+	--we could use binary search to find the correct spot to insert a new word (example: banana)
+	--using an array to store sorted info works great if we just want to check for a value
+	--adding new elements to the array, however, is NOT efficient
+	--this is where a BST comes into play
+
+**Binary Search Tree
+	--if root node is money, then everything to the left of money is less than money
+	--that's because it is alphabetically organized (A-L on left, money is root, N-Z on right)
+	--this applies to every parent child combo (right is greater, left is lesser)
+	--the whole advantage of a BST is that:
+		1.) It is easy to find whatever value you are looking for
+			--let's say we want to find the word ghost. We could eliminate the right side of the tree based on the letter g
+		2.) It is way faster to insert something
+			--we just have to find the appropriate place to put it
+
+**Summary of this Type of BST (alphabetical arrangement)
+	--a tree made of nodes
+	--each node has a left and right child (or just left and just right, but at most left AND right)
+	--has a "rule" for arrangement
+		--makes it quick to search and insert data
+
+**Another type of BST (arranged by greater or larger number)
+							41
+				20						65
+			11		29			50			90
+				12		32			53	72		99
+					13
+	--in this BST, everything to the left is less than the parent and everything to the right is greater than
+	--this is the general concept of every BST
+**BST are a very fast structure to add to and to search in
+
+
+
+			11.13.13
+			BST Class
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64640
+
+**Implementing BST classes
+	--Here's the tree we want to implement in JS
+						E
+				B				G
+			C		D		F
+	--now let's write it in JS
+	**Example:
+
+class Node {
+    constructor (val, left=null, right =null){
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class BinarySearchTree {
+    constructor (root){
+        this.root = root;
+    }
+}
+
+const E = new Node('E');
+const A = new Node('A');
+const B = new Node('B');
+const C = new Node('C');
+const D = new Node('D');
+const F = new Node('F');
+const G = new Node('G');
+
+E.left = B;
+E.right = G;
+B.left = A;
+B.right = D;
+G.left = F;
+
+const tree = new BinarySearchTree(E);
+
+
+
+			11.13.14
+			Searching A BST
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64640
+
+**Let's add a method called find or search
+	--this will allow us to pass in a value and find whether it's in the tree or not
+	--we could use BFS or DFS, but that would defeat the purpose of a BST
+	--so we will implement a much faster search method
+
+**Let's look at this tree again
+
+							41
+				20						65
+			11		29			50			90
+				12		32			53	72		99
+	--everything to the right of 41 is greater than 41
+	--everything to the left is less than 41
+	--so if we wanted to find the number 53, the first comparison we make is to the root node
+	--since 53 is larger than 41, we can ignore the entire left side of this tree
+	--that cuts the search time in half
+	--we can go down the entire right side of the tree making similar comparisons
+	--is 53 >, = or < 65
+		--it's less than
+		--is 53 >, = or < 50
+		--it's >
+		--now is 53 >, =, or < 53
+		--it's =
+
+**Now let's implement this search method
+	**Example:
+
+class Node {
+    constructor (val, left=null, right =null){
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+
+1.)   find (sought) {
+2.)        let currentNode = this
+
+3.)        while(currentNode){
+4.)            if(currentNode.val === sought) return currentNode;
+5.)            if(sought < currentNode.val){
+6.)                currentNode = currentNode.left
+
+7.)            } else {
+8.)                currentNode = currentNode.right;
+9.)            }
+10.)        }
+11.)    }
+12.)}
+
+	--let's walk through this code line by line
+	--line 1 we're naming the method and saying that it excepts a value
+	--the value it excepts will be what we are searching for within in the BST
+	--line 2 we are setting the node that we are currently on equal to this
+	--that will allow us to start wherever we would like within the tree so we don't have to start at root node
+	--line 3 we use a while loop (so while there is a currentNode or while there is still something to search)
+	--line 4 if the node we are currently on is equal to what we are searching for, we return that node
+	--line 5 we make the comparison between what we're looking for and the currentNode
+	--line 6 if the node we're currently on is bigger than the what we're looking for, we continue left
+	--line 7 and 8 say that if our currentNode is smaller than what we want, we continue right
+	--these lines of code will effectively let us search a BST for any given value
+
+**Let's make it so we can see what node we are visiting throughout the search process
+	**Example:
+
+class Node {
+    constructor (val, left=null, right =null){
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+
+1.)   find (sought) {
+2.)        let currentNode = this
+
+3.)        while(currentNode){
+4.)		console.log("Visiting:", currentNode.val)
+5.)            if(currentNode.val === sought) return currentNode;
+6.)            if(sought < currentNode.val){
+7.)                currentNode = currentNode.left
+
+8.)            } else {
+9.)                currentNode = currentNode.right;
+10.)            }
+11.)        }
+12.)    }
+13.)}
+	--this allows us to visualize the traversal of this BST
+
+
+
+
+			11.13.15
+			BST Search Runtime
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64640
+
+**Runtime for BST Find
+	--every time we make a choice (moving left or right) we cut potential choices in half
+	--when we look at a small BST (like something with 20 or 30 nodes) this doesn't seem that significant
+	--but when we look at a BST with thousands or millions or nodes, it is quite significant indeed
+
+**What's the runtime of BST Find?
+	--worst case scenario: for n nodes we search O(log n)
+	--we can search >1000 nodes in only 10 steps
+	--we can search >1,000,000 nodes in only 20 steps!!
+
+
+
+
+			11.13.16
+			Balancing a BST
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64640
+
+**Valid Buy Badly Balanced BST
+	**Example:
+
+			B
+		A		D
+					E
+						F
+							G
+	--can find A efficiently
+	--can find missing C efficiently
+	--can't find G efficiently
+	--or if we wanted a letter greater than G we'd always have to look through that long side of the tree
+	--tree needs to be "balanced"
+	--for a tree to be considered balanced, we need to minimize the height of the tree
+	**Example:
+
+				E
+		B				G
+	A		D		F
+	--this is the same  data as the tree above
+	--the only difference is that it has been balanced
+
+**Visualgo.net Example
+	--we take a set of numbers: 20,23,24,26,25,28,30,90
+	--this builds us BST, but this specific BST is much too tall for the amount of data that it's handling
+
+**Balancing Trees
+	--Easy ways to get reasonably balanced trees:
+		1.) Shuffle values for tree randomly, and then insert
+		2.) Sort values, then insert from the middle working out
+	--we can see these methods at work using visualgo
+
+**Self-Balancing Trees
+--there are structure/algorithm pairs for BSTs that can balance themselves:
+	1.) AVL Trees (AVL are the initials of the creators of this type of tree)
+		--Keeps balanced. Simpler algorithm, but slightly less efficient
+	2.) Red/Black Trees
+		--Keeps "reasonably" balanced. More complex algorithm but can be more efficient
+**How does an AVL Tree work?
+	--if we take our original set of numbers 20,23,24,26,25,28,30,90 and create a BST, the tree will be lopsided
+		--this is because of the order that we inserted the numbers into the BST
+	--an AVL tree balances the data as the tree is created.
+	--it inserts one piece of data, then another and balances the tree by picking a center
+	--then it inserts another piece of data and balances it by picking a new center
+	--it starts with the root node and its children
+	--then it does the same thing with each subtree and its subsequent children
+	--this goes on until the whole tree has been mapped out
+
+**How does a Red/Black Tree
+	--this method is preferred, even though we don't get a perfectly balanced tree
+	--this is because we are more interested in efficiency than we are perfect balance in tree traversal
+	--the term has to do with the way you determine if the tree is balanced or node
+	--each node has an extra piece of storage that lets us know if it is Red or Black
+	--by adding this tiny piece of info, we can follow a particular pattern
+	--we can then use that piece of data and abide by a particular set of rules
+		--a simple rule is if a node is red, its children will both be black
+	--in other words, it's an additional constraint to keep the tree as short as possible
+
+
+
+
+			11.13.17
+			Traversing A BST
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64640
+
+**What is Traversal?
+	--often, you don't want to look at every node in a BST
+	--that's the point -- you can search without looking at each
+	--we don't use the logic of comparing left and right, because we can be more efficient than that
+
+**Let's preview some traversal methods
+	--these will involve recursion
+	**Example:
+
+	// In Order Traversal
+1.) 	inOrderTraverse(node=this.root){
+2.)        if(node.left) this.inOrderTraverse(node.left);
+3.)        console.log(node.val)
+4.)	   if(node.right) this.inOrderTraverse(node.right)
+5.)	}
+	--line 1 we are setting node to default to node.root
+		--whatever root of tree is, when we call traverse we will start there
+	--line 2 we start with the root and (if there is a left node) traversing the left side of the tree
+	--line 3 we are printing the value of that root to the console
+	--line 4 if there is a right node, we are traversing the right side of the tree
+		**something to remember when traversing with this particular method
+			--"traverse left, myself, traverse right" is "in-order"
+	**Example:
+
+					E
+				B				G
+			A		D		F
+	--the way it would work here is we start with E, move to B, then to A 
+	--A is the end so we go back to B ("traverse left" is now satisfied)
+	--Going back to B satisfies "myself"
+	--then we search the right side of B (now "traverse right" is also satisfied)
+	--we then move back up to E and traverse the right side
+	--that means we go from E to G, then to F then back to G
+	--so we'd still be traversing left first on the right side of the tree
+	--this is called In Order Traversal
+
+**Example of Pre Order Traversal
+	--fortunately all you have to do to change the order of the traversal is move the logic around
+	**Example:
+
+	 // Pre Order Traversal
+1.)    preOrderTraverse(node=this.root){
+2.)        console.log(node.val);
+3.)        if(node.left) this.preOrderTraverse(node.left);
+4.)        if (node.right) this.preOrderTraverse(node.right)
+5.)	}
+	--so this method is using the same logic, just in a different order
+	--for this order type: "myself, traverse left, travers right" is "pre-order"
+	**Example:
+
+			E
+	B				G
+A		D		F
+	--start with E (myself)
+	--we move to B which becomes myself
+	--then to A (which satisfies traverse left)
+	--then we move back to B and on to D (which satisfies traverse right)
+	--then we move back up to E (which is again myself)
+	--then down to G which become myself
+	--then to F which fulfills traverse left
+	--then back to G and since there is no right node, this fulfills traverse right as well
+
+**Example of Post Order Traversal
+	**Example:
+
+	 // Post Order Traversal
+1.)        postOrderTraverse(node=this.root){
+2.)        	if(node.left) this.postOrderTraverse(node.left);
+3.)             if (node.right) this.postOrderTraverse(node.right)
+4.)        	console.log(node.val);
+5.)	}
+	--again, we are using the same logic as Pre Order and In Order Traversal methods
+	--the only difference is the order that the logic is executed in
+	--for this order type: "traverse left, travers right, myself" is "post-order"
+	**Example:
+
+			E
+	B				G
+A		D		F
+	--from E we go all the way to the left (which is A in this case)
+	--A is myself and printed to the console
+	--then we go back to B and down to D (D is printed to console)
+	--then back to B and B is printed
+	--then we go up to E and all the way down to F (F is printed)
+	--then we go to G, which is printed
+	--then we end at E, which is also printed
+	--basically we go all the down the left side of the left side as far as we can and work our way back up
+	--then we go all the way down the right side of the left side and work our way back up
+	--then we go to right side and go all the way down the left side of the right side and work our way up
+	--and finally we go all the way down the right side of the right side and work our way back up
+
+
+
+
+
+			11.13.18
+			Binary Search Trees Review
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64628/64647
+
+**Agenda for BST Review
+	1.) What is Binary Tree
+	2.) Terms related to Binary Trees
+	3.) Implementation of Binary Trees
+	4.) Properties of Binary Trees
+	5.) Types of Binary Trees
+	6.) Operations for Binary Trees
+	7.) Key Take-Aways
+
+1.) What is a Binary Tree?
+	--a tree where each node can have AT MOST 2 child nodes
+	--these are called left and right children
+
+2.) Terms related to Binary Trees
+	a.) Node: data that points to a left and right child
+	b.) Root: first node of the tree
+	c.) Leaf Nodes: nodes without chidren
+	d.) Parent Node: any node with at least one child
+	e.) Child Node: any node with a parent
+	f.) Internal node: a node with a child node AND a parent node
+	g.) Height: longest path from root to any leaf node
+	h.) Depth: total number of edges from root to last child node
+
+3.) Implementation of Binary Trees
+
+4.) Properties of Binary Trees
+	--maximum number of nodes at level L=2^L
+	--max number of nodes in a binary tree of heigh H=2^H - 1
+	--minimum possible height in a Binary Tree with N nodes = log2(L+1)
+	--min possible level in a Binary Tree with N nodes = log2(L + 1)
+	--a binary tree with L leaves has at least |log2L| + 1 Levels
+
+5.) Types of Binary Trees
+	a.) Full Binary Tree
+		--nodes can have 2 children or no children
+	b.) Complete Binary Tree
+		--each node has to have 2 children, except in the last level
+	c.) Perfect Binary Tree
+		--every node has 2 children and every leaf is on the same level
+	d.) Balance Binary Tree
+		--when height of left and right subtrees varies at most by 1
+	e.) Degenerate Binary Tree
+		--if every internal node has only 1 child
+
+6.) Operations of a Binary Tree
+	a.) Traversal
+		*Pre-order
+		**In-order
+		**Post-order
+	b.) Insertion
+	c.) Deletion
+
+A.) Binary Tree Traversal (see notes from 11.13.17)
+	*Pre-order
+	**In-order
+	**Post-order
+
+B.) Insertion (refer to notes from 11.13.12)
+C.) Deletion (refer to notes from 11.13.12)
+
+7.) Final Takeaways Regarding Binary Trees
+	--faster at search operations than other types of trees
+	--easier to find max and min element
+	--Binary Tree doesn't allow duplicate values
+	--graph traversal is done using binary tree
+	--used to convert postfix expressions in prefix expressions
+
+
+
+
+			EXTRA NOTES
+			BST Iterative Insert Method
+			https://www.youtube.com/watch?v=dVSxO83aseU
+
+**Here's what we're going to create
+
+					20
+			10				30
+		5		15		25		32
+	--this is a simple BT
+
+**Now let's implement this tree using JS
+	**Example:
+
+// this will consit of root node and methods we want to use
+class BST{
+
+    //constructor will be run whenever we create a new instance of the BST
+    constructor(){
+        this.root = null        // this means the root won't have a value until we assign it one
+     }
+}
+
+// this will be used to create the nodes of the tree
+class Node{
+
+    //this constructor will consist of the 3 things
+    constructor(value){
+        this.value = value
+
+        // like this.root = null. this means the left/right nodes don't have a value until we assign them one
+        this.left = null        
+        this.right = null
+    }
+}
+// this is how we assign a value to the root
+const tree = new BST()
+tree.root = new Node(20)
+console.log(tree)
+	--this is the skeleton of creating a BST
+	--we started by creating the BST class which defines the root node of the tree
+	--then we created the Node class, which allows us to define additional nodes
+	--the manual way to insert roots looks like the following
+	**Example:
+
+// Create the tree and root node
+const tree = new BST();
+tree.root = new Node(20);
+
+// Manually add child nodes
+tree.root.left = new Node(10);   // 10 is less than 20, goes to the left
+tree.root.right = new Node(30);  // 30 is greater than 20, goes to the right
+
+// Add more nodes to the left subtree
+tree.root.left.left = new Node(5);   // 5 is less than 10
+tree.root.left.right = new Node(15); // 15 is greater than 10
+
+// Add more nodes to the right subtree
+tree.root.right.right = new Node(40); // 40 is greater than 30
+	--it is obvious that the manual way to add nodes to a BST is tedious and arduous
+	--that's why we use the insert method
+
+**Writing the Insert Method
+	--when inserting nodes to a BST we need to ask some specific questions.
+	1.) Is the data I want to insert (numbers for our purposes) > or < our current node
+		--currently we have 20 as our root node
+		--if we want to insert 10 we ask "is 10 > or < 20.
+		--if it's less than, it goes to the left
+		--if it's greater than, it goes to the right
+		--so that's the way we need write our logic
+		--now let's say we also want to insert 5
+	2.) Is there currently something as a left or right child node?
+		--if there were already a left child, we would have to move the current node to the next node without a left child
+		--let's say we want to insert the number 5 after we've already inserted 10
+		--5 is < 20 so it goes to the left
+		--since 10 is already the left child of 20, we have to move our "current marker" to 10
+		--then we ask the first question again
+		--since 5 is < 10, we place 5 as the left child of 10
+	**Example:
+		--now we want to insert the number 15
+		--our current marker is on 10
+		--we ask the first question "Is 15 > or < the current node (10 in this case)
+		--we find that 15 is > 10
+		--so we insert 15 as the right child of 10
+	**Example:
+		--now we want to insert the number 2
+		--our current marker is still on 10
+		--we ask the question "Is 2 > or < 10?"
+		--it is <, but 10 already has a left child
+		--that means we move our current marker to the left child of 10 (5 in this case)
+		--then we ask the question "Is 2 > or < 5?"
+		--it is < and since 5 does NOT have a left child, we insert 2 as its left child
+	--this is the concept of the insert method within a BST
+
+
+
+
+			MORE EXTRA NOTES
+			BST Find Method
+			https://www.youtube.com/watch?v=9dvA1etTUfc
+
+
+
+
+
 
 
 
