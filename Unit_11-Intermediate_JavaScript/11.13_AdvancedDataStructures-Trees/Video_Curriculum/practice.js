@@ -252,7 +252,7 @@ class BST{
      }
 
      insertRecursively(){
-        
+
      }
 }
 
@@ -282,4 +282,35 @@ tree.insert(25)
 tree.insert(32)
 
 console.log(tree)
+
+function find(value){
+
+    // if there is no root, return false
+    if(!this.root){
+        return false
+   }
+
+   // this will allow us to change the node we look at to traverse down the tree
+   let tree = this.root;
+
+   // this while loop will work as long as the variable tree holds a value
+   while(tree){
+
+    // this code determines if the value we are looking for is less than the value we're currently pointing to. If the statement returns true, we move left down the tree.
+    if(value < tree.value) {
+        tree = tree.left;
+
+    // this else if statement allows us to determine if the value is we're looking for is greater than the value of our pointer. If it is we move down the tree to the right
+    } else if (value > tree.value) {
+        tree = tree.right;
+
+    // this else if statement tells us whether the value we're looking for is equal to the value we're currently pointing to. If it is, we return that value.
+    } else if (tree.value === value) {
+        return tree;
+    }
+   }
+
+   // this will initialize once the tree variable has no value and will end the while loop
+   return false
+}
 

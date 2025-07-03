@@ -1,0 +1,807 @@
+Notes for Unit 11 Subunit 14
+
+
+
+
+			11.14.1
+			Hash Table Introduction
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64649
+
+**Abstract Data Type
+	--Hash Table
+
+**Goals for Hash Tables
+	1.) Define what a hash table is
+	2.) Describe how hash tables are implemented
+	3.) Describe what a hash function is, and what properties it should have
+	4.) Handle hashing collisions
+	5.) Identify time complexities of common has table operations
+
+**Maps
+	--abstract data type for mapping key -> value
+		--a key value pair is when you define a keys value so you can use the key later on
+		--the key is a reference to the value we assign it
+		**Example:
+
+	let petsToAges = {
+		"Whiskey": 6,
+		"Fluffy": 2,
+		"Dr. Slitherscale": 2
+	}
+		--here the keys are Whiskey, Fluffy, and Dr. Slitherscale and the values are 6, 2, and 2
+
+**Maps keywords in different programming languages
+	--JavaScript: Map or {}
+	--Python: dict
+	--Ruby: Hash
+	--Java: HashMap
+	--Go: map
+
+**Typical Map API
+	1.) set(key,val)
+		--sets key to val
+	2.) get(key)
+		--retrieve values for key
+	3.) delete(key)
+		--deletes entry for key
+	4.) has(key)
+		--is there an entry for key?
+	5.) keys()
+		--iterable of keys
+	6.) values()
+		-iterable of values
+	7.) entries()
+		--iterable of key/value pairs
+	--every language with maps functionality uses something close to this
+
+**How do these work behind the scenes?
+	**Example of set(key,val):
+
+// this will store all of our data
+class simpleMap{
+    constructor() {
+        this._items = []
+    }
+
+    // this is used to add an element to our simple map
+
+    set(k, v) { 
+
+        //the key and a value passed in are stored in an array
+        this._items.push([k,v]);
+    }
+}
+	**Example of set(k,v)
+
+[['color', 'orange'], ['age', 29]]
+	--now we would have 2 key value pairs.
+	--the keys are color and age
+	--the values are orange and 29
+
+	**Example of get(key):
+
+get(k) {
+
+        // here we are trying to find the first index of each key value pair (the key itself), within the this._items array
+        let kv = this._items.find(kv => k === kv[0]);
+
+        // if we find it, we return index 1 of the array (the value of the key)
+        // if we don't find it we return undefined
+        return kv ? kv[1] : undefined;
+    }
+
+	**Example of set method:
+
+// creates simpleMap called person
+const person = new simpleMap();
+
+// this sets a 3 key value pairs
+person.set('age', 32)
+person.set(12, 'number of eggs in a dozen')
+person.set(17, "Moses's favorite number")
+person.set('Purple', "Moses's favorite color.")
+	--here we are defining key value pairs for the simpleMap person using the set method
+
+	**Example of get method:
+
+console.log(person.get('age'))
+console.log(person.get(17))
+console.log(person.get(12))
+console.log(person.get('Purple'))
+	--here we are retrieving the value for each key using the get method
+
+	**Example of writing and using has() method:
+
+    has(k) {
+
+        // this is checking if a key exists within this simpleMap
+        return this._items.find(kv => k === kv[0]) !== undefined;
+    }
+
+console.log(person.has('Purple'))
+console.log(person.has('purple'))
+console.log(person.has('age'))
+console.log(person.has(17))
+	--here we look for a specific key within the simpleMap using the has method
+
+	**Example of implementing delete() method:
+
+    delete(k) {
+
+        // this allows us to find the item within our array
+        // searching through every possible key, value (worst case scenario)
+        let i = this._items.findIndex(kv => k === kv[0]);
+        
+        // we update items to remove the item at the index we are trying to delete
+        if (i !== -1) this._items.splice(i, 1);
+    }
+
+	**Example of Implementing key, values, and entries methods:
+
+    keys() {
+        
+        return this._items.map(kv => kv[0]); 
+    }
+
+    values() {
+        
+        return this._items.map(kv => kv [1]); 
+    }
+
+    entries() {
+        
+        return this._items; 
+    }
+	--these methods map into a new array that we return.
+
+***IMPORTANT****
+	--so far, all of these methods (set, get, has, delete) require us to iterate over the entire array
+	--that would be the worst case scenario
+	--imagine we use get() and we have 10,000 entries, but the entry we want doesn't exist
+	--that's a lot of time spent, which makes the it's Big 0 notation linear O(n)
+	--this is because we have to iterate over every element in the array
+
+**How does it look altogether?
+	**Example of a simpleMap with all its methods:
+
+// this will store all of our data
+class simpleMap{
+    constructor() {
+        this._items = []
+    }
+
+    // this is used to add an element to our simple map
+
+    set(k, v) { 
+
+        //the key and value pair is pushed into this._items array
+        this._items.push([k,v]);
+    }
+
+    get(k) {
+
+        // here we are trying to find the first index of each key value pair (the key itself), within the this._items array
+        let kv = this._items.find(kv => k === kv[0]);
+
+        // if we find it, we return index 1 of the array (the value of the key)
+        // if we don't find it we return undefined
+        return kv ? kv[1] : undefined;
+    }
+
+    has(k) {
+
+        // this is checking if a key exists within this simpleMap
+        return this._items.find(kv => k === kv[0]) !== undefined;
+    }
+
+    delete(k) {
+
+        // this allows us to find the item within our array
+        // searching through every possible key, value (worst case scenario)
+        let i = this._items.findIndex(kv => k === kv[0]);
+        
+        // we update items to remove the item at the index we are trying to delete
+        if (i !== -1) this._items.splice(i, 1);
+    }
+
+    keys() {
+        
+        return this._items.map(kv => kv[0]); 
+    }
+
+    values() {
+        
+        return this._items.map(kv => kv [1]); 
+    }
+
+    entries() {
+        
+        return this._items; 
+    }
+}
+	--all of this allows us to map keys to values
+	--it allows us to use strings, numbers, Booleans, etc.
+
+**Big O Notation for each method
+	1.) set() = Constant Time O(1)
+	2.) get() = Linear Time O(n)
+	3.) has() = Linear Time O(n)
+	4.) delete() = Linear Time O(n)
+	5.) keys() = Linear Time O(n)
+	6.) values() = Linear Time O(n)
+	7.) entries() = Linear Time O(n)
+	--each of these operations (except set()) are inefficient
+	--there is a way to make these methods more efficient
+
+
+
+			11.14.2
+			Hash Map with Array
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64649
+
+**Another way to implement the simpleMap structure
+	--Hash Table (hash map)
+	**Example:
+
+let fruits = {
+    "apple": "red",
+    "berry": "blue",
+    "cherry": "red"
+}
+	--it would be awesome to kep this in some sort of "Magic Array"
+	--something we could get O(1) time for most operations
+		____________________________________________
+		|ARR| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9|
+		--------------------------------------------
+			|1|		     |4|		     |7|
+		 ________________	_______________		_____________
+		 | cherry | red |	|berry | blue |		|apple | red|
+	--this would allow us to take some key (cherry, berry, or apple) and turn it into an array index
+	--for example, cherry key would be mapped to an array index
+	--and anytime you want to find cherry we ask for cherry and it would be converted to an array index
+	--so we can find cherry without having to search every element in an array
+
+**This "magic array" exists
+	--it's called a hash table
+	--we will be taking advantage of something called a hash function
+
+**Hashing
+	--we can has a string to a number using charCode
+	**Example:
+
+str: 		a 	p 	p 	l 	e
+charCode:	97	112	112	108	101 = 530
+	--everytime we would use apple as a string, we would get the charCode 530
+
+**Let's implement a hash function
+	**Example:
+
+1. function hash(key) {
+
+	// this takes a value and turns it into an array of characters
+	// it does this with the built in JS method (Array.from) that will create a new array from any iterable object (string, Set, Map)
+	// e.g. Array.from('cat') --> ['c', 'a', 't']
+	// or from an array-like object (arguments or NodeList)
+	// the .reduce method combines all items in the array into a single value by repeatedly applying a function to each character (see explanation 	 	// below)
+	// in other words, it reduces the array from multiple values into a single, combined value
+2.    return Array.from(key).reduce(
+
+		// accum is short for accumulator which keeps track of the running total (112, 112, 108 = 332 (332 is the accum))
+		// char is short for currentCharacter from the array as .reduce() loops through it
+		// 0 is where accum will start
+3.        (accum, char) => accum + char.charCodeAt(),
+        0
+    );
+}
+	--this creates a sum based off the character code of each string
+	--apple = 530	moses = 551	barabara = 683	multiplicative = 1516
+	--we use this number to store our key at a certain index in an array
+	--at line 3, let's break down how .reduce() works with Array.from using the string 'cat'
+	--first call: accum = 0, char = 'c' --> 0 + 99 = 99
+	--second call: accum = 99, char = 'a' --> 99 + 97 = 196
+	--third call: accum = 196, char = '' --> 196 + 116 = 312
+	
+	**Example of creating a HashMap using set and get methods:
+
+const m = new HashMap()
+
+m.set('apple', 'red')
+m.set('grape', 'purple')
+	--if print m to the console, we will see that there is an array with 531 items
+	--item 530 will be set equal to red
+	--item 527 will be set equal to purple
+	--we can now write a get method
+
+  get(k){
+
+        const hashedKey = hash (k);
+        return this.items[hashedKey];
+    }
+
+console.log(m.get('grape'))
+console.log(m.get('apple'))
+	--now we can use get() and it is constant time because we don't have to search the whole array to find one element
+	--this is because apple is attached to a number and that number is attached to the value of the key
+
+**There are issues with this process
+	1.) The hash function has to do something for each letter of a string
+		--that makes it more expensive for a long string
+		--also it disqualifies it from being constant time
+	2.) If we convert a large string like 'this is a large string and the number will be high', it would create a large array that is sparce
+
+**Here's another way of writing a Hash Function
+	**Example:
+
+function hash(key) {
+
+    let total = 0;
+
+    for (const char of key) {
+        total += char.charCodeAt()
+    }
+
+    return total;
+}
+
+
+
+			11.14.3
+			Improving Hash Functions
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64649
+
+**What do have so far?
+	--basic hash mapping implementation
+		--the problem is we may have VERY LARGE indexes
+		--for example: 'supercalifragiliciousexpialadocious" would be equal to 3,747
+	--is there a way to create a hashing function that gives us smaller indexes
+	--if we only needed to map 10 words, we'd waste space using the method we already know
+	--one solution is to use modulo (%) to truncate: hash % array.length
+	**Example:
+
+function hash (key, arrayLength) {
+
+   const hash = Array.from(key).reduce(
+        (accum, char) => accum + char.charCodeAt(),
+        0
+    );
+
+    return hash % arrayLength
+};
+
+console.log(hash('grape', 10))		// this would equal 7
+console.log(hash('apple', 10))		// this would equal 0
+console.log(hash("moses's favorite color is purple", 10))		// this would equal 4
+	--this solves the problem of extra large arrays with large indices
+	--we solved the problem by dividing the charCode sum of the string by 10 
+	--we then use the remainder as the index
+
+**Let's use this on a new hashMap
+	**Example:
+
+const map = new HashMap()
+
+map.set('apple', 'red')
+map.set('grape', 'purple')
+map.set('seventeen', 'moses"s favorite number')
+
+console.log(map)
+	--with this solution, we can create a map with A LOT les indices
+	--the above example only has 8
+	--but there are problems when using this method as well
+
+**Problem with this method
+	 --depending on the size we restrict our index to (10 in the above example) we could run into collisions
+		--collisions are when 2 strings have the same calculated index
+		--e.g. abc = 10 and cab = 10
+	--we can fix this though
+
+**How can we fix this?
+	--we can use something called "Horner's Method" to make order meaningful:
+		--for each letter, we add H * currHash + currLetter
+	--what we do is take a prime number and multiple by a prime number when we create our sum of charCodes
+	--that will make the order of the letters in a string meaningful
+	**Example:
+
+function hashPrime(key, arrayLength) {
+
+    const H_PRIME = 37;
+
+    let numKey = Array.from(key).reduce(
+        (accum, char) => accum * H_PRIME + char.charCodeAt(),
+        0
+    );
+
+    return numKey % arrayLength
+}
+
+console.log(hashPrime('cat', 10))		// this index would 6
+console.log(hashPrime('act', 10))		// this index would 2
+	--now if we have 2 strings with the same letters in a different order, we will get a different index for each
+
+
+
+			11.14.4
+			Hash Function Runtime
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64649
+
+**Runtime of Hash
+	--amount of work to hash key isn't related to hash items in map
+		--in terms of Big O notation and hash maps, n would refer to the size of the map
+		--there could be 10 million items in a hash map, but that won't effect how much time it would take to insert or find an item
+		--that would depend on our hash function and the key we want to hash
+	--in our implementations it is related to length of input string
+		--as the size of the key increases (the number of letters in the string) the amount of work increases
+		--so we can call it O(k), where k is # of characters in a string
+	--real-world version often use part of a string (eg first 100 characters)
+		--these then could be constant time or O(1), as length of key doesn't affect worst case
+	--going forward we'll assume hash is constant time in discussion of runtime for has tables
+		--like anything we are generalizing Big O to worst case scenario
+
+**Fast Hashes vs Crypto Hashes
+	--hash functions for hash tables prioritize:
+		--speed (must be fast)
+		--wide distribution (spread out values so there are fewer collisions)
+	--cryptologic hashes, like SHA or Bcrypt prioritize:
+		--they are purposely slow
+		--difficult of reversing output
+	--for crypto uses, always use a proven crypto hash, not you own
+
+**Review
+	--Real world Hashes run in constant time O(1)
+	--our hashes don't, but we will assume they do going forward
+
+
+
+
+			11.14.5
+			Separate Chaining
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64649
+
+**Recap
+	1.) Hash Table/Hash Map
+		--a key value pair data structure implemented with use of hashing function
+		--we take some key and pass it through our hash function
+		--this gives us a deterministic numeric output
+		--for our uses, we store these outputs in an array
+
+**Common problem with hash tables
+	--what if two words have the same index?
+	--this is called a collision, but there is a solution for this
+
+**Solutions
+	1.) Seperate Chaining
+		--we put a bucket at each index
+		--so we could store multiple key value pairs at a specific index
+		--this could happen if we set an index
+
+**Separate Chaining set method
+	1.) Hash key
+	2.) If bin is empty: set to [key, value]
+	3.) Else: add [key,val] to end
+		--this adds the key, value to an array at a specific index
+
+**Separate Chaining get method
+	1.) Hash key
+	2.) If bin empty: return undefined
+	3.) Else: search array returning value if found
+	4.) If not in array, return undefined
+	--if a hash map uses separate chaining as a collision strategy, there is a cap to the bin
+	--for example, you may only be able to enter 10 things at the same index
+
+**Separate Chaining has method
+	--this is the same idea, as get but returns true/false instead of the found value
+
+**Separate Chaining keys method
+	--this method gets us all the keys of the hash table
+	1.) Loop over bins
+	2.) for each bin, loop over pairs
+	--values() and entries() are the same idea
+	--the keys, entries, and values methods are a slower runtime
+	--but it isn't common to use these methods
+	--the real strength of a hash table is in insertion and retrieval time
+
+**Seperate Chaining delete method
+	1.) Hash key
+	2.) If bin is empty: return
+	3.) Search array for index of item
+	4.) Splice array to remove item
+
+**More about Separate Chaining
+	--instead of using arrays for the bins, it's common to use linked lists
+	--visualgo.net/en/hashtable example
+	--this sets multiple indices and then links identical indices together
+	--e.g if there are 4 strings with that have an index of 7, there would be 4 entries linked to index of 7
+
+
+
+			11.14.6
+			Big O of Hash Tables
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64649
+
+**Review of Hash Funciton
+	--our hash function performed in linear time O(n)
+	--real world hash functions (like those built into JS, Python, etc) perform in constant time O(1)
+
+**HashTable Runtimes
+	set method		O(1) (constant)
+	______________________________________________
+	get, has		mostly O(1) (constant)
+	______________________________________________
+	delete			mostly O(1) (constant)
+	______________________________________________
+	keys, values, entries	O(n) (linear)
+
+**Why mostly constant time?
+	--fundamentally, hash tables can be O(1)
+		--if we don't have collision and the array is the right size
+		--we could have some massive array or a tiny array which could affect the Big O
+	--you can get close to O(1) by minimizing collisions:
+		--choosing array size large enough to minimize collisions
+		--choose hash function that spreads keys evenly in array
+	--If you have predictable number of collisions, it can be O(1)
+		--remember: O(3) is the same as O(1) in runtime (both constant time)
+
+**Resizing HashTables
+	--to ensure efficiency, a good implementation shrink/grow number of buckets being used dynamically
+		--often aiming to keep it ~75% occupied
+		--resizing wouldn't be constant time
+		--even so, the ensuing calls because of resizing, will be faster
+	--this means some .set() and .delete() calls will take longer
+		-if shrink/grown by proportion (eg, double/halve), will be "amortized O(1)"
+
+
+
+			11.14.7
+			Linear Probing
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64649/64655
+
+**Collisions
+	--our first implementation made each bin (spot in array) an array
+	--this is a common implementation; it's called "chaining"
+		--if there are 2 pieces of data with the same index, we store both values in a "bucket" at the same index
+	--however, there's another possibility for handling collisions
+
+**Open Addressing
+	--we canb make each bin just a single [key, value] pair
+		--example: if two values equal 4
+	--if collision happens, look at the 'next' place
+		--this can be the next bin (this is "linear probing")
+		--example of linear probing on visualgo.net
+		--or there are smarter algorithms to reduce clumping
+	--we should keep array size large enough to minimize when this happens
+	--if we do and we have a good hash function, we can get amortized O(1)
+
+**Strategies of Open Addressing
+	1.) Linear probing
+		--interval between probes is fixed (usually 1)
+		--this is the most widely used algorithm because of CPU cache utilization and high performance
+	2.) Double Hashing
+		--interval between probes is computed by a second hash function
+	3.) Quadratic Probing
+		--interval between probes is increased by adding the successive outputs of a quadratic polynomial to the starting 
+		value given by original hash computation
+	**Double Hashing and Quadratic Hashing are rarely used.
+		--mostly just interview questions
+
+
+
+			11.14.18
+			Hashmaps versus BST
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64649/64655
+
+**Comparison
+	1.) Hashmaps
+		--O(1) lookup/addition/deletion
+		--have to know exactly what you're looking for
+		--can't find "first word equal to or after banana"
+		--you could find the word itself, but not the word after
+		--similarly, we couldn't find a range of words like "words between car and cat"
+		--hashmaps just don't support this feature
+		--made to lookup and add things very quickly, but not good for specific searches
+	2.) Binary Search Trees
+		--O(log N) lookup/addition/deletion
+		--CAN search for exact value, or inequalities
+		--can search for ranges
+		--good for specific searches, but less efficient
+	3.) BOTH
+		--store information
+		--more efficient than storing information in a list or array
+
+**IMPORTANT NOTE ABOUT HASHMAPS
+	--we USUALLY don't implement them ourselves
+
+
+
+			11.14.9
+			Hash Table Wrapup
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64649/64655
+
+**Sets in JS
+	--a set is just am ap without values
+		--functions hashes key and stores it
+		--we then use that key to see if the value exists
+		--used to track a set of values and testing to see if specific values are included
+	--same runtime characteristics
+
+**JS Types (Advanced Data Structures)
+	1.) Map (advanced object or object with more functionality)
+		--built-in type for mapping
+		--Keys can be any type (string, number, Boolean, etc)
+		--retrieval uses strict equality to match
+		--amortized O(1) for set/get/delete
+	2.) Object
+		--generic object; can use for mapping
+		--technically built on a hashmap
+		--keys can only be strings or numbers
+			--numbers changed to strings: 1 --> "1"
+		--keeps keys in order of insertion
+		--amortized O(1) for set/get/delete
+		--better to use Map for mapping
+	**Which should you use?
+		--you have to determine how many resources you want to use
+		--maps use more resources than objects
+		--objects are basic key/value structure
+		--Maps are advanced
+	3.) Set (advanced array or array with more functionality)
+`		--built-in type for sets
+		--keys can be any type
+		--retrieval uses strict equality to match
+		--keeps keys in order of insertion
+		--amortized O(1) for set/get/delete
+		--values are always unique
+
+**Comparing Sets and Arrays
+	**Example:
+
+let array = [1,2,3,4];
+
+array.push(5)
+
+console.log(array)
+	--in this example we add the number 5 to the end of our array
+	--this is called pushing
+	--we can also have duplicates in an array
+	**Example:
+
+let array = [1,2,3,4];
+
+array.push(5)
+array.push(5)
+
+console.log(array)
+	--we can also extract values from an array
+	**Example:
+
+console.log(array[3])
+	--this is saying that we want to print the value from our array at the index of 3
+	--the result would be 4
+	--this is an example of a constant time operation within an array
+	--let's say we want to find something in an array
+	**Example:
+
+console.log(array.indexOf(3))
+console.log(array.indexOf(10))
+	--here we used the indexOf operation to check if a value exists within our array
+	--3 exists at index 2
+	--if the value doesn't exist (like 10) indexOf will return -1
+	--in order to find if 10 exists in our array, we have to look at every element in the array
+	--that makes it linear time
+
+**Let's see how these examples would work in a set
+	**Example:
+
+let mySet = new Set()
+
+mySet.add(1)
+mySet.add(2)
+mySet.add(3)
+mySet.add(4)
+mySet.add(5)
+
+console.log(mySet)
+console.log(mySet.size)
+	--we have performed a couple operations in the above example
+	--first we created the Set using the new Set keywords
+	--then we added 5 different values to our set
+	--then we printed our set to the console
+	--then we printed the size of our set to the console as well
+	--what if we want to add a number that already exists in a Set
+	**Example:
+
+mySet.add(5)
+	--this would not change our Set
+	--the size would remain the same and there would not be 2 fives in in the Set
+	--that's because every value within a set is unique
+	--how do we check for a specific value
+	**Example:
+
+console.log(mySet.has(3))
+console.log(mySet.has(10))
+	--this feature for sets returns a true/false
+	--the runtime is O(1) or constant time
+
+**When do you use a Set and when do you use an array?
+	--it depends on if we need a sequence of data using a specific order
+	--if we need a data set that needs to be unique we would use a Set
+		--example: chat function
+	--generally we start with an array and if we need more functionality we update to a Set
+
+**Let's compare Obejcts and Maps
+	**Object Examples:
+
+const data = {
+
+    name: "Bob",
+    age: "25",
+    state: "New York",
+    1: "NYC"
+}
+
+consoel.log(Object,keys(data))
+	--here we have created an object
+	--the last key in our object is a number
+	--and if we look up the values of the keys in our object, we will see that 1 has become "1"
+	--we also see that "1" is the first key, even though we defined the other 3 first
+	--objects usually follow insertion order, but will list numbers before anything else
+	**Example:
+
+const data = {
+    4: "Hudson River",
+    name: "Bob",
+    3: "2343434",
+    age: "25",
+    state: "New York",
+    1: "NYC"
+}
+
+console.log(Object.keys(data))
+	--here we added 2 keys (3 and 4) in random order
+	--when we print the keys of our object, the numbers will be organized in numeric order
+	--after that, the order is determined by what order the keys were inserted
+	--so name, age and state remain in the order they were inserted, while the numbers fall into numeric order
+
+**If we need more control than an object gives, we use a Map
+	**Example:
+
+const myDataMap = new Map()
+
+myDataMap.set(4, "Hudson River")
+myDataMap.set("name", "Bob")
+myDataMap.set(3, "2343434")
+myDataMap.set("age", "25")
+myDataMap.set("state", "New York City")
+myDataMap.set(1, "NYC")
+
+console.log(myDataMap)
+	--when printed to console, we see that the order we used when setting key/values to this Map is preserved
+	--so maps always use insertion order 
+	--we also see that numbers are not turned into strings like in an object
+	--we could also use a Boolean as a key and it would be preserved
+	**Example: myDataMap.set(true, "Illinois")
+	--we can also check if something exists
+	**Example:
+
+console.log(myDataMap.has("name"))
+console.log(myDataMap.has("lastName"))
+	--this return true/false
+
+**When do we use which?
+	--pretty much if you want more control, use a Map
+	--if you don't need much control of key/value pairs, us an object
+
+**Review
+	--the concepts of hash tables are used all over JS
+	--arrays, sets, objects, maps all use hash tables as a template
+
+
+	
+
+
+
+
+
+
+
+
+
+

@@ -1155,8 +1155,43 @@ tree.root.right.right = new Node(40); // 40 is greater than 30
 			BST Find Method
 			https://www.youtube.com/watch?v=9dvA1etTUfc
 
+**Below are notes alongside the code for creating a find method
+
+     find(value){
+
+        // if there is no root, there is no tree to traverse and the value we are looking for is not present.
+        if(!this.root){
+            return false    
+        }
+
+        // this allows us to traverse the tree without changing the root node. 
+        let tree = this.root;
+
+        while(tree) {
+
+            // this if statement determines if the value we're looking for is < the value we're pointing at. If it is, we move down the tree to the left
+            if(value < tree.value){
+                tree = tree.left
+            
+            // determines if value we're looking for is > value we're pointing at. if so, we move down the tree to the right.
+            } else if(value > tree.value){
+                tree = tree.right
+            
+            // determines if value we're looking for is = to value we're pointing at. if so, we return the tree.
+            } else if(value === tree.value){
+                return tree;
+            } 
+        }
+
+        //this will initialize if the tree value becomes null. this will also end the while loop.
+        return false
+     }
+	--there you have it! the find method that can be used to lookup something in a BST
 
 
+
+
+			
 
 
 

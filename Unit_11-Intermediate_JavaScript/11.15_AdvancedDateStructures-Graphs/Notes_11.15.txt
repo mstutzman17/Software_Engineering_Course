@@ -1,0 +1,970 @@
+Notes for Unit 11 Subunit 14
+
+
+
+			11.15.1
+			Graphs Handout
+			https://lessons.springboard.com/Graphs-ef91a620b76a44448d5517032b92fd0f
+
+**This handout covers the following regarding JS Graphs
+	1.) Goals
+	2.) Terminology
+	3.) Types of Graphs with exmaples
+	4.) Graph Implementation and Methods
+
+1.) Goals
+	--learn what a graph is
+	--compare and contrast different types of graphs
+	--code a graph implementation
+	--check if two nodes are connected
+
+2.) Terminology
+	--Node (or Vertex): basic unit
+	--Edge (or Arc): connects two nodes/vertices
+	--Adjacent: two nodes are "adjacent" if they share an edge
+	--Weight (optional): each edge can have a weight (ex: price, or distance)
+
+**This and everything else will be covered in the Video Curriculum
+
+
+
+			11.15.2
+			Intro to Graphs
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658
+
+**Goals
+	1.) Learn what a graph is
+	2.) Compare and contrast different types of graphs
+	3.) Code a graph implementation
+	4.) Check if two nodes are connected
+
+**What is a graph
+	--collections of nodes that are connected
+	--kind of like a tree with more flexibility on how we connect things
+	--our connections can contain cycles or loops
+	--any parent can connect to any other node
+	--relationships can be directed or undirected
+		--arrows would show direction
+
+**Terminology
+	--Node (or Vertex): basic unit
+		--the "circles" that hold the value in a diagram of a graph
+	--Edge (or Arc): connects two nodes
+		--the relationship between 2 nodes/vertices
+		--the line connecting nodes
+	--Adjacent: two nodes that share an edge
+		--so if two nodes have a line connecting them, they are adjacent
+	--Weight (optional in a graph): each edge can have a weight (ex: price or distance)
+		--this would be depicted as a label on an edge
+
+
+
+			11.15.3
+			Graph Examples
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658
+
+**Graphs
+	--collection of nodes/vertices
+
+**Graph Examples (Directed Graph)
+
+	Food Chain
+
+Orcas --> Baleen Whales
+Orcas --> Seals
+Baleen Whales --> Krill 
+Baleen Whales --> Zooplankton
+Birds --> Squid 
+Birds --> Krill 
+Birds --> Pelagic Fish
+Sperm Whales --> Pelagic Fish 
+Sperm Whales --> Squid
+Seals: --> Penguins 
+Seals --> Squid 
+Seals --> Pelagic Fish
+Penguins --> Squid
+Penguins --> Krill
+Squid --> Zooplankton
+Squid --> Krill
+Krill --> Microplankton
+Krill --> Algae
+Microplankton: []
+Algae: []
+Pelagic Fish: []
+Zooplankton: []
+	--in the above graph, the animal that is pointed to another is higher in the food chain
+	--for example, orcas eat seal, birds, and baleen whales
+	--the arrows are called edges
+	--edges connect vertices
+
+**How would we implement a graph in JS?
+	--for each vertex we could use an adjacency list
+	--this is a list where we could store adjacent vertices
+	--so the penguins vertex is adjacent to squid and krill
+	--because the line is one directional, we could only look at what penguin points to, not what points to penguin
+	**Example of penguin adjacency list
+	--Penguins: [Squid, Krill]
+
+**Graph Example (Undirected Graph)
+	Facebook Friends
+
+Homer -- Maggie
+Homer -- Lisa
+Homer -- Bart
+Homer -- Marge
+Bart -- Homer
+Bart -- Lisa
+Bart -- Marge
+Bart -- Grampa
+Lisa -- Homer
+Lisa -- Bart
+Lisa -- Maggie
+Maggie -- Flanders
+Maggie -- Lisa
+Maggie -- Homer
+Marge -- Grampa
+Marge -- Bart
+Marge -- Homer
+Grampa -- Marge
+Grampa -- Bart
+Krusty The Clown -- Mr. Burns
+Krusty The Clown -- Smithers
+Mr. Burns -- Krusty The Clown
+Mr. Burns -- Smithers
+Smithers -- Mr. Burns
+Smithers -- Krusty The Clown
+	--there are no arrows or indicated direction
+	--in this example, there is no need for direction because once you are connected it's both ways
+	--it would be different if we were talking about X (Twitter)
+	--just because you follow someone doesn't mean they follow you
+	--in that case the arrow would be pointing in on direction or another
+	--for our Facebook example, once a friend request is accepted there is no need for a directional
+	--because the relationship goes both ways, we don't use an arrow
+	--let's seem how Homer's adjacency list would look
+	Homer: [Bart, Lisa, Maggie, Marge]
+
+**Examples of Graphs (Directed Graph)
+
+	Processes: Making Cupcakes
+
+add sugar, add flour, add milk, add egg, add oil --> cupcake mix
+cupcake mix --> pour batter
+pour batter, preheat oven --> put in oven
+put in oven --> take out of oven
+take out of oven, prepare icing --> let cool
+let cool --> eat
+	--this looks like a tree, but all trees are graphs
+	--you can only go down the tree, though
+	--that's also what makes this a direction graph
+	--also, you have to do the step or steps above in order to move down the graph
+	--this is a similar idea for manufacturing processes, supply chains, etc.
+
+**Examples of Graphs (Directed Graph with Weights)
+
+	Airline Route Map
+
+New York ----------> San Francisco
+New York -----> LA
+New York --> Houston
+Houston ----------> San Francisco
+Houston -----> LA
+Houston --> Denver
+Denver -----> San Francisco
+Denver --> LA
+LA -----> San Francisco
+LA --> Seattle
+Seattle --> San Francisco
+	--each node here represents an air port
+	--each edge is directional
+	--the weight of each edge (length) is the price
+	**what is the cheapest way to go from new York to San Francisco?
+	**answer: NY to Houston and Houston to SF (total: $275)
+
+**Examples of Graphs (Undirected Graph with Weight)
+
+	Carpooling
+
+A ------- C
+A ------- E
+A ----- D
+A --- B
+B ---------- F
+B ----- H
+B --- D
+B -- G
+D ----- A
+D ----- J
+D --- B
+D --- H
+D --- E
+G --- B
+G --- J
+C ------- A
+C --- I
+C --- F
+E ------- A
+E --- D
+E --- I
+H -----B
+H --- D
+J ----- D
+J --- G
+I --- C
+I --- E
+F --- C
+F --- E
+	--each node is a rider
+	--edges represent possible carpooling matches
+	--Only 2 people can carpool together at a time
+	**How can we match the max number of pairs of riders?
+	**answer: 
+
+**Graphs
+	--often used to model relationships between things
+	--trees are special graphs
+	--tree are directed and acyclic
+	--acyclic means they contain no cycles
+	--if we look at the carpool example, a cycle would be A, B, D
+	--we could go from one node to 4 others and then back to the original node
+	--trees have hierarchy, graphs don't
+
+**Comparing Linked Lists, Trees, and Graphs
+	1.) Linked Lists
+		--nodes have 0 or 1 child
+		--they are directed and acyclic
+	2.) Trees
+		--nodes have 0+ children
+		--directed and acyclic
+		--only one designated root node
+	3.) Graphs
+		--nodes have 0+ connections
+		--can be cyclic or acyclic
+		--can be directed or undirected
+		--can be disconnected or connected
+		--optional weights
+
+
+
+			11.15.4
+			Representing Graphs in JS
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658
+
+**Two common approaches to representing graphs
+	1.) Adjacency List
+		--for each node, list every node it is directly connected to
+	2.) Adjacency Matrix
+		--a matrix of every pair of nodes with a 1 if that pair is connected (otherwise 0)
+
+**Adjacency List
+	**Example:
+{
+	A: [B, F]
+	B: [A, c]
+	C: [B, D]
+	D: [C, E]
+	E: [D, F]
+	F: [E, A]	
+}
+	--here we have an object with 6 key/value pairs
+	--the key represents a node of the graph
+	--the value represents the nodes that the key is connected or adjacent to
+
+**Adjacency Matrix
+	**Example:
+
+____________________________
+| - | A | B | C | D | E | F
+| A | 0 | 1 | 0 | 0 | 0 | 1
+| B | 1 | 0 | 1 | 0 | 0 | 0
+| C | 0 | 1 | 0 | 1 | 0 | 0
+| D | 0 | 0 | 1 | 0 | 1 | 0
+| E | 0 | 0 | 0 | 1 | 0 | 1
+| F | 1 | 0 | 0 | 0 | 1 | 0
+	--here we are storing a 1 if the vertices are connected
+	--we store a 0 if the are not connected (don't have to use 0, it's just most common)
+	--to make a comparison, we use row and column
+	--for example: A from top row and B from left column is 1
+	--B from top row and A from left column is also 1
+	--D from top row and F from left column is 0
+
+**We will be working with adjacency lists
+
+**Adjacency Matrixes are better used for graphs that are densely connected
+	--the graphs we are looking at are sparce
+	--with a sparce list, we allocate a lot of memory that we don't need
+	--with adjacency list, each list is only the length of how many connections it has
+	--adjacency lists are mostly easier, unless we have data with tons of collections
+
+
+
+			11.15.5
+			Implementing a Graph (PeronsNode)
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658
+
+**Let's dive into implementing an Adjacency List
+	--we're using the Simpsons Friend Graph to define a Node Class
+	--think about what we'll need for this
+		--a node needs a value
+		--then it needs a list of connections/edges/adjacencies
+	**Example:
+
+class PersonNode {
+
+    constructor(name){
+        
+        this.name = name;
+        this.adjacent = [];
+    }
+}
+	--here we represent the node using the word name
+	--then we represent the connected nodes with an empty array called at this.adjacent
+	--this is how it would work
+	**Example:
+
+const homer = new PersonNode('Homer Simpson')
+const marge = new PersonNode('Marge Simpson')
+	--this will make the nodes for us
+	--the only problem is they aren't connected yet
+	--here's how we connect these nodes
+	**Example:
+
+homer.adjacent.push(marge)
+marge.adjacent.push(homer)
+	--now homer is connected to marge and visa versa
+	--what does this look like when we print it?
+	**Example:
+
+console.log(homer)
+console.log(marge)
+	--here's what we see:
+
+PersonNode {name: 'Homer Simpson', adjacent: Array(1)}
+adjacent
+: 
+Array(1)
+0
+: 
+PersonNode {name: 'Marge Simpson', adjacent: Array(1)}
+length
+: 
+1
+[[Prototype]]
+: 
+Array(0)
+name
+: 
+"Homer Simpson"
+
+PersonNode {name: 'Marge Simpson', adjacent: Array(1)}
+adjacent
+: 
+Array(1)
+0
+: 
+PersonNode {name: 'Homer Simpson', adjacent: Array(1)}
+length
+: 
+1
+[[Prototype]]
+: 
+Array(0)
+name
+: 
+"Marge Simpson"
+	--marge has an edge going to homer
+	--homer has an edge connected to marge
+	--we can use an array but we don't need to
+	--order doesn't matter in a graph
+	--edges aren't order (might have value or weight but order still wouldn't matter)
+	--drawback of using an array is we could accidentally add a duplicate edge
+	--so instead of useing an array, we can use a Set
+	--it will work exact same way, in that we will be storing adjacent vertices
+	**Example:
+
+class PersonNode2 {
+
+    constructor(name, adjacent = new Set()){
+
+        this.name = name;
+        this.adjacent = [];
+    }
+}
+	--now our default value is in the parameter list of the class PersonNode2
+	--this will keep us from creating duplicate edges
+	--how would we connect vertices?
+	**Example:
+
+const homer2 = new PersonNode2('Homer Simpson')
+const marge2 = new PersonNode2('Marge Simpson')
+homer2.adjacent.add(marge2);
+marge2.adjacent.add(homer2);
+	--we can see that creating the nodes is the same
+	--adding nodes involves different method keywords because we're using a Set instead of an array
+		--e.g. add instead of push
+	--now let's build out the rest of the graph
+	**Example:
+
+const homer2 = new PersonNode2('Homer Simpson')
+const marge2 = new PersonNode2('Marge Simpson')
+const maggie = new PersonNode2('Maggie Simpson')
+const lisa = new PersonNode2('Lisa Simpson')
+const grampa = new PersonNode2('Grampa Simpson')
+
+homer2.adjacent.add(marge2);
+homer2.adjacent.add(maggie)
+homer2.adjacent.add(lisa)
+marge2.adjacent.add(homer2)
+marge2.adjacent.add(maggie)
+maggie.adjacent.add(homer2)
+maggie.adjacent.add(lisa)
+maggie.adjacent.add(marge2)
+lisa.adjacent.add(maggie)
+lisa.adjacent.add(homer2)
+lisa.adjacent.add(grampa)
+grampa.adjacent.add(lisa)
+	--at the top we created each vertex 
+	--then we created the adjacency list
+	--as you can see this can be tedious
+	--our graph only has 5 vertices, but we have 12 lines to build out the adjacency list
+
+**In the next video, we'll add a method to set up 2 nodes that connect both ways
+
+
+
+			11.15.6
+			Friend Graph Class
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658
+
+**Let's create a new class
+	**Example:
+
+class FriendGraph {
+
+    constructor(){
+
+        this.nodes = new Set();
+    }
+}
+	--the way this works is:
+	--we will store a collection of nodes
+		--if we have just one node, it might be connected to the rest of the graph, but typically it's not
+		--unlike a tree that has a root node
+		--or a linked list that has a head or tail
+	--the FriendGraph class stores the actual nodes and the nodes store the relationships (connections/edges)
+	--now let's create our method
+	**Example:
+
+    addPerson(node){
+
+        this.nodes.add(node)
+    }
+	--all this will do is take some node we've passed in and add it into the this.node Set
+	--no relationships, just telling it that a certain node exists
+	--let's make another method
+	**Example:
+
+    addPeople(peopleList){
+
+        for (let node of peopleList){
+
+            this.addPerson(node)
+        }
+    }
+	--this accepts an array
+	--now we could pass in a list of multiple nodes (like homer, marge, Maggie)
+		--that is instead of making a separate adjacency list for each person
+		--this method does the same thing, but all at once
+	--let's make another "helper" method that we can set the relationship of the nodes with
+	**Example:
+
+    setFriends(person1, person2){
+
+        person1.adjacent.add(person2)
+        person2.adjacent.add(person1)
+    }
+	--this helper method sets the connection between 2 different ndoes
+	--so if you add person1 and person2 it adds to adjacency list appropriately
+	--this doesn't operate on this.nodes
+	--this.nodes is just the collection of all of the nodes
+	--each node keeps it's own adjacency list
+
+**Now let's see all of this in action
+	**Example:
+
+class PersonNode {
+
+    constructor(name, adjacent = new Set()){
+
+        this.name = name;
+        this.adjacent = adjacent;
+    }
+}
+
+    class FriendGraph {
+
+        constructor(){
+
+        this.nodes = new Set();
+    }
+
+    addPerson(node){
+
+        this.nodes.add(node)
+    }
+
+    addPeople(peopleList){
+
+        for (let node of peopleList){
+             this.addPerson(node)
+        }
+    }
+
+    setFriends(person1, person2){
+
+        person1.adjacent.add(person2)
+        person2.adjacent.add(person1)
+    }
+}
+
+
+
+const homer = new PersonNode('Homer Simpson')
+const marge = new PersonNode('Marge Simpson')
+const maggie = new PersonNode('Maggie Simpson')
+const lisa = new PersonNode('Lisa Simpson')
+const grampa = new PersonNode('Grampa Simpson')
+
+
+	// here we are creating an instance of a FriendGraph
+const friends = new FriendGraph();
+	//here we are adding a list of nodes to friends using the addPeople method we created
+friends.addPeople([homer, marge, maggie, lisa, grampa])
+	--now let's set our connections for these nodes
+	**Example:
+
+friends.setFriends(homer, marge)
+friends.setFriends(homer, lisa)
+friends.setFriends(homer, maggie)
+friends.setFriends(marge, maggie)
+friends.setFriends(maggie, lisa)
+friends.setFriends(lisa, grampa)
+	--this has connected each node with half the lines of code as before
+
+**Next we'll discuss traversing a graph
+
+
+
+			11.15.7
+			Graph Traversal
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658
+
+**Let's write some code to determine if 2 people are connected
+	--we DO NOT mean are 2 people adjacent
+	--that would be easy to check
+	--what we DO mean is there a way to get from one node to any other node
+	--in our Simpsons example, there is a way to get from one vertex to any other vertex
+		--that is even if the vertices aren't adjacent
+	--what if we had a graph that wasn't all connected though?
+	**Example:
+
+Homer -- Marge
+Homer -- Maggie
+Homer -- Lisa
+Marge -- Homer
+Marge -- Maggie
+Maggie -- Homer
+Maggie -- Marge
+Maggie -- Lisa
+Lisa -- Maggie
+Lisa -- Homer
+Grampa -- Lisa
+
+Moe -- Barney
+Barney -- Moe
+Barney -- Lenny
+Lenny -- Barney
+	--this is a perfectly acceptable graph
+	--as we can see, the bottom portion of the graph isn't connected to the top at all
+	--graphs don't all have to be connected to be considered ONE graph
+	--what we want to know is if Marge is connected to Moe (not adjacently)
+		--obviously this isn't true
+
+**Let's look at another example
+	Arline Route Map
+
+New York ----------> San Francisco
+New York -----> LA
+New York --> Houston
+Houston ----------> San Francisco
+Houston -----> LA
+Houston --> Denver
+Denver -----> San Francisco
+Denver --> LA
+LA -----> San Francisco
+LA --> Seattle
+Seattle --> San Francisco
+	--here we have tons of flights stored in a graph from one city to another
+	--let's say we want to know if there is a way to get from Denver to New York
+		--on this graph the answer would be no
+		--that's because all the flights are directed one way from New York to San Francisco 
+		--(with the method we use to traverse, it won't matter if a graph is directional or not)
+	--we could also ask "is there a way to get to New York from San Francisco?"
+		--this answer is yes
+		--but there are multiple options
+	--it's a different problem to calculate shortest/cheapest path vs finding IF there is a way to get there
+
+**How do we figure this out?
+	--we need to traverse through the graph
+	--we want to make sure we only visit each vertex once\
+	--but how we search through the entire graph?
+		--BFS - go to all closest neighbors and work your way outwards
+		--DFS - continue on a path until it's exhausted
+
+**This is not like tree traversal
+	--this one is a bit different!
+	--since graphs can have cycles, we need to be sure not to visit the same node twice
+	--how can we mark a anode as visited?
+
+**Take Simpsons Graph for example:
+
+Homer -- Marge
+Homer -- Maggie
+Homer -- Lisa
+Marge -- Homer
+Marge -- Maggie
+Maggie -- Homer
+Maggie -- Marge
+Maggie -- Lisa
+Lisa -- Maggie
+Lisa -- Homer
+Grampa -- Lisa
+
+Moe -- Barney
+Barney -- Moe
+Barney -- Lenny
+Lenny -- Barney
+	--let's say we start at Marge and we want to know if we can get to Moe
+		--with one algorithm we might start with Marge's first adj node Homer
+		--then we go to Homer's adj node Maggie
+		--then to Maggie's adj node Marge
+		--then the cycle would repeat
+	--with our traversal we want to make sure we don't get stuck in a cycle like that
+
+**Next we'll see an implementation of BFS that marks nodes as visited
+
+
+
+			11.15.8
+			BFS Graph
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658
+
+**Let's work on the following graph
+
+
+const homer = new PersonNode('Homer Simpson')
+const marge = new PersonNode('Marge Simpson')
+const maggie = new PersonNode('Maggie Simpson')
+const lisa = new PersonNode('Lisa Simpson')
+const grampa = new PersonNode('Grampa Simpson')
+const bart = new PersonNode('Bart Simpson')
+
+const moe = new PersonNode('Moe')
+const barney = new PersonNode('Barney')
+const lenny = new PersonNode('Lenny')
+
+const friends = new FriendGraph();
+
+friends.addPeople([homer, marge, maggie, lisa, grampa])
+friends.addPeople([moe, barney, lenny])
+
+friends.setFriends(homer, marge)
+friends.setFriends(homer, lisa)
+friends.setFriends(homer, maggie)
+friends.setFriends(marge, maggie)
+friends.setFriends(maggie, lisa)
+friends.setFriends(lisa, grampa)
+friends.setFriends(moe, barney)
+friends.setFriends(barney, lenny)
+
+**And we are adding our method to the FriendGraph class
+
+class FriendGraph {
+
+        constructor(){
+
+        this.nodes = new Set();
+    }
+
+    addPerson(node){
+
+        this.nodes.add(node)
+    }
+
+    addPeople(peopleList){
+
+        for (let node of peopleList){
+             this.addPerson(node)
+        }
+    }
+
+    setFriends(person1, person2){
+
+        person1.adjacent.add(person2)
+        person2.adjacent.add(person1)
+    }
+}
+
+	--just like tree traversal, we will make a stack or queue to keep track of what we HAVE visited and what we NEED to visit
+	**Example:
+
+    areConnected(person1, person2){
+        // we want to go from person1 to person2
+        // here we are starting with all connections to person1
+        let toVisitQueue = [person1];
+
+        // this loop runs as long as there is something to visit
+        while (toVisitQueue.length){
+
+            // shifiting off of the queue
+            let currPerson = toVisitQueue.shift()l
+            
+            //then we check if this is the thing we're looking for
+            if(currPerson === person2) return true
+
+            for(let neighbor of currPerson.adjecent){
+
+                toVisitQueue.push(neighbor)
+            }
+        }
+    }
+	--if we try to traverse the tree with the above code, unchanged, we will run into a problem
+	--with the current code, we will get stuck in a cycle somewhere
+	--the cycle would continue on and on and on
+	--so we need to make sure our code knows when we've visited a specific node
+	--this will keep us from getting stuck in a cycle
+
+**How do you keep from getting stuck in a cycle?
+	--the easiest way to do this is to add a Set
+	**Example:
+
+    areConnected(person1, person2){
+
+        // we want to go from person1 to person2
+        // here we are starting with all connections to person1
+        let toVisitQueue = [person1];
+
+        //this will store what we have seen
+        let seen = new Set(toVisitQueue)
+
+        // this loop runs as long as there is something to visit (so as long as there is vertex left unvisited)
+        while (toVisitQueue.length){
+            // shifting off of the queue
+            let currPerson = toVisitQueue.shift()
+            
+            //then we check if this is the thing we're looking for
+            if(currPerson === person2) return true
+
+            for(let neighbor of currPerson.adjacent){
+
+                // this makes sure we don't add nodes that are already in toVisitQueue
+                // this is accomplished by checking if something is NOT in our seen Set
+                //if it's not, run the code
+                if (!seen.has(neighbor)){
+
+                toVisitQueue.push(neighbor)
+                // this marks nodes that have been added to the toVisitQueue as seen
+                seen.add(neighbor);
+                }
+            }
+        }
+
+	// this ensures that false is printed if vertices aren't connected
+        return false
+    }
+
+
+
+			11.15.9
+			DFS Graph Iteratively
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658
+
+**What are the differences between DFS and BFS?
+	1.) Queue vs Stack
+		--in BFS implementation we use a queue to keep to track of what we have visited and what we need to visit
+		--in DFS we use a stack
+	2.) Shift vs Pop
+		--in BFS we use the .shift() method to remove oldest element from the queue
+		--in DFS we use .pop() method to remove most recent element from the stack
+	**Example:
+
+    areConnectedDFS(person1, person2){
+
+        // we want to go from person1 to person2
+        // here we are starting with all connections to person1
+        let toVisitStack = [person1];
+
+        //this will store what we have seen
+        let seen = new Set(toVisitStack)
+
+        // this loop runs as long as there is something to visit
+        while (toVisitStack.length){
+            // popping off of the stack
+            let currPerson = toVisitStack.pop()
+            
+            //then we check if this is the thing we're looking for
+            if(currPerson === person2) return true
+
+            for(let neighbor of currPerson.adjacent){
+
+                // this mnakes sure we don't add nodes that are already in toVisitStack
+                // this is accomplished by checking if something is NOT in seen
+                //if it's not, run the code
+                if (!seen.has(neighbor)){
+
+                toVisitStack.push(neighbor)
+                // this marks nodes that have been added to the toVisitStack as seen
+                seen.add(neighbor);
+                }
+            }
+        }
+
+        return false
+    }
+	--this DFS method will provide the same result as the BFS
+	--the only difference in the result is how the graph is traversed
+	--the implementation is also very similar
+	--there are only two differences in that regard
+		--we use stack instead of queue
+		--we use .pop() instead of .shift()
+
+**Let's get a visual of how the tree is being traversed using each method
+	--to do this we will just add a console.log to each method
+	**Example:
+	**Note this example is only showing an excerpt of the code
+
+**BFS**
+            let currPerson = toVisitQueue.shift()
+            console.log ("BFS Visiting:", currPerson.name)
+
+**DFS**
+            let currPerson = toVisitStack.pop()
+            console.log ("DFS Visiting:", currPerson.name)
+	--this will give us the order in which each node is visited in the BFS method and the same for DFS method
+
+**To help this visual aid, we'll also print the stack for each method
+	**Example:
+	**Note: again, this is just an excerpt of the full code
+**BFS**
+
+
+**DFS**
+            console.log(toVisitStack.map(node => node.name))
+
+            // popping off of the stack
+            let currPerson = toVisitStack.pop()
+            console.log ("DFS Visiting:", currPerson.name)
+	--let's see what is being printed to the console
+
+
+DFS Visiting: Homer Simpson
+(3) ['Marge Simpson', 'Lisa Simpson', 'Maggie Simpson']
+DFS Visiting: Maggie Simpson
+(2) ['Marge Simpson', 'Lisa Simpson']
+ DFS Visiting: Lisa Simpson
+(2) ['Marge Simpson', 'Grampa Simpson']
+DFS Visiting: Grampa Simpson
+['Marge Simpson']
+DFS Visiting: Marge Simpson
+true
+	--whenever we visit a node, that nodes connections are added to the stack
+	--that is unless we have already visited one the connections
+	--for example, after Homer Simpson, we visit Maggie Simpson
+	--not all of Maggie Simpson connections are listed, because we've already visited Homer Simpson
+	--so only the Maggie Simpson connections that HAVE NOT been visited are put into the stack
+
+
+
+			11.15.10
+			DFS Graph Recursively
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658
+
+**This recursive method is one that we will want to revisit
+
+**Let's jump into it
+	**Example:
+
+    // this method accepts 3 possible parameters
+    // this will help us keep track of what we have seen
+    DFSareConnectedRecursive(person1, person2, seen = new Set([person1])){
+
+        // this will tell us whether or not there is a connection between nodes
+        if(person1 === person2) return true;
+
+        // here we will recursively call this.DFSareConnectedRecursive
+        for(let neighbor of person1.adjacent){
+
+            // if we HAVE NOT found the value we're looking for at the neighbor we're currently at
+            if(!seen.has(neighbor)){
+
+                // if we HAVE found the value at the current neighbor
+                seen.add(neighbor);
+
+                // here we are passing in the neighbor, instead of person1
+                if(this.DFSareConnectedRecursive(neighbor, person2, seen)){
+                    
+                    // if person1 === person2 
+                    return true
+                }
+            }
+        }
+
+        // if we make it all the way through the loop and person1 === person2 is never true
+        return false
+    }
+	--how will we know if we've found a connection between person1 and person2?
+	--we are constantly adjusting what person1 is
+	--whatever node we visit becomes person1
+	--the way we know if we've found a connection is if person1 is equal to person2
+
+
+
+
+			11.15.11
+			Graphs in Review
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64658/64669
+
+**Review of Graphs
+	--Graphs are made of nodes and edges
+	--there are 2 types of graphs
+		1.) Directed Graph
+		2.) Undirected Graph
+	--Graphs can be weighted
+		--like distance between airports
+	--2 ways to organize graphs
+		1.) Adjacency Matrix
+		2.) Adjacency List
+	--2 ways to traverse graphs
+		1.) BFS
+		2.) DFS
+
+**Real Graph usage
+	--Netflix
+		--connects what you watch to what you may be interested in
+	--Google Maps
+		--intersections are nodes and roads are edges
+	--Airports
+		--airports are the nodes, flight path is the edge
+		--these could be weighted with flight information (distance, price etc.)
+
+
+
+
+
+
+
+
+
+
+
+
+
