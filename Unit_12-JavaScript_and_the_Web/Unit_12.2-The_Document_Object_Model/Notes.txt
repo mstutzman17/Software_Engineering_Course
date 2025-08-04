@@ -1,0 +1,247 @@
+Unit 12 Subunit 2 Notes
+
+
+
+
+			12.2.1
+			Introduction to The DOM
+			https://lessons.springboard.com/Introduction-to-the-DOM-d5dcd26ef3734b84ac1efd1f57a521ae
+
+**In this Handout:
+	--Goals
+	--DOM
+	--DOM Manipulation
+	--Recap
+
+**Goals
+	1.) Understand what the DOM is.
+	2.) Select HTML elements using document methods
+	3.) Compare and contrast elements and nodes
+
+**What is DOM?
+	--Document Object Model
+	--programming interface for HTML
+	--representation of our HTML than can be accessed using JS
+
+**Rceap
+	1.) DOM allows us to use JS to manipulate HTML
+	2.) We can use methods like querySelector to access elements on the page
+	3.) Using the DOM we can modify elements and attributes
+
+
+
+			12.2.2
+			The DOM
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64678
+
+**Examples of things you can do with DOM
+	1.) The game 2048
+		--colors are changing, elements are moving around based on input
+		--the score is changing based on input
+		--there is an animation when you add to your score
+		--all of this functionality is happening through the DOM
+		--we could make the grid used for this game with HTML and CSS
+		--we could NOT make the GUI without DOM
+	2.) Credit Card Form - VueJs
+		--as you put in a card number it updates the image of a credit card at the top
+		--when you pass in a cardholder name, the same happens
+
+**Goals
+	1.) Understand what the DOM is
+	2.) Select HTML elements using document methods
+	3.) Compare and contrast elements and nodes
+
+
+
+			12.2.3
+			What is the DOM, Actually?
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64678
+
+**What is the DOM?
+	--DOM let's us interact with HTML using JS
+	--DOM stands for Document Object Model
+	--programming interface for HTML
+	--representation of our HTML that can be accessed using JS
+	**Example:
+
+1.) WB loads up a webpage using HTML
+2.) Then JS is used and it needs access to the HTML content so it knows what to manipulate
+
+**Let's try an example
+	**Example:
+
+	--Let's say we have an HTML page with a button that says "Help Me"
+	--we want the button to flash colors and play music when we press it
+	--HTML is just text, so we have to use another language (JS in this case) to accomplish this
+	--in order to use JS, we need to be able to select elements from the HTML page to use in JS
+
+**How does a DOM get created?
+	--when a web page is loaded, the browser creates the DOM for that specific page
+	--this allows for the creation of dynamic web pages where users can interact with the page
+
+**DOM under the hood
+	--the structure of the DOM uses something called a tree, where the topmost node is the document object
+	**Example:
+
+<body>
+    
+<h1>Giant Sequoia</h1>
+<hr>
+<button>HELP ME</button>
+
+</body>
+	--everything within the body tag is a child of the body
+
+**Simple Example:
+
+
+<body>
+    
+<h1>Giant Sequoia</h1>
+<hr>
+<button>HELP ME</button>
+
+</body>
+	--we can represent this using JS objects
+
+{
+    tag: 'body',
+    content: [
+        {
+            tag: 'h1',
+            content: ["Giant Seqouia"]
+        },
+        {
+            tag: 'hr',
+            content: [
+                {
+                    tag: 'button',
+                    content: ["HELP ME"]
+                }
+            ]
+        }
+    ]
+}
+	--the browser does something similar to this, just more complicated
+	--this gives us a data structure in order to find specific elements within a webpage
+
+**Again
+	--DOM is a literal JS object representation of HTML elements
+	--this allows us to interact with HTML elements using JS (or similar programming languages)
+
+
+
+			12.2.4
+			Exploring The Document
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64678/64681
+
+**Let's focus on the document part of DOM
+	--the document holds a representation of the entire webpage
+	--it acts as the 'starting point' for access to the DOM
+
+**Things we can do with the document object
+	1.) Finding Elements
+	2.) Making new elements
+	3.) Updating Elements
+	4.) Changing properties on elements
+	5.) Listening for events (like clicks)
+	**All theses start with the document object
+
+**document object properties
+	--there are tons and tons
+	--a lot of them are deprecated (meaning please don't use them)
+	--there are also tons of methods
+	--EVERY webpage has a document object
+	--so we can type document in the console of any webpage and it will return something
+
+
+
+			12.2.5
+			getElementById
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64678/64681
+
+**Let's learn how to do what we can with DOM
+	**First up: finding elements, images, buttons, etc
+
+**Different Methods
+	--JS has quite a few different methods for selecting elements in the DOM
+	--we'll start by using getElementById
+**What does getElementById do?
+	--accepts a string which is the name of an id in the DOM and finds matching id
+	**Example:
+
+document.getElementById('main')
+	**we could also save this element from HTML as a variable in JS
+	**Example:
+
+let btn = document.getElementById("submit")
+	--this creates an HTMLElement within JS
+	--the exact kind of object we get back will depend on what we select (HTMLDivElement vs HTMLParagraphElement)
+	--we can see all the properties of a specific element using console.dir(btn)
+	--the proto for this is HTMLButtonElement
+
+**Let's make another variable
+	**Example:
+
+let gallery = document.getElementById('gallery')
+	--the proto for this is HTMLElement
+	--every id will be an HTMLElement, but some will be more specific (like HTMLButtonElement from above)
+
+**When using getElementById, we don't return a string, we return an object
+	--these objects have tons of properties and methods
+	--right now we're just focusing on selecting
+	--what we retrieve is just a representation of the HTML element
+	--we're selecting things from the document object which is a model
+
+
+
+			12.2.6
+			getElementsByTagName
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64678/64684
+
+**What if we don't know the ID of an element?
+	--selecting by ID is useful if your HTML element has an id
+	--we don't assign IDs to ALL HTML elements
+	--so there is a method we can use to select all elements of a specific tag (the method is plural)
+
+**getElementsByTagName
+	--accepts a string which is the name of an element in the DOM
+	--returns a list of all of the elements that match the string passed to the function
+	**Example:
+
+console.log(document.getElementsByTagName('img'))
+	--when specifying the tag (in parentheses) we don't use <img>, we just use the string
+	--we can use this to manipulate the images with events
+	--the first step is getting the element from the DOM
+
+	**Another Example:
+
+console.log(document.getElementsByTagName('p'))
+	--when we select an element, we will be able to see everything associated with each paragraph
+	--for example, the first p has children (i and sup) which are listed under children in the console
+
+**Another Exmaple:
+
+console.log(document.getElementsByTagName('li'))
+
+
+	
+	
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+

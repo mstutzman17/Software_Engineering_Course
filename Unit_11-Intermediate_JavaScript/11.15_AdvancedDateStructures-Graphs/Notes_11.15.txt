@@ -954,7 +954,108 @@ true
 		--intersections are nodes and roads are edges
 	--Airports
 		--airports are the nodes, flight path is the edge
-		--these could be weighted with flight information (distance, price etc.)
+		--these could be weighted with flight information (distance, price, etc.)
+
+**Representing graph in JS code
+	**Example:
+
+const airports = 'PHX BKK OKC JFK LAX MEX EZE HEL LOS LAP LIM'.split(' ')
+
+const routes = [
+    ['PHX', 'LAX'],
+    ['PHX', 'JFK'],
+    ['JFK', 'OKC'],
+    ['PHX', 'HEL'],
+    ['PHX', 'LOS'],
+    ['MEX', 'LAX'],
+    ['MEX', 'BKK'],
+    ['MEX', 'LIM'],
+    ['MEX', 'EZE'],
+    ['LIM', 'BKK']
+] 
+
+// this map holds each airport as a key
+// the value for each key will be a map of connected airports
+const adjacencyList = new Map();
+
+// this function adds a new airport to the graph
+function addNode(airport){
+
+	// this puts the airport into the graph and points it at an empty array
+	// that means the node has no connections
+    adjacencyList.set(airport, []);
+}
+
+// this adds a two way (undirected) connection between 2 airports
+function addEdge(origin, destination){
+
+	// .get retrieves the array of neighbors for origin
+	//.push adds the destination to the origin list
+    adjacencyList.get(origin).push(destination);
+	// does the same in reverse (adds origin to destination list)
+    adjacencyList.get(destination).push(origin);
+}
+
+// Create Graph
+
+// loops through airports array and calls addNode for each airport
+// this will put each airport into the adjacency list with an empty array so that connections can be added
+airports.forEach(addNode);
+// loops through routes array and adds edges for each pair of connected airports
+routes.forEach(route => addEdge(...route))
+	--the above example shows how to build a graph as an adjacency list
+
+**Creating a BFS method
+	**Example:
+
+function bfs(start) {
+
+    // here we use a set because it does not allow duplicate values
+    const visited = new Set();
+
+    // queue is FIFO structure, so this ensures that all nodes at one level are searched before moiving to next level
+    const queue = [start];
+
+    // mark the start of visited
+    visited.add(start)
+
+    // main loop that runs as long as there are airports in the queue
+    while (queue.length > 0) {
+
+        // simulates moving to next element in line by removing the first element from the array
+        const airport = queue.shift();
+
+        // this looks up the list of connected airports
+        const destinations = adjacencyList.get(airport)
+
+        // loops through each airport connected to the current airport
+        for (const destination of destinations) {
+
+                // checks if destination is strictly equal to BKK
+                if (destination === 'BKK') {
+
+                    console.log('Found it!');
+                    return;
+                }
+
+                //this logic checks if our destination has been visited
+                if (!visited.has(destination)) {
+                    // if the destination HAS been visited, it's added to the visited set
+                    visited.add(destination)
+                    // this ensures that items that HAVE been visited are not put in the queue
+                    queue.push(destination);
+                }
+        }
+    }
+}
+
+console.log(bfs('BKK'))
+
+**There is more efficient approach to this
+	--it's called DFSs
+	**Example:
+
+
 
 
 

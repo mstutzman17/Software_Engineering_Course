@@ -1,0 +1,282 @@
+Unit 12 Subunit 1 Notes
+
+
+
+			12.1.1
+			Browsers and How They Work
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64673
+
+**Remember
+	--loading up AOL Dial up
+	--as more servers came online, how we surf it changed
+	--today we might get internet from a cable or phone company
+	--then we use web browsers to surf the web
+
+**What is a Web Browser
+	--short answer: the thing you use to browse the web and web poages
+	--internet access and web browsing are not the same
+	--with internet access you can:
+		1.) Make video calls
+		2.) Play video games
+		3.) Stream movies and videos
+		4.) Update software
+	--all the previous things need internet, but not necessarily a web browser
+
+**How does a web browser allow you to use websites?
+	--standards and protocols
+		--means they're the same across websites
+
+**Illustration of how a browser does what it does
+	--Open and type where you want to go in the web address bar at the top
+	--Press enter and a chain reaction takes place in a matter of seconds
+		1.) WB finds location of server where website you want is stored
+			--youtube would represent an IP address
+		2.) WB then uses world wide database (DNS) to match domain namne to IP address
+		3.) Then computer (called client) establishes connection to server
+			--this is done with Transmission Control Protocol (TCP)
+			--the client sends request for server asking if its open
+			--server acknowledges request if there is space
+			--then the client sends an acknowledgement to the server that acknowledges the acknowledgement
+			--client can then request webpages over HTTP
+		4.) Web Browser sends request to server asking for the website
+		5.) Server analyzes request to dig into data bases to access info you want and build a response in the form of HTML
+			--sometimes the responses are in other languagaes like JSON and XML
+	--the above example is simplified because we assume that the website we want is stored in a single place on one server
+	--in reality, websites, like YouTube, have huge buildings called data center, filled with servers
+	--so when they receive a request, it's being handled by multiple servers	
+
+**Server Software
+	--this might be written in a variety of languages
+		1.) Ruby
+		2.) JS
+		3.) Python
+		4.) PHP
+		5.) ASP.NET
+		6.) Several other languages
+	--each of the languages is trying to accomplish the same thing
+		1.) Taking HTML template
+		2.) Filling in blank from a database
+		3.) Sending it to client
+	--in the case of YouTube this is a page with the video, comments, suggested videos, etc
+	--after page is built by server it's sent back to client (this takes longest)
+	--WB job is still not done
+
+**What we see vs what is happening
+	--we see the GUI with images, videos, links, etc.
+	--that's not how the server sends the information to the client
+		--that would take an eternity and more processing power than is currently available
+	--instead, small txt files sent by server and interpreted by the WB
+		1.) HTML files are sent
+		2.) CSS builds the layout of the HTML info
+	--browsers do other things as well:
+		1.) Keep info secure
+		2.) Check sites for viruses
+		3.) Remember websites you visited and keep them in a cache for faster access
+
+
+
+			12.1.2
+			History of Web Browsers
+			https://smartbear.com/blog/history-of-web-browsers/
+
+**Browser Definition
+	--software application that retrieves and displays information from a server including web pages, txt, images, videos, and other content
+
+**Browser Timeline
+	--1992 - Lynx was a text-based WB that couldn't display any graphic content.
+	--1993 - Mosaic was the first browser to allow images embedded in text making it "the world's first most popular browser"
+	--1994 - A noticeable improvement to Mosaic came -- Netscape Navigator.
+	--1995 Internet Explorer made is debut as Microsoft's first WB
+	--1996 - Opera started as a research project in 1994 that finally went public two years later. This was also arguably the beginning of thw browser wars, mainly between IE 3 and Navigator 3 as Internet Explorer inched ahead with new capabilities.
+	--2003 - Apple's Safari browser was released specifically for Macintosh computers instead of Navigator
+	--2004 Mozilla launched Firefox as Netscape Navigator faded out
+	--2007 - Mobile Safari was introduced as Apple's mobile web browser and continues to dominate the iOS market
+	--2008 - Google Chrome appeared to soon take over the browser market.
+	--2011 Opera Mini was released to focus on the fast-growing mobile browser market
+	--2015 - Microsoft Edge was born to combat Google
+
+**What's Behind a Browser?
+	1.) We have the UI, or user interface
+		--this is basically the browser wrapper
+		--includes address bar, back and forward buttons, minimize/maximize/exit buttons, tabs, and reload button
+	2.) Browser acts as a client to contact the web server and request information
+		--so when you Google something and click the link, the web server locates and sends the information you just requested to the WB
+		--it does this by:
+		1.) performing a Domain Name System (DNS) to find the correct IP address
+			--basically, every URL has an equivalent set of numbers (IP Address) and DNS translates it into language (Google.com)
+			--then it sends Hypertext Transfer Protocol (HTTP) request to to web server which sends response with HTML, CSS, etc.
+		2.) Browser communicates with network to ask for all the documents that make up the page.
+			--can display other more advanced material like interactivity and animations made with JS with internal JS interpreters
+		3.) Browser engine bridges the UI and the rendering engine.
+			--rendering engine reads the HTML and XMLO docs and interprets it to make a Document Object Model (DOM) and displays the content
+			--rendering engine of every browser is different, which means a web page will ikley look different depending on the browser
+
+**World Wide Web Consortium (W3C) Standards
+	--why do different browsers act differently?
+	--World Wide Web Consortium is the standards organization for the web
+		--they make guidelines for browsers
+		--its a strict set of rules and can be interpreted differently by different WB
+		--WB can adhere to strict guidelines by also following their own rules
+	--all this can cause cross-browser issues for software teams
+	--since WB are different, they way they handle information is also different
+		--their functionality is different
+		--Safari uses WebKit
+		--Chrome and Opera use Blink.
+		--Firefox uses Gecko
+		--IE uses Trident
+	--this reinforces the fact that each WB follows their own standards and protocols within the bounds of the W3C standards and protocols
+
+**Browser Wars
+	--Netscape used to rule the landscape
+	--IE 3 took over because it became auto included with every windows computer
+	--same thing happened with Safari and Apple computers in 2003
+	--Netscape became open source and was given to Mozilla in 2004
+	--Mozilla was popular until Google Chrome came along in 2008
+	--Google Chrome is still the most popular WB 13 years later
+	--WB can compete because they are frequently updated and (in general) frequently improved
+		--improvements include speed, security, features, design, etc.
+	--most developers code in cross-compatible WB for ease of use
+		--this almost never means IE because it's known to be problematic
+
+**Modern Browsing
+	--Chrome rule desktops
+	--Safari rules mobile browsers
+	--with there being no defined "Best Browser" it's important for developers to remember:
+		--cross-compatibility
+		--lots of testing across different WB
+
+
+
+			12.1.3
+			Browsers and JS
+			https://www.springboard.com/workshops/software-engineering-career-track-f2c/learn#/curriculum/64673
+
+**Browser Components
+	1.) User Interface
+		--UI is everything you see but can't manipulate
+	2.) Browser Engine
+		--mediator between UI and rendering engine
+		--if you press refresh, browser engine would execute that command
+	3.) Rendering Engine
+		--this parses HTML, CSS, and JS
+	4.) Networking
+		--takes HTPS and HTPS request and loads the resources
+	5.) JS Interpreter
+		--interprets JS into functions that the browser can utilize
+	6.) UI Backend
+		--search bar, settings, options
+	7.) Data Persistence
+		--cookies, local storage, file system, etc.
+
+**Rendering Engine Flow
+	1.) Parsing
+	2.) Render tree
+	3.) Layout (also called Reflow)
+	4.) Paint	
+
+**Parsing
+	--two types of parsers
+	1.) Conventional
+		--CSS and JS	
+	2.) Unconventional
+		--HTML
+	**Definition: translating a document into a structure that code can use
+	**Example:
+
+1 + 2 * 3 -------> a tree with 5 nodes. top node is +, children of + are 1 and *. Children of * are 2 and 3.
+	--here we have taken a mathematical equation and parsed it into information that can be used by the rendering egine
+
+**Grammar of Parsing
+	1.) Vocabulary
+		--using the above example, the equation itself would be considered the vocabulary
+		--vocab doesn't need to be letters (as we see above)
+	2.) Syntax Rules
+		--this is how the vocab interacts with itself
+		--for example, the plus sign can be before or after an integer
+
+**More on Parsing
+	1.) Lexical Analysis
+	2.) Syntax Analysis
+	3.) Lexer (Tokenizer) - creates tokens
+		--tokens are the smallest element a parser can use
+		--the Lexer sends tokens to the parser
+	4.) Parser - applies the syntax rules
+		--the Parser requests tokens from the Lexer
+		--it also Uses the tokens (if possible)
+		--if not possible, it stores tokens until they can be used
+
+**Available Parsers
+	1.) Flew
+	2.) Lex
+	3.) Yacc
+	4.) Bison
+	**Example: Webkit uses Flew (Lexer) AND Bison (parser)
+
+**Unconventional Parsers
+	--HTML doesn't work with a conventional parser because it not context free grammar
+	--HTML Document Type Definition (DTD) w3c (World Wide Web Consortium)
+	**Example
+
+	--2 HTML Docs side by side.
+	--The left one has all the boilerplate and in the body an opening and closing <div> and <p>
+	--The right one has the same thing, except for the closing <div> and <p>
+	--Because of unconventional parsers, both will still be rendered by the WB
+
+**How do you parse an HTML document?
+	--start with a valid HTML Doc
+	--same principles from conventional parsers
+	--you try to match opening tags with closing tags
+	--this will build incrementally build a tree that will help render things
+
+**Render Tree
+	--render tree generate while DOM tree is constructed
+	--visual elements in the order which they are going to be displayed
+	--elements in the render tree are called renderer or render objects
+	--render object is a rectangle
+	**Switch case if DOM element needs to be displayed and how:
+		1.) Render None
+		2.) Render Inline
+		3.) Render Block
+		4.) Render Inline-Block
+		5.) Render List-Item
+
+**Layout when Parsing
+	--calculates position and size
+	--most of the time possible to compute geometry in one pass
+	--recursive process begins at the root object (<html>)
+**Dirty Bit System
+	--a system that makes sure that browsers don't need to do the full layout on every interaction
+**Global and Incremental Layout
+	--affects all renders (font size for example)_
+	--screen resize
+
+**Final Step of Parsing: Paint
+	--render tree is being traversed and the paint() method is used to display content on the page
+**Global and Incremental Painting
+	--reduce the effort of painting the whole ting
+	--Dirty Bit System
+
+**Painting Order
+	1.) Background Color
+	2.) Background Image
+	3.) Border
+	4.) Children
+	5.) Outline
+	
+**Words of Wisdom
+	"I hear and I forget. I see and I remember. I do and I understand."
+	--just hearing something is not learning and is easy to forget
+	--seeing something is better, because you will remember more.
+	--but doing is best, because then you will be able to incorporate the and understanding of what you have learned
+
+
+
+
+
+
+
+
+
+
+
+
